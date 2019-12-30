@@ -6,6 +6,7 @@
 ---   
 ## 描述
    
+***extends: [Transaction](#/webroute/api/Transaction)***   
 ### summary   
 mysql 事务类  
    
@@ -14,20 +15,20 @@ mysql 事务类
 ***public***   
 #### 描述   
 事务开始   
+#### 参数   
 #### 返回值   
 void   
-#### 参数   
 ### <a id="METHOD_commit">commit()</a>   
 ***public***   
 #### 描述   
 事务提交   
+#### 参数   
 #### 返回值   
 void   
-#### 参数   
 ### <a id="METHOD_rollback">rollback()</a>   
 ***public***   
 #### 描述   
 事务回滚   
+#### 参数   
 #### 返回值   
 void   
-#### 参数   

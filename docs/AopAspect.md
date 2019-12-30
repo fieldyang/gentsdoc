@@ -1,8 +1,8 @@
 # Interface:AopAspect   
 ## 属性
++ [advices](#PROP_advices)
 + [instance](#PROP_instance)
 + [pointcuts](#PROP_pointcuts)
-+ [advices](#PROP_advices)
 ---   
 ## 描述
    
@@ -10,12 +10,15 @@
 切面  
    
 ## 属性   
+### <a id="PROP_advices">advices</a>   
+***public***   
+通知
+     
 ### <a id="PROP_instance">instance</a>   
+***public***   
 实例名
      
 ### <a id="PROP_pointcuts">pointcuts</a>   
+***public***   
 切点
-     
-### <a id="PROP_advices">advices</a>   
-通知
      

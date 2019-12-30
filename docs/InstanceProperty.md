@@ -10,8 +10,10 @@
    
 ## 属性   
 ### <a id="PROP_name">name</a>   
+***public***   
 属性名
      
 ### <a id="PROP_ref">ref</a>   
+***public***   
 引用实例名
      

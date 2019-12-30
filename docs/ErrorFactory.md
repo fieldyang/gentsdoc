@@ -13,14 +13,14 @@ error工厂
 ***public &  static***   
 #### 描述   
 异常存储map   
+#### 参数   
 #### 返回值   
 void   
-#### 参数   
 ### <a id="METHOD_init">init(language)</a>   
 ***public &  static***   
 #### 描述   
 异常初始化   
-#### 返回值   
-void   
 #### 参数   
 + language *&lt;any&gt;*    
+#### 返回值   
+void   

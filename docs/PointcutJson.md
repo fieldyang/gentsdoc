@@ -1,7 +1,7 @@
 # Interface:PointcutJson   
 ## 属性
-+ [id](#PROP_id)
 + [expressions](#PROP_expressions)
++ [id](#PROP_id)
 ---   
 ## 描述
    
@@ -9,9 +9,11 @@
 切点  
    
 ## 属性   
-### <a id="PROP_id">id</a>   
-切点id
-     
 ### <a id="PROP_expressions">expressions</a>   
+***public***   
 表达式
+     
+### <a id="PROP_id">id</a>   
+***public***   
+切点id
      
