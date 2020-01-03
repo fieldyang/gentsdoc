@@ -1,34 +1,34 @@
-# Class:MysqlTransaction   
+# Class:MysqlTransaction
 ## 方法
 + [begin](#METHOD_begin)
 + [commit](#METHOD_commit)
 + [rollback](#METHOD_rollback)
----   
+  
+---
 ## 描述
-   
-***extends: [Transaction](#/webroute/api/Transaction)***   
-### summary   
+<font class="since">开始于:v0.0.1</font>  
 mysql 事务类  
-   
-## 方法   
-### <a id="METHOD_begin">begin()</a>   
-***public***   
-#### 描述   
-事务开始   
-#### 参数   
-#### 返回值   
-void   
-### <a id="METHOD_commit">commit()</a>   
-***public***   
-#### 描述   
-事务提交   
-#### 参数   
-#### 返回值   
-void   
-### <a id="METHOD_rollback">rollback()</a>   
-***public***   
-#### 描述   
-事务回滚   
-#### 参数   
-#### 返回值   
-void   
+### Extends:
+<font class='datatype'>[NoomiTransaction](/webroute/api/NoomiTransaction)</font>  
+## 方法
+### <a id="METHOD_begin">begin()</a>
+<font class="since">开始于:v0.0.1</font>  
+修饰符: <font class="modifier">public</font>  
+#### 描述
+开始事务  
+#### 返回值
+void  
+### <a id="METHOD_commit">commit()</a>
+<font class="since">开始于:v0.0.1</font>  
+修饰符: <font class="modifier">public</font>  
+#### 描述
+事务提交  
+#### 返回值
+void  
+### <a id="METHOD_rollback">rollback()</a>
+<font class="since">开始于:v0.0.1</font>  
+修饰符: <font class="modifier">public</font>  
+#### 描述
+事务回滚  
+#### 返回值
+void  

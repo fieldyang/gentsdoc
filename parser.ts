@@ -1,16 +1,17 @@
-import { TransactionManager, InsertQueryBuilder } from "typeorm";
-
 /**
  * class 对象
  */
 interface ClassObj{
-    name:string;                //类或接口名
-    type?:string;               //类型
-    extends?:string;            //extends 或 implements
-    superClass?:string;         //继承的类或实现的接口
-    methods:Array<MethodObj>;   //方法集合
-    props:Array<PropObj>;       //属性集合
-    annotation?:any;            //注释 字符串或对象
+    name:string;                    //类或接口名
+    type?:string;                   //类型
+    extends?:string;                //extends 或 implements
+    superClass?:string;             //继承的类或实现的接口
+    methods:Array<MethodObj>;       //方法集合
+    props:Array<PropObj>;           //属性集合
+    constructors:Array<MethodObj>;  //构造器数组
+    annoStr?:string;         //源注释串
+    annotation?:object;     //注释对象
+    since?:string;           //开始于
 }
 
 /**
@@ -21,7 +22,9 @@ interface PropObj{
     private?:boolean;
     static?:boolean;
     need?:boolean;
-    annotation?:string;
+    annoStr?:string;        //源注释串
+    annotation?:object;     //注释对象
+    since?:string;           //开始于
 }
 
 /**
@@ -31,11 +34,14 @@ interface MethodObj{
     name:string;
     private?:boolean;
     static?:boolean;
+    async?:boolean;
     returns?:string;
     throws?:string;
     need?:boolean;
-    annotation?:string;
     params:Array<ParamObj>;
+    annoStr?:string;         //源注释串
+    annotation?:object;     //注释对象
+    since?:string;           //开始于
 }
 
 /**
@@ -45,118 +51,295 @@ interface ParamObj{
     name:string;
     type?:string;
     need?:boolean;
-    annotation?:string;
+    annotation?:string;     //注释对象
 }
 
 /**
  * 解析器
  */
 class Parser{
+    //类集合
     classes:Array<ClassObj> = [];
-    public parse(srcPath:string,dstPath:string,baseUrl:string){
+    //函数集合
+    functions:Array<MethodObj> = [];
+
+    public parse(cfg:any){
+        let srcPath:string = cfg.src;
+        let dstPath:string = cfg.dst;
+        let baseUrl:string = cfg.baseUrl || '';
+        let showPrivate:boolean = cfg.showPrivate || false;
+        let fileSuffix:string = cfg.fileSuffix || '';
+
         const fsMdl = require('fs');
         const pathMdl = require('path');
         this.handleDir(srcPath);
         if(!fsMdl.existsSync(srcPath)){
             throw new Error('源路径不存在');
         }
-        if(!fsMdl.existsSync(dstPath)){
-            fsMdl.mkdirSync(dstPath,{recursive:true});
+        //删除重建dst目录
+        if(fsMdl.existsSync(dstPath)){
+            fsMdl.rmdirSync(dstPath,{recursive:true});
         }
-        //写文件
-        let cObj:ClassObj;
-        let writeStr:string;
+        fsMdl.mkdirSync(dstPath,{recursive:true});
+
+        let writeStr:string;  //待写串
         
-        //类名和方法名属性名排序
-        for(cObj of this.classes){
-            cObj.props.sort((a:PropObj,b:PropObj)=>{
-                if(a.name < b.name){
-                    return -1;
-                }else if(a.name > b.name){
-                    return 1;
-                }
-                return 0;
-            });
-
-            cObj.methods.sort((a:PropObj,b:PropObj)=>{
-                if(a.name < b.name){
-                    return -1;
-                }else if(a.name > b.name){
-                    return 1;
-                }
-                return 0;
-            });
-        }
-
-        this.classes.sort((a:PropObj,b:PropObj)=>{
-            if(a.name < b.name){
-                return -1;
-            }else if(a.name > b.name){
-                return 1;
+        //json文件，构建标题和url
+        let jsonArr = [];
+        //类名排序
+        sortName(this.classes);
+        //外部函数排序
+        sortName(this.functions);
+        //处理函数注释
+        for(let i=0;i<this.functions.length;i++){
+            let fObj:MethodObj = this.functions[i];
+            if(this.handleAnnotation(fObj) === null){
+                this.functions.splice(i--,1);
+                continue;
             }
-            return 0;
-        });
+            jsonArr.push({
+                title:fObj.name,
+                url:baseUrl + fObj.name + fileSuffix
+            });
+        }
+
+        //方法名属性名排序
+        for(let i=0;i<this.classes.length;i++){
+            let cObj:ClassObj = this.classes[i];
+            //解析注释，如果返回为null，则表示不加入文档
+            if(this.handleClassAnnotation(cObj) === null){
+                this.classes.splice(i--,1);
+                continue;
+            }
+            jsonArr.push({
+                title:cObj.name,
+                url:baseUrl + cObj.name + fileSuffix
+            });
+            //属性排序
+            sortName(cObj.props);
+            //方法排序
+            sortName(cObj.methods);    
+        }
         
-        for(cObj of this.classes){
+        //写json文件
+        fsMdl.writeFileSync(pathMdl.resolve(dstPath,"data.json"),JSON.stringify(jsonArr));
+
+        //写函数
+        for(let p of this.functions){
             writeStr = '';
-            //解析注释
-            this.handleClassAnnotation(cObj);
-            let fn = pathMdl.resolve(dstPath,cObj.name + '.md');
+            let fn:string = pathMdl.resolve(dstPath,p.name + '.md');
+            //函数名
+            let ms = p.name + '(';
+            let selectableNum = 0;
+            let pstr = ''; //参数串
+            //参数串
+            for(let pa of p.params){
+                if(!pa.need){
+                    pstr += '[';
+                    selectableNum++;
+                }
+                if(pstr !== '' && pstr!=='['){
+                    pstr += ','
+                }
+                pstr += pa.name;
+            }
+            for(let i=0;i<selectableNum;i++){
+                pstr += ']';
+            }
+            ms += pstr + ')';
+            //函数名
+            addLine('# Function:' + ms);
+            //开始于
+            let since:string = p.annotation['since']||cfg.defaultSince;
+            if(since){
+                addLine('<font class="since">开始于:v' + since + '</font>');
+            }
+            delete p.annotation['since'];
+            //async
+            ms=undefined;
+            if(p.async){
+                addLine('修饰符: <font class="modifier">async</font>');
+            }
+            
+            //注释
+            if(p.annotation){
+                addLine('## 描述');
+                for(let o in p.annotation){
+                    if(o === 'returns' || o==='throws'){
+                        continue;
+                    }
+                    if(o !== 'default'){
+                        addLine('### ' + o);
+                    }
+                    addLine(p.annotation[o]);
+                }
+            }
+            
+            //参数
+            if(p.params.length>0){
+                addLine('## 参数');
+                for(let pa of p.params){
+                    let pt = pa.type;
+                    if(pt){
+                        pt = genLink(this.classes,pt,baseUrl,fileSuffix);
+                    }else{
+                        pt = 'any';
+                    }
+                    pt = ' *&lt;' + pt + '&gt;* ';
+                    addLine('+ ' + pa.name + pt + (pa.annotation||''));
+                }
+                addLine('');
+            }
+            
+            //返回值
+            addLine('## 返回值');
+            if(p.returns){
+                let msg:string = genLink(this.classes,p.returns,baseUrl,fileSuffix);
+                addLine(msg);
+                if(p.annotation['returns']){
+                    addLine(p.annotation['returns']);
+                }
+            }else{
+                addLine('void');
+            }
+
+            //异常
+            if(p.annotation['throws']){
+                addLine('## 异常');
+                addLine(p.annotation['throws']);
+            }
+            fsMdl.writeFileSync(fn,writeStr);
+        }
+        //写class
+        for(let cObj of this.classes){
+            writeStr = '';
+            
+            let fn:string = pathMdl.resolve(dstPath,cObj.name + '.md');
             //类名
             addLine('# ' + (cObj.type==='class'?'Class:':'Interface:') + cObj.name);
             
             //属性列表
             if(cObj.props.length>0){
-                writeStr += '## 属性\n';
+                addLine('## 属性');
                 for(let p of cObj.props){
-                    writeStr += '+ [' + p.name + '](#PROP_' + p.name + ')' + '\n';
+                    addLine('+ [' + p.name + '](#PROP_' + p.name + ')');
                 }
+                //加一个换行符
+                addLine('');
             }
             
             //方法列表
             if(cObj.methods.length>0){
-                writeStr += '## 方法\n';
+                addLine('## 方法');
                 for(let p of cObj.methods){
-                    writeStr += '+ [' + p.name + '](#METHOD_' + p.name + ')'+ '\n';
+                    addLine('+ [' + p.name + '](#METHOD_' + p.name + ')');
                 }
+                //加一个换行符
+                addLine('');
             }
 
             //分割线
             addLine('---');
-
             //类描述
-            addLine('## 描述\n');
-            //继承或实现接口
-            if(cObj.extends){
-                addLine('***'+ cObj.extends +': ' + genLink(this.classes,cObj.superClass,baseUrl) + '***');
-            }
-            for(let o in cObj.annotation){
-                addLine('### ' + o);
-                addLine(cObj.annotation[o]);
+            addLine('## 描述');
+            //开始于
+            let since:string = cObj.annotation['since']||cfg.defaultSince;
+            if(since){
+                addLine('<font class="since">开始于:v' + since + '</font>');
             }
             
+            
+            for(let o in cObj.annotation){
+                if(o !== 'default'){
+                    addLine('### ' + o);
+                }
+                addLine(cObj.annotation[o]);
+            }
+            //继承或实现接口
+            if(cObj.extends){
+                addLine('### '+ cObj.extends.substr(0,1).toUpperCase() + cObj.extends.substr(1) +':');
+                addLine(genLink(this.classes,cObj.superClass,baseUrl,fileSuffix));
+            }
+            //构造函数
+            if(cObj.constructors.length>0){
+                addLine('## 构造方法');
+                for(let p of cObj.constructors){
+                    let ms = p.name + '(';
+                    let selectableNum = 0;
+                    let pstr = ''; //参数串
+                    //参数串
+                    for(let pa of p.params){
+                        if(!pa.need){
+                            pstr += '[';
+                            selectableNum++;
+                        }
+                        if(pstr !== '' && pstr!=='['){
+                            pstr += ','
+                        }
+                        pstr += pa.name;
+                    }
+                    for(let i=0;i<selectableNum;i++){
+                        pstr += ']';
+                    }
+                    ms += pstr + ')';
+                    addLine('### <a id="METHOD_' + p.name + '">' + ms + '</a>');
+                    //参数
+                    addLine('#### 参数');
+                    for(let pa of p.params){
+                        let pt = pa.type;
+                        if(pt){
+                            pt = genLink(this.classes,pt,baseUrl,fileSuffix);
+                        }else{
+                            pt = 'any';
+                        }
+                        pt = ' *&lt;' + pt + '&gt;* ';
+                        addLine('+ ' + pa.name + pt + (pa.annotation||''));
+                    }
+                    //加一个换行符
+                    addLine('');
+                }
+            }
+            //属性
             if(cObj.props.length>0){
                 //属性描述
                 addLine('## 属性');
                 for(let p of cObj.props){
                     addLine('### <a id="PROP_' + p.name + '">' + p.name + '</a>');
-                    // public private static
-                    let ms:string = '***' + (p.private?'private':'public');
-                    if(p.static){
-                        ms += ' &  static';
+                    //开始于
+                    let since:string = p.annotation['since']||cfg.defaultSince;
+                    if(since){
+                        addLine('<font class="since">开始于:v' + since + '</font>');
                     }
-                    ms += '***';
-                    addLine(ms);
-                    addLine(p.annotation);
+                    delete p.annotation['since'];
+                    // public private static
+                    let marr = [];
+                    if(p.private && showPrivate || !p.private){
+                        marr.push(p.private?'private':'public');
+                    }
+                    
+                    if(p.static){
+                        marr.push('static');
+                    }
+                    
+                    if(marr.length>0){
+                        addLine('修饰符: <font class="modifier">' + marr.join('  ')  + '</font>');
+                    }
+                    for(let o in p.annotation){
+                        if(o !== 'default'){
+                            addLine('#### ' + o);
+                        }
+                        addLine(p.annotation[o]);
+                    }
+                    
                 }
             }
 
+            //方法
             if(cObj.methods.length>0){
                 //方法描述
                 addLine('## 方法');
                 for(let p of cObj.methods){
                     let ms = p.name + '(';
-                    let a = [];
                     let selectableNum = 0;
                     let pstr = ''; //参数串
                     //参数串
@@ -176,83 +359,141 @@ class Parser{
                     ms += pstr + ')';
 
                     addLine('### <a id="METHOD_' + p.name + '">' + ms + '</a>');
-                    // public private static
-                    ms = '***' + (p.private?'private':'public');
-                    if(p.static){
-                        ms += ' &  static';
+                    //开始于
+                    let since:string = p.annotation['since']||cfg.defaultSince;
+                    if(since){
+                        addLine('<font class="since">开始于:v' + since + '</font>');
                     }
-                    ms += '***';
-                    addLine(ms);
+                    delete p.annotation['since'];
+                    // public private static async
+                    
+                    let marr = [];
+                    if(p.private && showPrivate || !p.private){
+                        marr.push(p.private?'private':'public');
+                    }
+                    
+                    if(p.static){
+                        marr.push('static');
+                    }
 
+                    if(p.async){
+                        marr.push('async');
+                    }
+                    if(marr.length>0){
+                        addLine('修饰符: <font class="modifier">' + marr.join('  ')  + '</font>');
+                    }
+                    
                     //注释
                     if(p.annotation){
                         addLine('#### 描述');
-                        addLine(p.annotation);
+                        for(let o in p.annotation){
+                            if(o === 'returns' || o==='throws'){
+                                continue;
+                            }
+                            if(o !== 'default'){
+                                addLine('##### ' + o);
+                            }
+                            addLine(p.annotation[o]);
+                        }
                     }
                     
                     //参数
-                    addLine('#### 参数');
-                    for(let pa of p.params){
-                        let pt = pa.type;
-                        if(pt){
-                            pt = genLink(this.classes,pt,baseUrl);
-                        }else{
-                            pt = 'any';
+                    if(p.params.length>0){
+                        addLine('#### 参数');
+                        for(let pa of p.params){
+                            let pt = pa.type;
+                            if(pt){
+                                pt = genLink(this.classes,pt,baseUrl,fileSuffix);
+                            }else{
+                                pt = 'any';
+                            }
+                            pt = ' *&lt;' + pt + '&gt;* ';
+                            addLine('+ ' + pa.name + pt + (pa.annotation||''));
                         }
-                        pt = ' *&lt;' + pt + '&gt;* ';
-                        addLine('+ ' + pa.name + pt + (pa.annotation||''));
+                        addLine('');
                     }
-
+                 
                     //返回值
                     addLine('#### 返回值');
                     if(p.returns){
-                        addLine(p.returns);    
+                        let msg:string = genLink(this.classes,p.returns,dstPath,fileSuffix);
+                        addLine(msg);
+                        if(p.annotation['returns']){
+                            addLine(p.annotation['returns']);
+                        }
                     }else{
                         addLine('void');
                     }
 
                     //异常
-                    if(p.throws){
+                    if(p.annotation['throws']){
                         addLine('#### 异常');
-                        addLine(p.throws);
+                        addLine(p.annotation['throws']);
                     }
                 }
             }
 
+            
             fsMdl.writeFileSync(fn,writeStr);
-
-            /**
-             * 创建类型链接
-             * @param classes   全局class集合
-             * @param type      类型
-             * @param basePath  url基本路径
-             */
-            function genLink(classes:Array<ClassObj>,type:string,basePath:string):string{
-                let ind1:number = type.indexOf('<');
-                let ind2:number = type.indexOf('>');
-                let tp:string = type;
-                if(ind1 !== -1 && ind2 !== -1){
-                    tp = type.substr(ind1+1,ind2-ind1-1);
-                }
-                for(let co of classes){
-                    if(co.name === tp){
-                        let s:string = '[' + tp + '](#' + basePath + tp + ')';
-                        if(tp !== type){
-                            s = type.substr(0,ind1) + s + type.substr(ind2)
-                        }
-                        return s;
-                    }
-                }
-                return type;
-            }
         }
 
+        /**
+         * 创建类型链接
+         * @param classes   全局class集合
+         * @param type      类型
+         * @param basePath  url基本路径
+         * @param suffix    路径后缀
+         */
+        function genLink(classes:Array<ClassObj>,type:string,basePath:string,suffix:string):string{
+            let ind1:number = type.indexOf('<');
+            let ind2:number = type.indexOf('>');
+            let tp:string = type;
+            if(ind1 !== -1 && ind2 !== -1){
+                tp = type.substr(ind1+1,ind2-ind1-1);
+            }
+            for(let co of classes){
+                if(co.name === tp){
+                    let s:string = '[' + tp + '](' + basePath + tp + suffix + ')';
+                    if(tp !== type){
+                        s = type.substr(0,ind1+1) + s + type.substr(ind2)
+                    }
+                    type = s;
+                    break;
+                }
+            }
+            //替换类型的<>
+            type = type.replace(/\</g,'&lt;');
+            type = type.replace(/\>/g,'&gt;');
+            type = "<font class='datatype'>" + type + '</font>'
+            return type;
+        }
         /**
          * 追加行
          * @param value     新行
          */
         function addLine(value){
-            writeStr += value + '   \n';
+            writeStr += value;
+            let ch = value[0];
+            //普通行需要加两个空格
+            if(!'+-#'.includes(ch)){
+                writeStr += '  ';   
+            }
+            writeStr += '\n';
+        }
+
+        /**
+         * 数组排序
+         * @param arr 待排序数组 
+         */
+        function sortName(arr){
+            arr.sort((a,b)=>{
+                if(a.name < b.name){
+                    return -1;
+                }else if(a.name > b.name){
+                    return 1;
+                }
+                return 0;
+            });
         }
     }
 
@@ -287,7 +528,8 @@ class Parser{
         //注释正则表达式
         const regNote:RegExp = /\/\*\*[\S\s]+?\*\//;
         //类正则表达式
-        const regClass = /^\s*(class|interface)\s+\S+\s*\{?/;
+        const regClass = /^\s*(export\s*)?(default\s*)?\s*(class|interface)\s+\S+(\s+(extends|implements)\s+\S+)?\{?[\r\n]/;
+        const regFunction = /^\s*(async\s*)?function\s+\S+\s*\([\s\S]*\)(:\s*\S+)?/;
         let fileStr:string = fsMdl.readFileSync(filePath,'utf8');
         //需要设置class关闭或方法关闭
         for(;;){
@@ -296,24 +538,40 @@ class Parser{
                 break;
             }
             
+            //截断注释
             fileStr = fileStr.substr(re.index + re[0].length);
             let r1 = regClass.exec(fileStr);
+            //外部函数
+            let r2 = regFunction.exec(fileStr);
             
-            if(r1 !== null){
-                let r = this.findBlockCode(fileStr);
-                let src:string = r[0];
-                //截断fileStr
-                if(r[1]>0){
-                    fileStr = fileStr.substr(r[1]);
+            if(r1!==null && r2!==null){
+                if(r1.index<r2.index){
+                    r2 = null;
+                }else{
+                    r1 = null;
                 }
-                
+            }
+            if(r1 === null && r2 === null){
+                continue;
+            }
+            let block = this.findBlockCode(fileStr);
+            let src:string = block[0];
+            //截断代码
+            if(block[1]>0){
+                fileStr = fileStr.substr(block[1]);
+            }
+
+            if(r1 !== null){//类
                 let obj:ClassObj=this.handleClass(src);
-                obj.annotation = re[0].trim();
+                obj.annoStr = re[0].trim();
                 this.classes.push(obj);
+            }else if(r2 !== null){  //函数
+                let obj:MethodObj=this.handleMethod(src);
+                obj.annoStr = re[0].trim();
+                this.functions.push(obj);
             }
         }
     }
-
     
     /**
      * 处理类
@@ -322,11 +580,12 @@ class Parser{
         //注释正则表达式
         const regNote:RegExp = /\/\*\*[\S\s]+?\*\//;
         //方法正则表达式
-        const regMethod:RegExp = /^\s*(public|private)?(static)?.*\([\s\S]*\)(:\S+)?\s?/;
+        const regMethod:RegExp = /^\s*(public|private)?\s*(static)?\s*(async)?\s*.*\([\s\S]*\)(:\s*\S+)?/;
         //属性正则表达式
-        const regProp:RegExp = /^\s*\S+(\s+\S+)*?\s*[\n\r]/;
+        const regProp:RegExp = /^\s*\S+(\s+\S+)*?\s*(=\s*\S+)?;?/;
         let clsArr:string[] = this.handleClassName(srcStr);
         let className = clsArr[1];
+        let constructors:MethodObj[] = [];
         let methods:MethodObj[] = [];
         let props:PropObj[]=[];
         
@@ -337,14 +596,37 @@ class Parser{
                 break;
             }
             srcStr = srcStr.substr(re.index + re[0].length+1);
-            let rm = regMethod.exec(srcStr);
-            let rp = regProp.exec(srcStr);
+            //找到第一行字符开头的字符串
+            let line='';
+            for(;srcStr !=='';){
+                line = this.getLine(srcStr);
+                let len = line.length;
+                line = line.trim();
+                if(line !== ''){
+                    break;
+                }
+                srcStr = srcStr.substr(len+1);
+            }
+            if(line === ''){
+                continue;
+            }
+            
+
+            let rm = regMethod.exec(line);
+            let rp = regProp.exec(line);
             
             if(rm !== null && rp !== null){
-                if(rm.index>rp.index){
+                // method 中‘=’位置必须在'('后面
+                let i1 = rm[0].indexOf('=');
+                let i2 = rm[0].indexOf('(');
+                if(i1 !== -1 && i2 !== -1 && i1<i2){
                     rm = null;
                 }else{
-                    rp = null;
+                    if(rm.index>rp.index){
+                        rm = null;
+                    }else{
+                        rp = null;
+                    }
                 }
             }
 
@@ -352,14 +634,19 @@ class Parser{
             if(rm !== null){
                 let r = this.findBlockCode(srcStr);
                 let obj:MethodObj = this.handleMethod(r[0]);
-                obj.annotation = re[0].trim();
-                methods.push(obj);
+                obj.annoStr = re[0].trim();
+                if(obj.name === 'constructor'){  //构造函数单独存放
+                    constructors.push(obj);
+                }else{
+                    methods.push(obj);
+                }
+                
                 if(r[1]>0){
                     srcStr = srcStr.substr(r[1]);
                 }
             }else{ //property处理
                 let obj:PropObj = this.handleProp(srcStr);
-                obj.annotation = re[0].trim();
+                obj.annoStr = re[0].trim();
                 props.push(obj);
             }
         }
@@ -377,8 +664,10 @@ class Parser{
             type:clsArr[0],
             extends:ext,
             superClass:suCls,
+            constructors:constructors,
             methods:methods,
-            props:props
+            props:props,
+            annotation:{}
         }
     }
 
@@ -388,7 +677,7 @@ class Parser{
      * @returns         array [类/实例名,extends/implements,superclass/interface]
      */
     handleClassName(srcStr:string):string[]{
-        let reg = /^\s*(class|interface)\s+\S+(\s+extends\s+\S+)?/;
+        let reg = /^\s*(export\s*)?(default\s*)?\s*(class|interface)\s+\S+(\s+(extends|implements)\s+\S+)?[\r\n]/;
         let r = reg.exec(srcStr);
         let ret:string[] = [];
         if(r!==null){
@@ -435,6 +724,7 @@ class Parser{
         }
         let isStatic:boolean = false;
         let isPrivate:boolean = false;
+        let isAsync:boolean = false;
         //前半段
         let s1:string = srcStr.substr(0,ind).trim();
         if(s1.indexOf('static ') !== -1){
@@ -443,6 +733,10 @@ class Parser{
         
         if(s1.indexOf('private ') !== -1){
             isPrivate = true;
+        }
+
+        if(s1.indexOf('async')){
+            isAsync = true;
         }
 
         let sa:string[] = s1.split(' ');
@@ -499,9 +793,12 @@ class Parser{
 
         return{
             name:name,
+            returns:retStr,
             private:isPrivate,
             static:isStatic,
-            params:paramArr
+            async:isAsync,
+            params:paramArr,
+            annotation:{}
         }
     }
 
@@ -511,7 +808,7 @@ class Parser{
      * @param isInterf  是否是接口属性
      * @returns         {name:属性名,static:静态,private:私有,need:不可选,type:类型} 
      */
-    handleProp(srcStr:string,isInterf?:boolean):PropObj{
+    handleProp(srcStr:string):PropObj{
         let a = srcStr.split(':');
         let ind = srcStr.indexOf(';');
         let name:string;
@@ -524,6 +821,7 @@ class Parser{
             type = a[1].trim();
             if(ind !== -1){
                 type = type.substr(0,ind).trim();
+                //处理 =
                 let ind1 = type.indexOf('=');
                 if(ind1 !== null){
                     type = type.substr(0,ind1).trim();
@@ -534,12 +832,11 @@ class Parser{
                 name = srcStr.substr(0,ind).trim();
             }
         }
-
+        //处理可选
         if((ind=name.indexOf('?')) !== -1){
             isSelectable = true;
             name = name.substr(0,ind);
         }
-
         
         if(name.indexOf('static ') !== -1){
             isStatic = true;
@@ -556,7 +853,8 @@ class Parser{
             name:name,
             static:isStatic,
             private:isPrivate,
-            need:!isSelectable
+            need:!isSelectable,
+            annotation:{}
         }
     }  
     
@@ -640,185 +938,134 @@ class Parser{
      * @param srcStr 
      */
     handleClassAnnotation(classObj:ClassObj){
-        let srcStr:string = classObj.annotation;
-        let noteTag:string = "summary";
-        let retObj:object = {};
-        let noteStr:string='';
-        let lineNo:number = 0;
-        for(;;lineNo++){
-            let line:string = this.getLine(srcStr);
-            if(!line){
-                break;
-            }
-            //截断字符串
-            srcStr = srcStr.substr(line.length+1);
-            line = line.trim();
-            //结束
-            if(line === '*/'){
-                retObj[noteTag] = noteStr;
-                break;
-            }
-
-            if(!line.startsWith('*')){
-                continue;
-            }
-            
-            line = line.substr(1).trim();
-            //新的标注
-            if(line.startsWith('@')){
-                let arr = line.split(' ');
-                retObj[noteTag] = noteStr;
-                noteTag = arr[0].substr(1);
-                //不加入文档
-                if(lineNo === 0 && noteTag === 'exclute'){
-                    return null;
-                }
-                noteStr = '';
-            }else{
-                noteStr += line + '  \n';  //markdown 换行需要加两个空格
+        if(this.handleAnnotation(classObj) === null){
+            return null;
+        }
+        //处理构造器
+        for(let i=0;i<classObj.constructors.length;i++){
+            let m:MethodObj = classObj.constructors[i];
+            //如果不需要，则移除
+            if(this.handleAnnotation(m) === null){
+                classObj.constructors.splice(i--,1);
             }
         }
-
-        classObj.annotation = retObj;
-
         //处理方法
-        for(let m of classObj.methods){
-            this.handleMethodAnnotation(m);
+        for(let i=0;i<classObj.methods.length;i++){
+            let m:MethodObj = classObj.methods[i];
+            //如果不需要，则移除
+            if(this.handleAnnotation(m) === null){
+                classObj.methods.splice(i--,1);
+            }
         }
 
         //处理属性
-        for(let p of classObj.props){
-            let s1 = '';
-            let s:string = p.annotation;
-            for(;s&&s!=='';){
-                let line:string = this.getLine(s);
-                if(!line){
-                    break;
-                }
-                s = s.substr(line.length+1);
-                line = line.trim();
-                if(line === '/**'){
-                    continue;
-                }
-                if(line === '*/'){
-                    break;
-                }
-                if(line.startsWith('*')){
-                    line = line.substr(1).trim();
-                }
-                s1 += line + '\n  ';
+        for(let i=0;i<classObj.props.length;i++){
+            let p:PropObj = classObj.props[i];
+            //如果不需要，则移除
+            if(this.handleAnnotation(p) === null){
+                classObj.props.splice(i--,1);
             }
-            p.annotation = s1;
         }
     }
 
     /**
-     * 处理方法注释
-     * @param srcStr 
-     * @param methodObj 
+     * 处理注释
+     * @param srcStr 源注释串
      */
-    handleMethodAnnotation(methodObj:MethodObj){
-        let srcStr:string = methodObj.annotation;
-        let noteTag:string = "Summary";
+    handleAnnotation(annotationObj:ClassObj|MethodObj|PropObj){
+        let srcStr:string = annotationObj.annoStr;
+        //删除注释串
+        delete annotationObj.annoStr;
         let noteStr:string='';
         let lineNo:number = 0;
-        let paramName:string;
-        let isReturn:boolean;  //是否为返回
-        let isThrow:boolean;   //是否为抛出
-        for(;;lineNo++){
+        let noteTag:string='';      //标注名
+        let codeStart:boolean=false; //是否为代码
+        //去掉两端不可见字符
+        srcStr = srcStr.trim();
+        for(;srcStr !== '';lineNo++){
             let line:string = this.getLine(srcStr);
             if(!line){
                 break;
             }
             //截断字符串
             srcStr = srcStr.substr(line.length+1);
-            line = line.trim();
-            //结束
-            if(line === '*/'){
-                setValue();
-                break;
-            }
-
-            if(!line.startsWith('*')){
-                continue;
+            //开始
+            if(!codeStart){
+                if(line.startsWith('/**')){
+                    line = line.substr(3).trim();
+                }else if(/.*(\*)?\/$/.test(line)){//结尾
+                    line = line.substr(0,line.length-2).trim();
+                }
             }
             
-            line = line.substr(1).trim();
-            //新的标注
-            if(line.startsWith('@')){
-                
-                let arr = line.split(' ');
-                noteTag = arr[0].substr(1);
-
-                //不加入文档
-                if(lineNo === 0 && noteTag === 'Exclute'){
-                    return null;
-                }
-                setValue();
-                //去掉第一个元素 @开头
-                arr.shift();
-                switch(noteTag){
-                    case 'param': //参数
-                        //找到参数名
-                        for(;arr.length>2;){
-                            if(arr[0] === ''){
-                                arr.shift();
-                            }else{
-                                break;
-                            }
-                        }
-                        paramName = arr[0];
-                        arr.shift();
-                        noteStr = arr.join(' ');
-                        break;
-                    case 'returns':
-                        isReturn = true;
-                        noteStr = arr.join(' ').trim();
-                        break;
-                    case 'throws':
-                        isThrow = true;
-                        noteStr = arr.join(' ');
+            //去掉line的左边第一个*
+            line = line.replace(/^\s*\*/,'');
+            
+            //处理code
+            if(!codeStart){
+                line = line.trim();
+                if(line.startsWith('```')){ //代码开始
+                    codeStart = true;
                 }
             }else{
-                //markdown 换行需要加两个空格
+                //代码结束
+                if(line.indexOf('```') !== -1){
+                    line = line.trim();
+                    if(line === '```'){
+                        codeStart = false;
+                    }
+                }
+            }
+            //不需要加入doc
+            if(line.startsWith('@exclude')){
+                return null;
+            }
+            if(line === ''){
+                continue;
+            }
+
+            if(line.startsWith('@')){
+                //结束当前noteTag
+                finishOne(annotationObj,noteTag,noteStr);
+                noteStr = '';
+                let arr = line.split(' ');
+                noteTag = arr[0].substr(1);
+                //去掉tag长度
+                line = line.substr(noteTag.length+2).trim();
+            }
+
+            if(line !== ''){
+                //markdown 换行需要加两个空格，最后一行不需要换行符
                 if(noteStr !== ''){
                     noteStr += '  \n';
                 }
                 noteStr += line;
             }
+            
         }
-        
-        /**
-         * 添加参数说明
-         * @param paramName     参数名 
-         * @param value         注释
-         * @param params        参数数组
-         */
-        function addParamAnnoatation(paramName:string,value:string,params:Array<ParamObj>){
-            for(let i=0;i<params.length;i++){
-                if(params[i].name === paramName){
-                    params[i].annotation = value;
-                    return;
-                }
-            }
-        }
-
-        function setValue(){
-            if(paramName){
-                addParamAnnoatation(paramName,noteStr,methodObj.params);    
-                paramName = undefined;
-            }else if(isReturn){
-                methodObj.returns = noteStr;
-                isReturn = false;
-            }else if(isThrow){
-                methodObj.throws = noteStr;
-                isThrow = false;
-            }else{  //概述
-                methodObj.annotation = noteStr;
-            }
+        //最后一个
+        if(noteStr !== ''){
+            finishOne(annotationObj,noteTag,noteStr);
             noteStr = '';
         }
+
+        /**
+         * 完成一组注释
+         */
+        function finishOne(obj:any,tag:string,str:string){
+            //存在note标签
+            if(noteTag){
+                if(Annotation[noteTag] !== undefined){ //标签处理方法被
+                    Annotation[noteTag](obj,str);
+                }else{  //标签处理方法没有定义
+                    obj.annotation[tag] = str;    
+                }
+            }else{
+                obj.annotation['default'] = noteStr;
+            }
+        }
     }
+
     /**
      * 获取一行
      * @param srcStr 
@@ -833,16 +1080,52 @@ class Parser{
         return srcStr;
     }
 
-
-    /**
-     * 写mdfile
-     * @param classObj 
-     */
-    writeMdFile(classObj:ClassObj){
-
-    }
 }
- 
+
+let Annotation = {
+    /**
+     * 参数注释
+     * @param item      方法或函数对象
+     * @param noteStr   注释内容
+     */
+    param:function(item:MethodObj,noteStr?:string){
+        let ind = noteStr.indexOf(' ');
+        //取出参数名
+        let paramName:string;
+        if(ind !== -1){
+            paramName = noteStr.substr(0,ind);
+        }else{
+            paramName = noteStr;
+        }
+        //截断noteStr
+        noteStr = noteStr.substr(paramName.length+1);
+        let params:Array<ParamObj> = item.params;
+        for(let i=0;i<params.length;i++){
+            if(params[i].name === paramName){
+                params[i].annotation = noteStr;
+                return;
+            }
+        }
+    },
+    /**
+     * 返回注释
+     * @param item 方法或函数对象
+     * @param noteStr   注释内容
+     */
+    returns:function(item:MethodObj,noteStr?:string){
+        item.annotation['returns'] = noteStr;
+    },
+    /**
+     * 抛出异常注释
+     * @param item 方法或函数对象
+     * @param noteStr   注释内容
+     */
+    throws:function(item:MethodObj,noteStr?:string){
+        item.annotation['throws'] = noteStr;
+    }
+
+}
+
 export{Parser}
 
 

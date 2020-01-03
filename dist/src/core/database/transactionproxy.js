@@ -4,9 +4,15 @@ const dbmanager_1 = require("./dbmanager");
 const transactionmanager_1 = require("./transactionmanager");
 const connectionmanager_1 = require("./connectionmanager");
 const instancefactory_1 = require("../main/instancefactory");
+
+/**
+ * 事务Aop代理
+ * @remarks
+ * 用于事务方法代理
+ */
 class TransactionProxy {
     /**
-     *
+     * 代理方法
      * @param instanceName  实例名
      * @param methodName    方法名
      * @param func          执行函数

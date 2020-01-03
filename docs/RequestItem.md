@@ -1,19 +1,5 @@
-# Interface:RequestItem   
-## 属性
-+ [expire](#PROP_expire)
-+ [req](#PROP_req)
----   
+# Interface:RequestItem
+---
 ## 描述
-   
-### summary   
+<font class="since">开始于:v0.0.1</font>  
 request 队列  
-   
-## 属性   
-### <a id="PROP_expire">expire</a>   
-***public***   
-过期时间
-     
-### <a id="PROP_req">req</a>   
-***public***   
-request
-     
