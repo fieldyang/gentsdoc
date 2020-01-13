@@ -1,0 +1,11 @@
+{
+    "since":"开始于",
+    "modifier":"修饰符",
+    "desc":"描述",
+    "param":"参数",
+    "returns":"返回值",
+    "throws":"异常",
+    "props":"属性",
+    "methods":"方法",
+    "constructor":"构造方法"
+}

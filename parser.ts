@@ -62,7 +62,7 @@ class Parser{
     classes:Array<ClassObj> = [];
     //函数集合
     functions:Array<MethodObj> = [];
-
+    
     public parse(cfg:any){
         let srcPath:string = cfg.src;
         let dstPath:string = cfg.dst;
@@ -72,6 +72,16 @@ class Parser{
 
         const fsMdl = require('fs');
         const pathMdl = require('path');
+        
+        let tipfn:string;
+        if(cfg.language === 'en'){
+            tipfn = __dirname + '/locales/msg_en.json';
+        }else{
+            tipfn = __dirname + '/locales/msg_zh.json';
+        }
+        //提示
+        let tips:any = require('json5').parse(fsMdl.readFileSync(tipfn,'utf8'));
+        
         this.handleDir(srcPath);
         if(!fsMdl.existsSync(srcPath)){
             throw new Error('源路径不存在');
@@ -85,7 +95,11 @@ class Parser{
         let writeStr:string;  //待写串
         
         //json文件，构建标题和url
-        let jsonArr = [];
+        let jsonObj = {
+            funcs:[],
+            classes:[],
+            interfaces:[]
+        };
         //类名排序
         sortName(this.classes);
         //外部函数排序
@@ -97,7 +111,7 @@ class Parser{
                 this.functions.splice(i--,1);
                 continue;
             }
-            jsonArr.push({
+            jsonObj.funcs.push({
                 title:fObj.name,
                 url:baseUrl + fObj.name + fileSuffix
             });
@@ -111,18 +125,25 @@ class Parser{
                 this.classes.splice(i--,1);
                 continue;
             }
-            jsonArr.push({
+            let obj = {
                 title:cObj.name,
                 url:baseUrl + cObj.name + fileSuffix
-            });
+            };
+            //接口和类分别存储
+            if(cObj.type === 'interface'){
+                jsonObj.interfaces.push(obj);
+            }else{
+                jsonObj.classes.push(obj);
+            }
+            
             //属性排序
             sortName(cObj.props);
             //方法排序
-            sortName(cObj.methods);    
+            sortName(cObj.methods);
         }
         
         //写json文件
-        fsMdl.writeFileSync(pathMdl.resolve(dstPath,"data.json"),JSON.stringify(jsonArr));
+        fsMdl.writeFileSync( pathMdl.resolve(dstPath,"data.json"),JSON.stringify(jsonObj));
 
         //写函数
         for(let p of this.functions){
@@ -163,7 +184,7 @@ class Parser{
             
             //注释
             if(p.annotation){
-                addLine('## 描述');
+                addLine('## ' + tips.desc);
                 for(let o in p.annotation){
                     if(o === 'returns' || o==='throws'){
                         continue;
@@ -192,7 +213,7 @@ class Parser{
             }
             
             //返回值
-            addLine('## 返回值');
+            addLine('## ' + tips.returns);
             if(p.returns){
                 let msg:string = genLink(this.classes,p.returns,baseUrl,fileSuffix);
                 addLine(msg);
@@ -205,7 +226,7 @@ class Parser{
 
             //异常
             if(p.annotation['throws']){
-                addLine('## 异常');
+                addLine('## ' + tips.throws);
                 addLine(p.annotation['throws']);
             }
             fsMdl.writeFileSync(fn,writeStr);
@@ -220,7 +241,7 @@ class Parser{
             
             //属性列表
             if(cObj.props.length>0){
-                addLine('## 属性');
+                addLine('## ' + tips.props);
                 for(let p of cObj.props){
                     addLine('+ [' + p.name + '](#PROP_' + p.name + ')');
                 }
@@ -230,7 +251,7 @@ class Parser{
             
             //方法列表
             if(cObj.methods.length>0){
-                addLine('## 方法');
+                addLine('## ' + tips.methods);
                 for(let p of cObj.methods){
                     addLine('+ [' + p.name + '](#METHOD_' + p.name + ')');
                 }
@@ -241,11 +262,11 @@ class Parser{
             //分割线
             addLine('---');
             //类描述
-            addLine('## 描述');
+            addLine('## ' + tips.desc);
             //开始于
             let since:string = cObj.annotation['since']||cfg.defaultSince;
             if(since){
-                addLine('<font class="since">开始于:v' + since + '</font>');
+                addLine('<font class="since">' + tips.since + ':v' + since + '</font>');
             }
             
             
@@ -262,7 +283,7 @@ class Parser{
             }
             //构造函数
             if(cObj.constructors.length>0){
-                addLine('## 构造方法');
+                addLine('## ' + tips.constructor);
                 for(let p of cObj.constructors){
                     let ms = p.name + '(';
                     let selectableNum = 0;
@@ -284,7 +305,7 @@ class Parser{
                     ms += pstr + ')';
                     addLine('### <a id="METHOD_' + p.name + '">' + ms + '</a>');
                     //参数
-                    addLine('#### 参数');
+                    addLine('#### ' + tips.param);
                     for(let pa of p.params){
                         let pt = pa.type;
                         if(pt){
@@ -302,13 +323,13 @@ class Parser{
             //属性
             if(cObj.props.length>0){
                 //属性描述
-                addLine('## 属性');
+                addLine('## ' + tips.props);
                 for(let p of cObj.props){
                     addLine('### <a id="PROP_' + p.name + '">' + p.name + '</a>');
                     //开始于
                     let since:string = p.annotation['since']||cfg.defaultSince;
                     if(since){
-                        addLine('<font class="since">开始于:v' + since + '</font>');
+                        addLine('<font class="since">'+ tips.since +':v' + since + '</font>');
                     }
                     delete p.annotation['since'];
                     // public private static
@@ -322,7 +343,7 @@ class Parser{
                     }
                     
                     if(marr.length>0){
-                        addLine('修饰符: <font class="modifier">' + marr.join('  ')  + '</font>');
+                        addLine(tips.modifier + ': <font class="modifier">' + marr.join('  ')  + '</font>');
                     }
                     for(let o in p.annotation){
                         if(o !== 'default'){
@@ -337,7 +358,7 @@ class Parser{
             //方法
             if(cObj.methods.length>0){
                 //方法描述
-                addLine('## 方法');
+                addLine('## ' + tips.methods);
                 for(let p of cObj.methods){
                     let ms = p.name + '(';
                     let selectableNum = 0;
@@ -362,7 +383,7 @@ class Parser{
                     //开始于
                     let since:string = p.annotation['since']||cfg.defaultSince;
                     if(since){
-                        addLine('<font class="since">开始于:v' + since + '</font>');
+                        addLine('<font class="since">'+ tips.since +':v' + since + '</font>');
                     }
                     delete p.annotation['since'];
                     // public private static async
@@ -380,12 +401,12 @@ class Parser{
                         marr.push('async');
                     }
                     if(marr.length>0){
-                        addLine('修饰符: <font class="modifier">' + marr.join('  ')  + '</font>');
+                        addLine(tips.modifier + ': <font class="modifier">' + marr.join('  ')  + '</font>');
                     }
                     
                     //注释
                     if(p.annotation){
-                        addLine('#### 描述');
+                        addLine('#### ' + tips.desc);
                         for(let o in p.annotation){
                             if(o === 'returns' || o==='throws'){
                                 continue;
@@ -399,7 +420,7 @@ class Parser{
                     
                     //参数
                     if(p.params.length>0){
-                        addLine('#### 参数');
+                        addLine('#### ' + tips.param);
                         for(let pa of p.params){
                             let pt = pa.type;
                             if(pt){
@@ -414,7 +435,7 @@ class Parser{
                     }
                  
                     //返回值
-                    addLine('#### 返回值');
+                    addLine('#### ' + tips.returns);
                     if(p.returns){
                         let msg:string = genLink(this.classes,p.returns,dstPath,fileSuffix);
                         addLine(msg);
@@ -427,7 +448,7 @@ class Parser{
 
                     //异常
                     if(p.annotation['throws']){
-                        addLine('#### 异常');
+                        addLine('#### ' + tips.throws);
                         addLine(p.annotation['throws']);
                     }
                 }
@@ -735,7 +756,7 @@ class Parser{
             isPrivate = true;
         }
 
-        if(s1.indexOf('async')){
+        if(s1.indexOf('async ') !== -1){
             isAsync = true;
         }
 
@@ -1016,20 +1037,20 @@ class Parser{
                     }
                 }
             }
-            //不需要加入doc
-            if(line.startsWith('@exclude')){
-                return null;
-            }
+            
             if(line === ''){
                 continue;
             }
 
             if(line.startsWith('@')){
                 //结束当前noteTag
-                finishOne(annotationObj,noteTag,noteStr);
+                if(finishOne(annotationObj,noteTag,noteStr) === null){
+                    return null;
+                }
                 noteStr = '';
                 let arr = line.split(' ');
                 noteTag = arr[0].substr(1);
+                
                 //去掉tag长度
                 line = line.substr(noteTag.length+2).trim();
             }
@@ -1045,7 +1066,9 @@ class Parser{
         }
         //最后一个
         if(noteStr !== ''){
-            finishOne(annotationObj,noteTag,noteStr);
+            if(finishOne(annotationObj,noteTag,noteStr) === null){
+                return null;
+            }
             noteStr = '';
         }
 
@@ -1082,6 +1105,11 @@ class Parser{
 
 }
 
+/**
+ * 注释方法
+ * @remarks
+ * 针对不同注解进行处理
+ */
 let Annotation = {
     /**
      * 参数注释
@@ -1122,8 +1150,23 @@ let Annotation = {
      */
     throws:function(item:MethodObj,noteStr?:string){
         item.annotation['throws'] = noteStr;
+    },
+    /**
+     * 整段注释不加入文档
+     * @param item      注释对象
+     * @param noteStr   注释串
+     */
+    exclude:function(item:ClassObj|MethodObj|PropObj,noteStr?:string){
+        return null;
+    },
+    /**
+     * 该条注释不加入文档
+     * @param item      注释对象
+     * @param noteStr   注释串
+     */
+    excludeone:function(item:ClassObj|MethodObj|PropObj,noteStr?:string){
+        
     }
-
 }
 
 export{Parser}

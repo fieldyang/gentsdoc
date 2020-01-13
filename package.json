@@ -1,0 +1,27 @@
+{
+  "name": "gentsdoc",
+  "version": "0.0.2",
+  "description": "generate ts document to markdown files",
+  "main": "index.js",
+  "bin": {
+    "gentsdoc": "./bin/gen.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "fieldyang(fieldyang@163.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fieldyang/gentsdoc"
+  },
+  "dependencies": {
+    "commander": "^4.1.0",
+    "json5": "^2.1.1"
+  },
+  "keywords": [
+    "gentsdoc",
+    "tsdoc",
+    "markdown"
+  ]
+}

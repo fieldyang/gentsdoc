@@ -1,0 +1,11 @@
+{
+    "since":"Since",
+    "modifier":"Modifier",
+    "desc":"Description",
+    "param":"Params",
+    "returns":"Returns",
+    "throws":"Throws",
+    "props":"Properties",
+    "methods":"Methods",
+    "constructor":"Constructor"
+}
