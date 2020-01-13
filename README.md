@@ -184,6 +184,7 @@ src目录下所有ts文件包含的类、接口都会生成独立的markdown文�
 
 ## css支持
 gentsdoc支持css，以适应markdown转换成html后的效果需求。以下列表中的css class需要用户自行设置。
+
 css类名|作用于
 -|-
 since|开始于
