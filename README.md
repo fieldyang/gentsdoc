@@ -17,6 +17,7 @@
 + fileSuffix：路径后缀名，比如".html"，如果最后由markdown文件生成html文件，则可能需要url指向为html文件
 + showPrivate：是否显示私有属性和方法
 + defaultSince：默认版本号，如果有@since，则显示@since值，否则显示defaultSince，如果不设置，则不显示
++ excludeTags：不添加到文档的注释标签，如["excludeone","author","date"]
 
 ## 注释标签
 注释标签以“@”开始，下表是gentsdoc支持注释标签。  
@@ -29,7 +30,7 @@ gentsdoc支持class、interface、class method、class property、function(外�
 @returns|class method,function|返回值
 @throws|class method,function|异常
 @exclude|all|整段注释不加入文档
-@excludeone|all|该标签所注释内容不加入文档
+
 ***gentsdoc支持自定义标签，不做特殊处理，只是在文档中增加标题进行显示***
 
 ## 注释说明
@@ -88,8 +89,6 @@ propName:string;
 ```typescript
 /**
  * aop 切点类
- * @excludeone
- * 这一段注释给自己看，不需要的生成文档
  * @examplecode
  * ```typescript
  * new AopPointcut('logpoint',['/*']); 
@@ -106,7 +105,9 @@ propName:string;
  * + 列表1
  * + 列表2
  * + 列表3
- * @excludeone 这一段也不加入文档
+ *
+ * @author     fieldyang    默认不添加到文档，参考excludeTags配置
+ * @date       2020-01-20   默认不添加到文档
 */
 class AopPointcut{
     /**
@@ -194,4 +195,4 @@ datatype|数据类型
 ## 转换成html
 请使用markdown转html工具进行html转换。
 ## 文档效果
-http://www.noomi.cn/api
+http://www.nodom.cn:3005/webroute/api/closeConnection

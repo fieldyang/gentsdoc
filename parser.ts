@@ -62,13 +62,15 @@ class Parser{
     classes:Array<ClassObj> = [];
     //函数集合
     functions:Array<MethodObj> = [];
-    
+    //不添加到文档的注释标签数组
+    excludeTags:Array<string>;
     public parse(cfg:any){
         let srcPath:string = cfg.src;
         let dstPath:string = cfg.dst;
         let baseUrl:string = cfg.baseUrl || '';
         let showPrivate:boolean = cfg.showPrivate || false;
         let fileSuffix:string = cfg.fileSuffix || '';
+        this.excludeTags = cfg.excludeTags;
 
         const fsMdl = require('fs');
         const pathMdl = require('path');
@@ -268,8 +270,8 @@ class Parser{
             if(since){
                 addLine('<font class="since">' + tips.since + ':v' + since + '</font>');
             }
-            
-            
+            //删除since
+            delete cObj.annotation['since'];
             for(let o in cObj.annotation){
                 if(o !== 'default'){
                     addLine('### ' + o);
@@ -1044,7 +1046,7 @@ class Parser{
 
             if(line.startsWith('@')){
                 //结束当前noteTag
-                if(finishOne(annotationObj,noteTag,noteStr) === null){
+                if(finishOne(annotationObj,noteTag,noteStr,this.excludeTags) === null){
                     return null;
                 }
                 noteStr = '';
@@ -1066,7 +1068,7 @@ class Parser{
         }
         //最后一个
         if(noteStr !== ''){
-            if(finishOne(annotationObj,noteTag,noteStr) === null){
+            if(finishOne(annotationObj,noteTag,noteStr,this.excludeTags) === null){
                 return null;
             }
             noteStr = '';
@@ -1074,10 +1076,20 @@ class Parser{
 
         /**
          * 完成一组注释
+         * @param obj   注释对象
+         * @param tag   标签
+         * @param str   注释内容
+         * @param eTags 不添加到文档的注释标签
          */
-        function finishOne(obj:any,tag:string,str:string){
+        function finishOne(obj:any,tag:string,str:string,eTags:Array<string>){
             //存在note标签
             if(noteTag){
+                //如果属于排除标签，则不添加到文档
+                if(eTags && eTags.length>0){
+                    if(eTags.includes(noteTag)){
+                        return;
+                    }
+                }
                 if(Annotation[noteTag] !== undefined){ //标签处理方法被
                     Annotation[noteTag](obj,str);
                 }else{  //标签处理方法没有定义
@@ -1158,14 +1170,6 @@ let Annotation = {
      */
     exclude:function(item:ClassObj|MethodObj|PropObj,noteStr?:string){
         return null;
-    },
-    /**
-     * 该条注释不加入文档
-     * @param item      注释对象
-     * @param noteStr   注释串
-     */
-    excludeone:function(item:ClassObj|MethodObj|PropObj,noteStr?:string){
-        
     }
 }
 

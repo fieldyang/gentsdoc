@@ -10,7 +10,6 @@
   
 ---
 ## Description
-<font class="since">Since:v0.0.1</font>  
 aop 切点类  
 ### examplecode
 ```typescript  
@@ -35,20 +34,16 @@ expressions|Array<RegExp>|切点拦截表达式
   
 ## Properties
 ### <a id="PROP_advices">advices</a>
-<font class="since">Since:v0.0.1</font>  
 Modifier: <font class="modifier">public</font>  
 通知数组  
 ### <a id="PROP_expressions">expressions</a>
-<font class="since">Since:v0.0.1</font>  
 Modifier: <font class="modifier">public</font>  
 表达式数组（正则表达式）  
 ### <a id="PROP_id">id</a>
-<font class="since">Since:v0.0.1</font>  
 Modifier: <font class="modifier">public</font>  
 切点id  
 ## Methods
 ### <a id="METHOD_addAdvice">addAdvice(advice)</a>
-<font class="since">Since:v0.0.1</font>  
 Modifier: <font class="modifier">public</font>  
 #### Description
 给切点添加通知  
@@ -58,7 +53,6 @@ Modifier: <font class="modifier">public</font>
 #### Returns
 <font class='datatype'>void</font>  
 ### <a id="METHOD_match">match(instanceName,methodName)</a>
-<font class="since">Since:v0.0.1</font>  
 Modifier: <font class="modifier">public</font>  
 #### Description
 匹配方法是否满足表达式  
