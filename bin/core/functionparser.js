@@ -77,6 +77,7 @@ class FunctionParser extends baseparser_1.default {
         }
         let rObj = {
             name: name,
+            type: 'function',
             returns: retStr,
             private: isPrivate,
             static: isStatic,

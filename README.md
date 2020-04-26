@@ -174,10 +174,11 @@ class AopPointcut{
 ```
 ## 输出文件说明
 src目录下所有ts文件包含的类、接口都会生成独立的markdown文件，所以需要保证类和接口文件名的唯一性。  
-为方便后续处理，同时生成data.json文件，data.json文件包含三个部分
+为方便后续处理，同时生成data.json文件，data.json文件包含4个部分：
 1. funcs:外置函数数组
 2. classes:类数组
 3. interfaces:接口数组
+4. enums:枚举类型数组
 
 每个数组对象包含:
 + title:类/接口/函数名

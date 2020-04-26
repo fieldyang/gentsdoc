@@ -1,6 +1,6 @@
 {
   "name": "gentsdoc",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "generate ts document to markdown files",
   "main": "index.js",
   "bin": {
@@ -16,7 +16,7 @@
     "url": "git+https://github.com/fieldyang/gentsdoc"
   },
   "dependencies": {
-    "commander": "^4.1.0",
+    "commander": "^4.1.1",
     "json5": "^2.1.1"
   },
   "keywords": [

@@ -119,9 +119,7 @@ class ClassParser extends baseparser_1.default {
         const fsMdl = require('fs');
         let writeStr = '';
         let dstPath = util_1.Util.wholeConfig.dst;
-        let baseUrl = util_1.Util.wholeConfig.baseUrl || '';
         let showPrivate = util_1.Util.wholeConfig.showPrivate || false;
-        let fileSuffix = util_1.Util.wholeConfig.fileSuffix || '';
         let fn = pathMdl.resolve(dstPath, cObj.name + '.md');
         //类名
         writeStr = util_1.Util.addLine(writeStr, '# ' + (cObj.type === 'class' ? 'Class:' : 'Interface:') + cObj.name);

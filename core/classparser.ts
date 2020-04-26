@@ -124,10 +124,7 @@ class ClassParser extends BaseParser{
         const fsMdl = require('fs');
         let writeStr:string = '';
         let dstPath = Util.wholeConfig.dst;
-        let baseUrl:string = Util.wholeConfig.baseUrl || '';
         let showPrivate:boolean = Util.wholeConfig.showPrivate || false;
-        let fileSuffix:string = Util.wholeConfig.fileSuffix || '';
-        
             
         let fn:string = pathMdl.resolve(dstPath,cObj.name + '.md');
         //类名

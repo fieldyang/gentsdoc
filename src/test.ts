@@ -1,7 +1,5 @@
 /**
  * aop 切点类
- * @excludeone
- * 这一段注释给自己看，不需要的生成文档
  * @examplecode
  * ```typescript
  * new AopPointcut('logpoint',['/*']); 
@@ -18,27 +16,26 @@
  * + 列表1
  * + 列表2
  * + 列表3
- * 
- * @excludeone 这一段也不加入文档
- * @author      fieldyang
- * @since       1.0.0
+ *
+ * @author     fieldyang    默认不添加到文档，参考excludeTags配置
+ * @date       2020-01-20   默认不添加到文档
 */
 class AopPointcut{
     /**
      * 切点id
      */
     id:string;
-
+ 
     /**
      * 表达式数组（正则表达式）
      */
     expressions:Array<RegExp> = [];
-
+ 
     /**
      * 通知数组
      */
     advices:Array<IAopAdvice> = [];
-
+ 
     /**
      * 构造器
      * @param id            切点id(唯一) 
@@ -49,7 +46,7 @@ class AopPointcut{
         if(!expressions){
             throw new NoomiError("2001");
         }
-
+ 
         if(!Array.isArray(expressions)){
             expressions = [expressions];
         }
@@ -61,7 +58,7 @@ class AopPointcut{
             this.expressions.push(Util.toReg(item));
         });
     }
-
+ 
     /**
      * 匹配方法是否满足表达式
      * @param instanceName  实例名
@@ -76,7 +73,7 @@ class AopPointcut{
         }
         return false;
     }
-
+ 
     /**
      * 给切点添加通知
      * @param advice    通知对象
@@ -84,33 +81,4 @@ class AopPointcut{
     addAdvice(advice:IAopAdvice):void{
         this.advices.push(advice);
     }
-}
-
-/**
- * 路由结果类型
- * @since 0.0.6
- */
-enum ERouteResultType{
-    /**
-     * 重定向
-     * @cfg     haha
-     */
-    REDIRECT='redirect',
-    /**
-     * 路由链,和redirect不同，浏览器地址不会改变
-     * @since 1.0.0
-     */
-    CHAIN='chain',  
-    /**
-     * 文件流，主要用于文件下载
-     */    
-    STREAM='stream',
-    /**
-     * 什么都不做
-     */
-    NONE='none', 
-    /**
-     * json数据,默认类型
-     */
-    JSON='json'  
 }

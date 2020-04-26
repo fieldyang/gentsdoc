@@ -81,6 +81,7 @@ class FunctionParser extends BaseParser{
 
         let rObj:MethodObj = {
             name:name,
+            type:'function',
             returns:retStr,
             private:isPrivate,
             static:isStatic,
