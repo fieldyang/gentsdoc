@@ -7,5 +7,9 @@
     "throws":"Throws",
     "props":"Properties",
     "methods":"Methods",
+    "proplist":"Property List",
+    "methodlist":"Method List",
+    "enumvalue":"Enum Value",
+    "initvalue":"Init Value",
     "constructor":"Constructor"
 }

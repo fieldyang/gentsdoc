@@ -192,7 +192,13 @@ since|开始于
 modifier|修饰符
 datatype|数据类型
 
+## 版本说明
+### 0.0.6
++ 增加enum识别
++ 增加类的属性值
++ 修改类设置since，而属性和方法不设置since的bug
+
 ## 转换成html
 请使用markdown转html工具进行html转换。
 ## 文档效果
-http://www.nodom.cn:3005/webroute/api/closeConnection
+http://www.noomi.cn/webroute/api/closeConnection

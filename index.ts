@@ -1,4 +1,4 @@
-import{Parser} from './parser'
+import{Parser} from './core/parser'
 
 let parser:Parser = new Parser();
 console.log('开始创建markdown文件...');

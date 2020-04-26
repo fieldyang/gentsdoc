@@ -85,3 +85,32 @@ class AopPointcut{
         this.advices.push(advice);
     }
 }
+
+/**
+ * 路由结果类型
+ * @since 0.0.6
+ */
+enum ERouteResultType{
+    /**
+     * 重定向
+     * @cfg     haha
+     */
+    REDIRECT='redirect',
+    /**
+     * 路由链,和redirect不同，浏览器地址不会改变
+     * @since 1.0.0
+     */
+    CHAIN='chain',  
+    /**
+     * 文件流，主要用于文件下载
+     */    
+    STREAM='stream',
+    /**
+     * 什么都不做
+     */
+    NONE='none', 
+    /**
+     * json数据,默认类型
+     */
+    JSON='json'  
+}

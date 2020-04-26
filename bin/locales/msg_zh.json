@@ -7,5 +7,9 @@
     "throws":"异常",
     "props":"属性",
     "methods":"方法",
+    "proplist":"属性列表",
+    "methodlist":"方法列表",
+    "enumvalue":"枚举值",
+    "initvalue":"初始值",
     "constructor":"构造方法"
 }

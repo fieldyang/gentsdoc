@@ -9,6 +9,8 @@ class Parser {
         this.classes = [];
         //函数集合
         this.functions = [];
+        //enum集合
+        this.enums = [];
     }
     parse(cfg) {
         let srcPath = cfg.src;
@@ -30,7 +32,7 @@ class Parser {
         let tips = require('json5').parse(fsMdl.readFileSync(tipfn, 'utf8'));
         this.handleDir(srcPath);
         if (!fsMdl.existsSync(srcPath)) {
-            throw new Error('源路径不存在');
+            throw new Error('file is not exist');
         }
         //删除重建dst目录
         if (fsMdl.existsSync(dstPath)) {
@@ -42,12 +44,15 @@ class Parser {
         let jsonObj = {
             funcs: [],
             classes: [],
-            interfaces: []
+            interfaces: [],
+            enums: []
         };
         //类名排序
         sortName(this.classes);
         //外部函数排序
         sortName(this.functions);
+        //枚举名排序
+        sortName(this.enums);
         //处理函数注释
         for (let i = 0; i < this.functions.length; i++) {
             let fObj = this.functions[i];
@@ -83,6 +88,21 @@ class Parser {
             sortName(cObj.props);
             //方法排序
             sortName(cObj.methods);
+        }
+        //处理枚举
+        for (let i = 0; i < this.enums.length; i++) {
+            let fObj = this.enums[i];
+            if (this.handleAnnotation(fObj) === null) {
+                this.enums.splice(i--, 1);
+                continue;
+            }
+            for (let j = 0; j < fObj.props.length; j++) {
+                this.handleAnnotation(fObj.props[j]);
+            }
+            jsonObj.enums.push({
+                title: fObj.name,
+                url: baseUrl + fObj.name + fileSuffix
+            });
         }
         //写json文件
         fsMdl.writeFileSync(pathMdl.resolve(dstPath, "data.json"), JSON.stringify(jsonObj));
@@ -178,7 +198,7 @@ class Parser {
             addLine('# ' + (cObj.type === 'class' ? 'Class:' : 'Interface:') + cObj.name);
             //属性列表
             if (cObj.props.length > 0) {
-                addLine('## ' + tips.props);
+                addLine('## ' + tips.proplist);
                 for (let p of cObj.props) {
                     addLine('+ [' + p.name + '](#PROP_' + p.name + ')');
                 }
@@ -187,7 +207,7 @@ class Parser {
             }
             //方法列表
             if (cObj.methods.length > 0) {
-                addLine('## ' + tips.methods);
+                addLine('## ' + tips.methodlist);
                 for (let p of cObj.methods) {
                     addLine('+ [' + p.name + '](#METHOD_' + p.name + ')');
                 }
@@ -199,9 +219,9 @@ class Parser {
             //类描述
             addLine('## ' + tips.desc);
             //开始于
-            let since = cObj.annotation['since'] || cfg.defaultSince;
-            if (since) {
-                addLine('<font class="since">' + tips.since + ':v' + since + '</font>');
+            let psince = cObj.annotation['since'] || cfg.defaultSince;
+            if (psince) {
+                addLine('<font class="since">' + tips.since + ':v' + psince + '</font>');
             }
             //删除since
             delete cObj.annotation['since'];
@@ -263,7 +283,7 @@ class Parser {
                 for (let p of cObj.props) {
                     addLine('### <a id="PROP_' + p.name + '">' + p.name + '</a>');
                     //开始于
-                    let since = p.annotation['since'] || cfg.defaultSince;
+                    let since = p.annotation['since'] || psince || cfg.defaultSince;
                     if (since) {
                         addLine('<font class="since">' + tips.since + ':v' + since + '</font>');
                     }
@@ -312,7 +332,7 @@ class Parser {
                     ms += pstr + ')';
                     addLine('### <a id="METHOD_' + p.name + '">' + ms + '</a>');
                     //开始于
-                    let since = p.annotation['since'] || cfg.defaultSince;
+                    let since = p.annotation['since'] || psince || cfg.defaultSince;
                     if (since) {
                         addLine('<font class="since">' + tips.since + ':v' + since + '</font>');
                     }
@@ -376,6 +396,53 @@ class Parser {
                     if (p.annotation['throws']) {
                         addLine('#### ' + tips.throws);
                         addLine(p.annotation['throws']);
+                    }
+                }
+            }
+            fsMdl.writeFileSync(fn, writeStr);
+        }
+        //写enum
+        for (let cObj of this.enums) {
+            writeStr = '';
+            let fn = pathMdl.resolve(dstPath, cObj.name + '.md');
+            //类名
+            addLine('# Enum ' + cObj.name);
+            //类描述
+            addLine('## ' + tips.desc);
+            //开始于
+            let psince = cObj.annotation['since'] || cfg.defaultSince;
+            if (psince) {
+                addLine('<font class="since">' + tips.since + ':v' + psince + '</font>');
+            }
+            //删除since
+            delete cObj.annotation['since'];
+            for (let o in cObj.annotation) {
+                if (o !== 'default') {
+                    addLine('### ' + o);
+                }
+                addLine(cObj.annotation[o]);
+            }
+            //枚举值
+            if (cObj.props.length > 0) {
+                //属性描述
+                addLine('## ' + tips.enumvalue);
+                for (let p of cObj.props) {
+                    addLine('### <a id="PROP_' + p.name + '">' + p.name + '</a>');
+                    //开始于
+                    let since = p.annotation['since'] || psince || cfg.defaultSince;
+                    if (since) {
+                        addLine('<font class="since">' + tips.since + ':v' + since + '</font>');
+                    }
+                    delete p.annotation['since'];
+                    for (let o in p.annotation) {
+                        if (o !== 'default') {
+                            addLine('#### ' + o);
+                        }
+                        addLine(p.annotation[o]);
+                    }
+                    if (p.value) {
+                        addLine('### ' + tips.initvalue);
+                        addLine(p.value);
                     }
                 }
             }
@@ -465,13 +532,13 @@ class Parser {
      */
     handleFile(filePath) {
         //存储所有类和接口
-        let classes = [];
         const fsMdl = require('fs');
         //注释正则表达式
         const regNote = /\/\*\*[\S\s]+?\*\//;
         //类正则表达式
         const regClass = /^\s*(export\s*)?(default\s*)?\s*(class|interface)\s+\S+(\s+(extends|implements)\s+\S+)?\{?[\r\n]/;
         const regFunction = /^\s*(async\s*)?function\s+\S+\s*\([\s\S]*\)(:\s*\S+)?/;
+        const regEnum = /^\s*enum\s+\S+\s*\{?[\r\n]/;
         let fileStr = fsMdl.readFileSync(filePath, 'utf8');
         //需要设置class关闭或方法关闭
         for (;;) {
@@ -481,19 +548,26 @@ class Parser {
             }
             //截断注释
             fileStr = fileStr.substr(re.index + re[0].length);
-            let r1 = regClass.exec(fileStr);
-            //外部函数
-            let r2 = regFunction.exec(fileStr);
-            if (r1 !== null && r2 !== null) {
-                if (r1.index < r2.index) {
-                    r2 = null;
+            let regResult = [regClass.exec(fileStr), regFunction.exec(fileStr), regEnum.exec(fileStr)];
+            //找到匹配位置最小值
+            let r;
+            let index;
+            for (let i = 0; i < regResult.length; i++) {
+                if (regResult[i] === null) {
+                    continue;
                 }
-                else {
-                    r1 = null;
+                if (!r) {
+                    //赋初值
+                    r = regResult[i];
+                    index = i;
+                }
+                else if (r.index > regResult[i].index) {
+                    r = regResult[i];
+                    index = i;
                 }
             }
-            if (r1 === null && r2 === null) {
-                continue;
+            if (!r) {
+                return;
             }
             let block = this.findBlockCode(fileStr);
             let src = block[0];
@@ -501,15 +575,23 @@ class Parser {
             if (block[1] > 0) {
                 fileStr = fileStr.substr(block[1]);
             }
-            if (r1 !== null) { //类
-                let obj = this.handleClass(src);
-                obj.annoStr = re[0].trim();
-                this.classes.push(obj);
-            }
-            else if (r2 !== null) { //函数
-                let obj = this.handleMethod(src);
-                obj.annoStr = re[0].trim();
-                this.functions.push(obj);
+            let obj;
+            switch (index) {
+                case 0: //类
+                    obj = this.handleClass(src);
+                    obj.annoStr = re[0].trim();
+                    this.classes.push(obj);
+                    break;
+                case 1: //函数
+                    obj = this.handleMethod(src);
+                    obj.annoStr = re[0].trim();
+                    this.functions.push(obj);
+                    break;
+                case 2: //枚举
+                    obj = this.handleEnum(src);
+                    obj.annoStr = re[0].trim();
+                    this.enums.push(obj);
+                    break;
             }
         }
     }
@@ -735,7 +817,6 @@ class Parser {
     /**
      * 处理属性
      * @param srcStr    源串
-     * @param isInterf  是否是接口属性
      * @returns         {name:属性名,static:静态,private:私有,need:不可选,type:类型}
      */
     handleProp(srcStr) {
@@ -743,6 +824,7 @@ class Parser {
         let ind = srcStr.indexOf(';');
         let name;
         let type;
+        let value;
         let isStatic = false;
         let isPrivate = false;
         let isSelectable = false;
@@ -753,8 +835,9 @@ class Parser {
                 type = type.substr(0, ind).trim();
                 //处理 =
                 let ind1 = type.indexOf('=');
-                if (ind1 !== null) {
+                if (ind1 !== -1) {
                     type = type.substr(0, ind1).trim();
+                    value = type.substr(ind1 + 1).trim();
                 }
             }
         }
@@ -781,6 +864,75 @@ class Parser {
             static: isStatic,
             private: isPrivate,
             need: !isSelectable,
+            type: type,
+            value: value,
+            annotation: {}
+        };
+    }
+    /**
+     * 处理枚举类型
+     */
+    handleEnum(srcStr) {
+        let regName = /^\s*enum\s+\S+\s*[\r\n]/;
+        //注释正则表达式
+        const regNote = /\/\*\*[\S\s]+?\*\//;
+        //属性正则表达式
+        const regProp = /^\s*\S+\s*(=\s*\S+)?\,/;
+        let rName = regName.exec(srcStr);
+        let sName = rName[0];
+        sName = sName.replace(/\s+/, ' ');
+        let sa = sName.split(' ');
+        let enumName = sa[1];
+        //删除"{"
+        let ind;
+        if ((ind = enumName.indexOf('{')) !== -1) {
+            enumName = enumName.substr(0, ind);
+        }
+        let props = [];
+        //遍历处理属性和方法
+        for (;;) {
+            let re = regNote.exec(srcStr);
+            if (re === null) {
+                break;
+            }
+            srcStr = srcStr.substr(re.index + re[0].length + 1);
+            //找到第一行字符开头的字符串
+            let line = '';
+            for (; srcStr !== '';) {
+                line = this.getLine(srcStr);
+                let len = line.length;
+                line = line.trim();
+                if (line !== '') {
+                    break;
+                }
+                srcStr = srcStr.substr(len + 1);
+            }
+            if (line === '') {
+                continue;
+            }
+            let rp = regProp.exec(line);
+            if (rp !== null) { //property处理
+                //处理属性
+                let sa = line.split('=');
+                let obj = {
+                    name: sa[0].trim(),
+                    annotation: {}
+                };
+                if (sa.length > 1) {
+                    let v = sa[1].trim();
+                    if ((ind = v.indexOf(',')) > 0) {
+                        v = v.substr(0, ind);
+                    }
+                    obj.value = v;
+                }
+                obj.annoStr = re[0].trim();
+                props.push(obj);
+            }
+        }
+        //把类对象放入map
+        return {
+            name: enumName,
+            props: props,
             annotation: {}
         };
     }
@@ -924,6 +1076,9 @@ class Parser {
                 else if (/.*(\*)?\/$/.test(line)) { //结尾
                     line = line.substr(0, line.length - 2).trim();
                 }
+            }
+            if (line === '') {
+                continue;
             }
             //去掉line的左边第一个*
             line = line.replace(/^\s*\*/, '');

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const parser_1 = require("./parser");
+const parser_1 = require("./core/parser");
 let parser = new parser_1.Parser();
 console.log('开始创建markdown文件...');
 require('fs').readFile("genconfig.json", 'utf8', (err, data) => {
