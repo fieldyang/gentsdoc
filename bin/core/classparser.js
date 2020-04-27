@@ -14,9 +14,9 @@ class ClassParser extends baseparser_1.default {
      */
     parse(srcStr, annoStr) {
         //方法正则表达式
-        const regMethod = /^\s*(public|private)?\s*(static)?\s*(async)?\s*.*\([\s\S]*\)(:\s*\S+)?/;
+        const regMethod = /^\s*(public|private\s+)?\s*(static\s+)?\s*(async\s+)?\s*\S+\s*\(.*\)(:\s*\S+)?/;
         //属性正则表达式
-        const regProp = /^\s*\S+(\s+\S+)*?\s*(=\s*\S+)?;?/;
+        const regProp = /^\s*(public|private\s+)?(static\s+)?\s*\S+(:?\s*\S+)?(\=\s*\S+)?;?/;
         let clsArr = this.handleClassName(srcStr);
         let className = clsArr[1];
         let constructors = [];
@@ -77,8 +77,8 @@ class ClassParser extends baseparser_1.default {
                     srcStr = srcStr.substr(r[1]);
                 }
             }
-            else { //property处理
-                let obj = this.handleProp(srcStr);
+            else if (rp !== null) { //property处理
+                let obj = this.handleProp(line);
                 obj.annoStr = re[0].trim();
                 util_1.Util.handleAnnotation(obj);
                 props.push(obj);
@@ -122,7 +122,7 @@ class ClassParser extends baseparser_1.default {
         let showPrivate = util_1.Util.wholeConfig.showPrivate || false;
         let fn = pathMdl.resolve(dstPath, cObj.name + '.md');
         //类名
-        writeStr = util_1.Util.addLine(writeStr, '# ' + (cObj.type === 'class' ? 'Class:' : 'Interface:') + cObj.name);
+        writeStr = util_1.Util.addLine(writeStr, '# ' + (cObj.clsType === 'class' ? 'Class ' : 'Interface ') + cObj.name);
         //属性列表
         if (cObj.props.length > 0) {
             writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.proplist);
@@ -148,7 +148,7 @@ class ClassParser extends baseparser_1.default {
         //开始于
         let psince = cObj.annotation['since'] || util_1.Util.wholeConfig.defaultSince;
         if (psince) {
-            writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ':v' + psince + '</font>');
+            writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + psince + '</font>');
         }
         //删除since
         delete cObj.annotation['since'];
@@ -210,11 +210,18 @@ class ClassParser extends baseparser_1.default {
             for (let p of cObj.props) {
                 writeStr = util_1.Util.addLine(writeStr, '### <a id="PROP_' + p.name + '">' + p.name + '</a>');
                 //开始于
-                let since = p.annotation['since'] || psince || util_1.Util.wholeConfig.defaultSince;
+                let since = p.annotation['since'];
                 if (since) {
-                    writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ':v' + since + '</font>');
+                    writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + since + '</font>');
                 }
                 delete p.annotation['since'];
+                //描述
+                for (let o in p.annotation) {
+                    if (o !== 'default') {
+                        writeStr = util_1.Util.addLine(writeStr, '#### ' + o);
+                    }
+                    writeStr = util_1.Util.addLine(writeStr, p.annotation[o]);
+                }
                 // public private static
                 let marr = [];
                 if (p.private && showPrivate || !p.private) {
@@ -224,13 +231,23 @@ class ClassParser extends baseparser_1.default {
                     marr.push('static');
                 }
                 if (marr.length > 0) {
-                    writeStr = util_1.Util.addLine(writeStr, util_1.Util.tips.modifier + ': <font class="modifier">' + marr.join('  ') + '</font>');
+                    writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.modifier);
+                    writeStr = util_1.Util.addLine(writeStr, '<font class="modifier">' + marr.join('  ') + '</font>');
                 }
-                for (let o in p.annotation) {
-                    if (o !== 'default') {
-                        writeStr = util_1.Util.addLine(writeStr, '#### ' + o);
+                if (p.type) {
+                    writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.datatype);
+                    let pt = p.type;
+                    if (pt) {
+                        pt = util_1.Util.genLink(pt);
                     }
-                    writeStr = util_1.Util.addLine(writeStr, p.annotation[o]);
+                    else {
+                        pt = 'any';
+                    }
+                    writeStr = util_1.Util.addLine(writeStr, pt);
+                }
+                if (p.value) {
+                    writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.initvalue);
+                    writeStr = util_1.Util.addLine(writeStr, p.value);
                 }
             }
         }
@@ -259,25 +276,12 @@ class ClassParser extends baseparser_1.default {
                 ms += pstr + ')';
                 writeStr = util_1.Util.addLine(writeStr, '### <a id="METHOD_' + p.name + '">' + ms + '</a>');
                 //开始于
-                let since = p.annotation['since'] || psince || util_1.Util.wholeConfig.defaultSince;
+                let since = p.annotation['since'];
                 if (since) {
-                    writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ':v' + since + '</font>');
+                    writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + since + '</font>');
                 }
                 delete p.annotation['since'];
                 // public private static async
-                let marr = [];
-                if (p.private && showPrivate || !p.private) {
-                    marr.push(p.private ? 'private' : 'public');
-                }
-                if (p.static) {
-                    marr.push('static');
-                }
-                if (p.async) {
-                    marr.push('async');
-                }
-                if (marr.length > 0) {
-                    writeStr = util_1.Util.addLine(writeStr, util_1.Util.tips.modifier + ': <font class="modifier">' + marr.join('  ') + '</font>');
-                }
                 //注释
                 if (p.annotation) {
                     writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.desc);
@@ -290,6 +294,20 @@ class ClassParser extends baseparser_1.default {
                         }
                         writeStr = util_1.Util.addLine(writeStr, p.annotation[o]);
                     }
+                }
+                let marr = [];
+                if (p.private && showPrivate || !p.private) {
+                    marr.push(p.private ? 'private' : 'public');
+                }
+                if (p.static) {
+                    marr.push('static');
+                }
+                if (p.async) {
+                    marr.push('async');
+                }
+                if (marr.length > 0) {
+                    writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.modifier);
+                    writeStr = util_1.Util.addLine(writeStr, '<font class="modifier">' + marr.join('  ') + '</font>');
                 }
                 //参数
                 if (p.params.length > 0) {
@@ -419,36 +437,37 @@ class ClassParser extends baseparser_1.default {
      * @returns         {name:属性名,static:静态,private:私有,need:不可选,type:类型}
      */
     handleProp(srcStr) {
-        let a = srcStr.split(':');
+        //去掉最后一个;
         let ind = srcStr.indexOf(';');
+        if (ind === srcStr.length - 1) {
+            srcStr = srcStr.substr(0, srcStr.length - 1);
+        }
+        let a = srcStr.split(':');
         let name;
         let type;
         let value;
         let isStatic = false;
         let isPrivate = false;
         let isSelectable = false;
+        name = a[0].trim();
         if (a.length > 1) {
-            name = a[0].trim();
             type = a[1].trim();
-            if (ind !== -1) {
-                type = type.substr(0, ind).trim();
-                //处理 =
-                let ind1 = type.indexOf('=');
-                if (ind1 !== -1) {
-                    type = type.substr(0, ind1).trim();
-                    value = type.substr(ind1 + 1).trim();
-                }
-            }
         }
-        else {
-            if (ind !== -1) {
-                name = srcStr.substr(0, ind).trim();
+        //处理 =
+        if ((ind = name.indexOf('=')) !== -1) {
+            value = name.substr(ind + 1).trim();
+            name = name.substr(0, ind).trim();
+        }
+        if (type) {
+            if ((ind = type.indexOf('=')) !== -1) {
+                value = type.substr(ind + 1).trim();
+                type = type.substr(0, ind).trim();
             }
         }
         //处理可选
         if ((ind = name.indexOf('?')) !== -1) {
             isSelectable = true;
-            name = name.substr(0, ind);
+            name = name.substr(0, ind).trim();
         }
         if (name.indexOf('static ') !== -1) {
             isStatic = true;

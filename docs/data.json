@@ -1,0 +1,1 @@
+{"funcs":[{"title":"closeConnection","url":"/api/closeConnection"},{"title":"getConnection","url":"/api/getConnection"},{"title":"getManager","url":"/api/getManager"}],"classes":[{"title":"AopPointcut","url":"/api/AopPointcut"},{"title":"IConnectionManager","url":"/api/IConnectionManager"}],"interfaces":[],"enums":[{"title":"Color","url":"/api/Color"}]}

@@ -52,7 +52,7 @@ function genMdFiles(){
         }
         else {
             let obj = require('json5').parse(data);
-            const parser_1 = require("./parser");
+            const parser_1 = require("./core/parser");
             let parser = new parser_1.Parser();
             parser.parse(obj);
             console.log('generate markdown files successfully!');

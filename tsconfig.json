@@ -11,7 +11,7 @@
   },
   "include":[
     "./index.ts",
-    "core/*"
+    "./core/*.ts"
   ],
   "exclude": [
     // "parser.ts"

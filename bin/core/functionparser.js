@@ -22,12 +22,6 @@ class FunctionParser extends baseparser_1.default {
         let isAsync = false;
         //前半段
         let s1 = srcStr.substr(0, ind).trim();
-        if (s1.indexOf('static ') !== -1) {
-            isStatic = true;
-        }
-        if (s1.indexOf('private ') !== -1) {
-            isPrivate = true;
-        }
         if (s1.indexOf('async ') !== -1) {
             isAsync = true;
         }
@@ -69,7 +63,7 @@ class FunctionParser extends baseparser_1.default {
         let retStr = s2.substr(ind + 1);
         ind = retStr.indexOf(':');
         if (ind !== -1) {
-            let ind1 = retStr.indexOf(';');
+            let ind1 = retStr.indexOf('{');
             retStr = retStr.substr(ind + 1, ind1 - ind - 1);
         }
         else {
@@ -119,21 +113,21 @@ class FunctionParser extends baseparser_1.default {
         }
         ms += pstr + ')';
         //函数名
-        writeStr = util_1.Util.addLine(writeStr, '# Function:' + ms);
+        writeStr = util_1.Util.addLine(writeStr, '# Function ' + ms);
         //开始于
         let since = cObj.annotation['since'] || util_1.Util.wholeConfig.defaultSince;
         if (since) {
-            writeStr = util_1.Util.addLine(writeStr, '<font class="since">开始于:v' + since + '</font>');
+            writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + since + '</font>');
         }
         delete cObj.annotation['since'];
         //async
-        ms = undefined;
         if (cObj.async) {
-            writeStr = util_1.Util.addLine(writeStr, '修饰符: <font class="modifier">async</font>');
+            writeStr = util_1.Util.addLine(writeStr, util_1.Util.tips.modifier);
+            writeStr = util_1.Util.addLine(writeStr, '<font class="modifier">async</font>');
         }
         //注释
         if (cObj.annotation) {
-            writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.wholeConfig.desc);
+            writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.desc);
             for (let o in cObj.annotation) {
                 if (o === 'returns' || o === 'throws') {
                     continue;
@@ -161,7 +155,7 @@ class FunctionParser extends baseparser_1.default {
             writeStr = util_1.Util.addLine(writeStr, '');
         }
         //返回值
-        writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.wholeConfig.returns);
+        writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.returns);
         if (cObj.returns) {
             let msg = util_1.Util.genLink(cObj.returns);
             writeStr = util_1.Util.addLine(writeStr, msg);

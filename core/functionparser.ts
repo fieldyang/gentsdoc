@@ -20,14 +20,7 @@ class FunctionParser extends BaseParser{
         let isAsync:boolean = false;
         //前半段
         let s1:string = srcStr.substr(0,ind).trim();
-        if(s1.indexOf('static ') !== -1){
-            isStatic = true;
-        }
         
-        if(s1.indexOf('private ') !== -1){
-            isPrivate = true;
-        }
-
         if(s1.indexOf('async ') !== -1){
             isAsync = true;
         }
@@ -73,7 +66,7 @@ class FunctionParser extends BaseParser{
         let retStr = s2.substr(ind+1);
         ind = retStr.indexOf(':');
         if(ind !== -1){
-            let ind1 = retStr.indexOf(';');
+            let ind1 = retStr.indexOf('{');
             retStr = retStr.substr(ind+1,ind1-ind-1);
         }else{
             retStr = '';
@@ -126,22 +119,22 @@ class FunctionParser extends BaseParser{
         }
         ms += pstr + ')';
         //函数名
-        writeStr = Util.addLine(writeStr,'# Function:' + ms);
+        writeStr = Util.addLine(writeStr,'# Function ' + ms);
         //开始于
         let since:string = cObj.annotation['since']||Util.wholeConfig.defaultSince;
         if(since){
-            writeStr = Util.addLine(writeStr,'<font class="since">开始于:v' + since + '</font>');
+            writeStr = Util.addLine(writeStr,'<font class="since">' + Util.tips.since + ' : v' + since + '</font>');
         }
         delete cObj.annotation['since'];
         //async
-        ms=undefined;
         if(cObj.async){
-            writeStr = Util.addLine(writeStr,'修饰符: <font class="modifier">async</font>');
+            writeStr = Util.addLine(writeStr,Util.tips.modifier);
+            writeStr = Util.addLine(writeStr,'<font class="modifier">async</font>');
         }
         
         //注释
         if(cObj.annotation){
-            writeStr = Util.addLine(writeStr,'## ' + Util.wholeConfig.desc);
+            writeStr = Util.addLine(writeStr,'## ' + Util.tips.desc);
             for(let o in cObj.annotation){
                 if(o === 'returns' || o==='throws'){
                     continue;
@@ -170,7 +163,7 @@ class FunctionParser extends BaseParser{
         }
         
         //返回值
-        writeStr = Util.addLine(writeStr,'## ' + Util.wholeConfig.returns);
+        writeStr = Util.addLine(writeStr,'## ' + Util.tips.returns);
         if(cObj.returns){
             let msg:string = Util.genLink(cObj.returns);
             writeStr = Util.addLine(writeStr,msg);

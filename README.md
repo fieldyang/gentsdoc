@@ -193,11 +193,13 @@ since|开始于
 modifier|修饰符
 datatype|数据类型
 
-## 版本说明
+## 版本
 ### 0.0.6
++ 修复函数返回值解析bug
++ 修改类设置since而属性和方法不设置since的bug
 + 增加enum识别
 + 增加类的属性值
-+ 修改类设置since，而属性和方法不设置since的bug
++ 增加类属性的类型
 
 ## 转换成html
 请使用markdown转html工具进行html转换。
