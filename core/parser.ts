@@ -33,13 +33,10 @@ export default class Parser{
     public parse(cfg:any){
         let srcPath:string = cfg.src;
         let dstPath:string = cfg.dst;
-        let baseUrl:string = cfg.baseUrl || '';
-        let fileSuffix:string = cfg.fileSuffix || '';
         const fsMdl = require('fs');
         const pathMdl = require('path');
 
         Util.wholeConfig = cfg;
-        
         let tipfn:string;
         if(cfg.language === 'en'){
             tipfn = pathMdl.resolve(__dirname , '../locales/msg_en.json');
@@ -78,18 +75,17 @@ export default class Parser{
             let fObj:MethodObj = this.functions[i];
             jsonObj.funcs.push({
                 title:fObj.name,
-                url:baseUrl + fObj.name + Util.wholeConfig.fileSuffix
+                url:Util.genLinkUrl(fObj.name)
             });
         }
         
-
         //处理类
         for(let i=0;i<this.classes.length;i++){
             let cObj:ClassObj = this.classes[i];
             Util.addType(cObj);
             let obj = {
                 title:cObj.name,
-                url:baseUrl + cObj.name + fileSuffix
+                url:Util.genLinkUrl(cObj.name)
             };
             //接口和类分别存储
             if(cObj.type === 'interface'){
@@ -105,7 +101,7 @@ export default class Parser{
             Util.addType(fObj);
             jsonObj.enums.push({
                 title:fObj.name,
-                url:baseUrl + fObj.name + fileSuffix
+                url:Util.genLinkUrl(fObj.name)
             });
         }
 

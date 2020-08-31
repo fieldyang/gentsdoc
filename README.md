@@ -205,3 +205,7 @@ datatype|数据类型
 请使用markdown转html工具进行html转换。
 ## 文档效果
 http://www.noomi.cn/webroute/api/closeConnection
+
+## 版本
++ 0.0.7
+修复class或interface定义不换行的bug

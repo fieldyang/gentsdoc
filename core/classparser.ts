@@ -3,7 +3,7 @@ import { MethodObj, PropObj, ClassObj, ParamObj } from "./types";
 import { Util } from "./util";
 
 class ClassParser extends BaseParser{
-    regExp:RegExp = /^\s*(export\s*)?(default\s*)?\s*(class|interface)\s+\S+(\s+(extends|implements)\s+\S+)?\{?[\r\n]/;
+    regExp:RegExp = /^\s*(export\s*)?(default\s*)?\s*(class|interface)\s+\S+(\s+(extends|implements)\s+\S+)?\{?/;
     
     /**
      * 解析
@@ -17,6 +17,7 @@ class ClassParser extends BaseParser{
         const regProp:RegExp = /^\s*(public|private\s+)?(static\s+)?\s*\S+(:?\s*\S+)?(\=\s*\S+)?;?/;
         
         let clsArr:string[] = this.handleClassName(srcStr);
+        
         let className = clsArr[1];
         let constructors:MethodObj[] = [];
         let methods:MethodObj[] = [];

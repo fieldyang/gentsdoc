@@ -260,12 +260,18 @@ class Util{
     }
 
     /**
+     * 产生link url
+     */
+    static genLinkUrl(url:string){
+        const basePath:string = Util.wholeConfig.baseUrl || '';
+        const suffix:string = Util.wholeConfig.suffix || '';
+        return basePath + url.toLowerCase() + suffix;
+    }
+    /**
      * 创建类型链接
      * @param type      类型
      */
     static genLink(type:string):string{
-        const basePath:string = this.wholeConfig.basePath || '';
-        const suffix:string = this.wholeConfig.suffix || '';
         let ind1:number = type.indexOf('<');
         let ind2:number = type.indexOf('>');
         let tp:string = type;
@@ -275,7 +281,8 @@ class Util{
         
         for(let co of this.types){
             if(co.name === tp){
-                let s:string = '[' + tp + '](' + basePath + tp + suffix + ')';
+                let s:string = '[' + tp + '](' + this.genLinkUrl(tp) + ')';
+                
                 if(tp !== type){
                     s = type.substr(0,ind1+1) + s + type.substr(ind2)
                 }

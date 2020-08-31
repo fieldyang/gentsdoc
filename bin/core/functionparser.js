@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FunctionParser = void 0;
 const baseparser_1 = require("./baseparser");
 const util_1 = require("./util");
 class FunctionParser extends baseparser_1.default {
     constructor() {
         super(...arguments);
-        this.regExp = /^\s*(async\s*)?function\s+\S+\s*\([\s\S]*\)(:\s*\S+)?/;
+        this.regExp = /^\s*(export)?\s*(async\s*)?function\s+\S+\s*\([\s\S]*\)(:\s*\S+)?/;
     }
     /**
      * 解析

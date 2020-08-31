@@ -3,7 +3,7 @@ import { Util } from "./util";
 import { ParamObj, MethodObj } from "./types";
 
 class FunctionParser extends BaseParser{
-    regExp:RegExp=/^\s*(async\s*)?function\s+\S+\s*\([\s\S]*\)(:\s*\S+)?/;
+    regExp:RegExp=/^\s*(export)?\s*(async\s*)?function\s+\S+\s*\([\s\S]*\)(:\s*\S+)?/;
     
     /**
      * 解析
@@ -158,6 +158,7 @@ class FunctionParser extends BaseParser{
                 }
                 pt = ' *&lt;' + pt + '&gt;* ';
                 writeStr = Util.addLine(writeStr,'+ ' + pa.name + pt + (pa.annotation||''));
+                
             }
             writeStr = Util.addLine(writeStr,'');
         }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Parser = void 0;
 const util_1 = require("./util");
 const classparser_1 = require("./classparser");
 const enumparser_1 = require("./enumparser");
@@ -33,8 +34,6 @@ class Parser {
     parse(cfg) {
         let srcPath = cfg.src;
         let dstPath = cfg.dst;
-        let baseUrl = cfg.baseUrl || '';
-        let fileSuffix = cfg.fileSuffix || '';
         const fsMdl = require('fs');
         const pathMdl = require('path');
         util_1.Util.wholeConfig = cfg;
@@ -74,7 +73,7 @@ class Parser {
             let fObj = this.functions[i];
             jsonObj.funcs.push({
                 title: fObj.name,
-                url: baseUrl + fObj.name + util_1.Util.wholeConfig.fileSuffix
+                url: util_1.Util.genLinkUrl(fObj.name)
             });
         }
         //处理类
@@ -83,7 +82,7 @@ class Parser {
             util_1.Util.addType(cObj);
             let obj = {
                 title: cObj.name,
-                url: baseUrl + cObj.name + fileSuffix
+                url: util_1.Util.genLinkUrl(cObj.name)
             };
             //接口和类分别存储
             if (cObj.type === 'interface') {
@@ -99,7 +98,7 @@ class Parser {
             util_1.Util.addType(fObj);
             jsonObj.enums.push({
                 title: fObj.name,
-                url: baseUrl + fObj.name + fileSuffix
+                url: util_1.Util.genLinkUrl(fObj.name)
             });
         }
         //写json文件

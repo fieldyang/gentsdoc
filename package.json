@@ -1,7 +1,7 @@
 {
   "name": "gentsdoc",
-  "version": "0.0.6",
-  "description": "generate ts document to markdown files",
+  "version": "0.0.7",
+  "description": "generate typescript document to markdown files",
   "main": "index.js",
   "bin": {
     "gentsdoc": "./bin/gen.js"

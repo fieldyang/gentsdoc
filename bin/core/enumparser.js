@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EnumParser = void 0;
 const baseparser_1 = require("./baseparser");
 const util_1 = require("./util");
 class EnumParser extends baseparser_1.default {

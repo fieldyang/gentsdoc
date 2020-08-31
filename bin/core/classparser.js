@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ClassParser = void 0;
 const baseparser_1 = require("./baseparser");
 const util_1 = require("./util");
 class ClassParser extends baseparser_1.default {
     constructor() {
         super(...arguments);
-        this.regExp = /^\s*(export\s*)?(default\s*)?\s*(class|interface)\s+\S+(\s+(extends|implements)\s+\S+)?\{?[\r\n]/;
+        this.regExp = /^\s*(export\s*)?(default\s*)?\s*(class|interface)\s+\S+(\s+(extends|implements)\s+\S+)?\{?/;
     }
     /**
      * 解析
@@ -160,7 +161,7 @@ class ClassParser extends baseparser_1.default {
         }
         //继承或实现接口
         if (cObj.extends) {
-            writeStr = util_1.Util.addLine(writeStr, '### ' + cObj.extends.substr(0, 1).toUpperCase() + cObj.extends.substr(1) + ':');
+            writeStr = util_1.Util.addLine(writeStr, '### ' + cObj.extends);
             writeStr = util_1.Util.addLine(writeStr, util_1.Util.genLink(cObj.superClass));
         }
         //构造函数

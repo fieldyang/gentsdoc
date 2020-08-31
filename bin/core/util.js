@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Util = void 0;
 class Util {
     /**
      * 添加类型到集合
@@ -240,12 +241,18 @@ class Util {
         });
     }
     /**
+     * 产生link url
+     */
+    static genLinkUrl(url) {
+        const basePath = Util.wholeConfig.baseUrl || '';
+        const suffix = Util.wholeConfig.suffix || '';
+        return basePath + url.toLowerCase() + suffix;
+    }
+    /**
      * 创建类型链接
      * @param type      类型
      */
     static genLink(type) {
-        const basePath = this.wholeConfig.basePath || '';
-        const suffix = this.wholeConfig.suffix || '';
         let ind1 = type.indexOf('<');
         let ind2 = type.indexOf('>');
         let tp = type;
@@ -254,7 +261,7 @@ class Util {
         }
         for (let co of this.types) {
             if (co.name === tp) {
-                let s = '[' + tp + '](' + basePath + tp + suffix + ')';
+                let s = '[' + tp + '](' + this.genLinkUrl(tp) + ')';
                 if (tp !== type) {
                     s = type.substr(0, ind1 + 1) + s + type.substr(ind2);
                 }
