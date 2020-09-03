@@ -1,6 +1,7 @@
 # Class Plugin
 ## 属性列表
 + [element](#PROP_element)
++ [extraDataName](#PROP_extraDataName)
 + [key](#PROP_key)
 + [modelId](#PROP_modelId)
 + [moduleId](#PROP_moduleId)
@@ -24,6 +25,12 @@
 <font class="modifier">public</font>  
 #### 数据类型
 <font class='datatype'>[Element](/webroute/api/element)</font>  
+### <a id="PROP_extraDataName">extraDataName</a>
+附加数据项名  
+#### 修饰符
+<font class="modifier">public</font>  
+#### 数据类型
+<font class='datatype'>string</font>  
 ### <a id="PROP_key">key</a>
 绑定的dom key  
 #### 修饰符

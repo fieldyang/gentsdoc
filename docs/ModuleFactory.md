@@ -73,7 +73,7 @@ void
 + data *&lt;<font class='datatype'>any</font>&gt;*          数据或数据url
   
 #### 返回值
-void  
+<font class='datatype'>Promise&lt;[Module](/webroute/api/module)&gt;</font>  
 ### <a id="METHOD_getMain">getMain()</a>
 #### 描述
 获取主模块  

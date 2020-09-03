@@ -43,6 +43,12 @@ lazy:懒加载(默认false)
 <font class='datatype'>any</font>  
 ### <a id="PROP_routes">routes</a>
 路由配置  
+class:模块类名,  
+moduleName:模块名  
+data:数据url  
+routes:子路由  
+onEnter:路由进入事件  
+onLeave:路由离开事件  
 #### 修饰符
 <font class="modifier">public</font>  
 #### 数据类型

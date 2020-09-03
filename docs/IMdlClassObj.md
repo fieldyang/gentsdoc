@@ -2,11 +2,13 @@
 ## 属性列表
 + [class](#PROP_class)
 + [data](#PROP_data)
++ [initing](#PROP_initing)
 + [instance](#PROP_instance)
 + [lazy](#PROP_lazy)
 + [name](#PROP_name)
 + [path](#PROP_path)
 + [singleton](#PROP_singleton)
++ [waitList](#PROP_waitList)
   
 ---
 ## 描述
@@ -25,6 +27,12 @@ class名或class
 <font class="modifier">public</font>  
 #### 数据类型
 <font class='datatype'>string|object</font>  
+### <a id="PROP_initing">initing</a>
+是否正在初始化  
+#### 修饰符
+<font class="modifier">public</font>  
+#### 数据类型
+<font class='datatype'>boolean</font>  
 ### <a id="PROP_instance">instance</a>
 实例  
 #### 修饰符
@@ -55,3 +63,9 @@ class文件路径
 <font class="modifier">public</font>  
 #### 数据类型
 <font class='datatype'>boolean</font>  
+### <a id="PROP_waitList">waitList</a>
+等待模块初始化的id列表  
+#### 修饰符
+<font class="modifier">public</font>  
+#### 数据类型
+<font class='datatype'>number[]</font>  

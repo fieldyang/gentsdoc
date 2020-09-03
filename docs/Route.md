@@ -2,6 +2,7 @@
 ## 属性列表
 + [children](#PROP_children)
 + [data](#PROP_data)
++ [dataUrl](#PROP_dataUrl)
 + [fullPath](#PROP_fullPath)
 + [id](#PROP_id)
 + [module](#PROP_module)
@@ -43,6 +44,12 @@
 <font class='datatype'>any</font>  
 #### 初始值
 {}  
+### <a id="PROP_dataUrl">dataUrl</a>
+模块绑定数据url  
+#### 修饰符
+<font class="modifier">public</font>  
+#### 数据类型
+<font class='datatype'>string</font>  
 ### <a id="PROP_fullPath">fullPath</a>
 完整路径  
 #### 修饰符

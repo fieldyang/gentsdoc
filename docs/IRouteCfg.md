@@ -1,5 +1,6 @@
 # Interface IRouteCfg
 ## 属性列表
++ [dataUrl](#PROP_dataUrl)
 + [module](#PROP_module)
 + [moduleName](#PROP_moduleName)
 + [notAdd](#PROP_notAdd)
@@ -15,6 +16,12 @@
 <font class="since">开始于 : v2.0.0</font>  
 路由配置  
 ## 属性
+### <a id="PROP_dataUrl">dataUrl</a>
+数据url  
+#### 修饰符
+<font class="modifier">public</font>  
+#### 数据类型
+<font class='datatype'>string</font>  
 ### <a id="PROP_module">module</a>
 路由模块id或模块类名，id为数字，类名为string  
 #### 修饰符

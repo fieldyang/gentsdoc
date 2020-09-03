@@ -3,7 +3,6 @@
 + [execFunc](#PROP_execFunc)
 + [fields](#PROP_fields)
 + [id](#PROP_id)
-+ [modelMap](#PROP_modelMap)
 + [replaceMap](#PROP_replaceMap)
   
 ## 方法列表
@@ -44,14 +43,6 @@
 <font class="modifier">public</font>  
 #### 数据类型
 <font class='datatype'>number</font>  
-### <a id="PROP_modelMap">modelMap</a>
-一个expression可能被多次使用，以modelid进行区分，针对不同的模型id构建对象{modelId:{fieldValue:,value:}  
-#### 修饰符
-<font class="modifier">public</font>  
-#### 数据类型
-<font class='datatype'>object</font>  
-#### 初始值
-{}  
 ### <a id="PROP_replaceMap">replaceMap</a>
 字符串替换map  
 #### 修饰符

@@ -201,11 +201,12 @@ datatype|数据类型
 + 增加类的属性值
 + 增加类属性的类型
 
+### 0.0.7
++ 修复class或interface定义不换行识别bug
++ 修复内部url生成bug
+
 ## 转换成html
 请使用markdown转html工具进行html转换。
 ## 文档效果
 http://www.noomi.cn/webroute/api/closeConnection
 
-## 版本
-+ 0.0.7
-修复class或interface定义不换行的bug

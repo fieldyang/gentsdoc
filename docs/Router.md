@@ -13,23 +13,18 @@
 + [waitList](#PROP_waitList)
   
 ## 方法列表
-+ [addPath](#METHOD_addPath)
 + [addRoute](#METHOD_addRoute)
 + [changeActive](#METHOD_changeActive)
 + [compare](#METHOD_compare)
 + [getRoute](#METHOD_getRoute)
++ [go](#METHOD_go)
 + [load](#METHOD_load)
 + [start](#METHOD_start)
   
 ---
 ## 描述
-<font class="since">开始于 : v2.0.0</font>  
-路由，主要用于模块间跳转，一个应用中存在一个router，多个route  
-采用修改页面hash方式进行路由历史控制，每个route 可设置onEnter事件(钩子) 和 onLeave事件(钩子)  
-回调调用的几个问题  
-onLeave事件在路由切换时响应，如果存在多级路由切换，则从底一直到相同祖先路由，都会进行onLeave事件响应  
-如：从/r1/r2/r3  到 /r1/r4/r5，则onLeave响应顺序为r3、r2  
-onEnter事件则从上往下执行  
+<font class="since">开始于 : v1.0</font>  
+路由类  
 ## 属性
 ### <a id="PROP_activeDomMap">activeDomMap</a>
 激活Dom map，格式为{moduleId:[]}  
@@ -116,16 +111,6 @@ path等待链表
 #### 初始值
 []  
 ## 方法
-### <a id="METHOD_addPath">addPath(path)</a>
-#### 描述
-往路由管理器中添加路径  
-#### 修饰符
-<font class="modifier">public  static  async</font>  
-#### 参数
-+ path *&lt;<font class='datatype'>string</font>&gt;* 	路径
-  
-#### 返回值
-void  
 ### <a id="METHOD_addRoute">addRoute(route,parent)</a>
 #### 描述
 添加路由  
@@ -152,7 +137,7 @@ void
 #### 描述
 比较两个路径对应的路由链  
 #### 修饰符
-<font class="modifier">public  static</font>  
+<font class="modifier">private  static</font>  
 #### 参数
 + path1 *&lt;<font class='datatype'>string</font>&gt;* 	第一个路径
 + path2 *&lt;<font class='datatype'>string</font>&gt;* 	第二个路径
@@ -171,18 +156,28 @@ void
   
 #### 返回值
 <font class='datatype'>Array&lt;[Route](/webroute/api/route)&gt; </font>  
+### <a id="METHOD_go">go(path)</a>
+#### 描述
+把路径加入跳转列表(准备跳往该路由)  
+#### 修饰符
+<font class="modifier">public  static  async</font>  
+#### 参数
++ path *&lt;<font class='datatype'>string</font>&gt;* 	路径
+  
+#### 返回值
+void  
 ### <a id="METHOD_load">load()</a>
 #### 描述
 启动加载  
 #### 修饰符
-<font class="modifier">public  static  async</font>  
+<font class="modifier">private  static  async</font>  
 #### 返回值
 void  
 ### <a id="METHOD_start">start(path)</a>
 #### 描述
 切换路由  
 #### 修饰符
-<font class="modifier">public  static  async</font>  
+<font class="modifier">private  static  async</font>  
 #### 参数
 + path *&lt;<font class='datatype'>string</font>&gt;* 	路径
   

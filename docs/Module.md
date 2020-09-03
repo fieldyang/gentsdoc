@@ -171,6 +171,8 @@ false
 <font class="modifier">public</font>  
 #### 数据类型
 <font class='datatype'>[ModelFactory](/webroute/api/modelfactory)</font>  
+#### 初始值
+new ModelFactory()  
 ### <a id="PROP_moduleMap">moduleMap</a>
 子模块名id映射，如 {modulea:1}  
 #### 修饰符
