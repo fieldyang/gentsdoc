@@ -12,7 +12,7 @@
     //是否显示私有属性和方法
     "showPrivate":true,         
     //默认版本号，如果有@since，则显示@since值，否则显示defaultSince，如果不设置，则不显示
-    "defaultSince":"2.0.0",
+    "defaultSince":"0.0.1",
     //不添加到文档的注释标签数组
     "excludeTags":["author","date"]
 }

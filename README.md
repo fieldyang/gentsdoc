@@ -203,7 +203,7 @@ datatype|数据类型
 
 ### 0.0.7
 + 修复class或interface定义不换行识别bug
-+ 修复内部url生成bug
++ 修复内部url生成错误
 
 ## 转换成html
 请使用markdown转html工具进行html转换。
