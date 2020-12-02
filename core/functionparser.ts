@@ -126,6 +126,18 @@ class FunctionParser extends BaseParser{
             writeStr = Util.addLine(writeStr,'<font class="since">' + Util.tips.since + ' : v' + since + '</font>');
         }
         delete cObj.annotation['since'];
+        //废弃于
+        if(cObj.annotation['deprecated']){
+            let o = cObj.annotation['deprecated'];
+            if(o && typeof o === 'object'){
+                writeStr = Util.addLine(writeStr,'<font class="deprecated">' + Util.tips.deprecated + " : v" + o.v + '</font>');
+                if(o.reason){
+                    writeStr = Util.addLine(writeStr,'<div class="deprecatedtip">' + o.reason + '</div>');
+                }    
+            }
+            //删除deprecated
+            delete cObj.annotation['deprecated'];
+        }
         //async
         if(cObj.async){
             writeStr = Util.addLine(writeStr,Util.tips.modifier);

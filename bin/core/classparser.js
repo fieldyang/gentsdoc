@@ -146,13 +146,27 @@ class ClassParser extends baseparser_1.default {
         writeStr = util_1.Util.addLine(writeStr, '---');
         //类描述
         writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.desc);
-        //开始于
-        let psince = cObj.annotation['since'] || util_1.Util.wholeConfig.defaultSince;
-        if (psince) {
-            writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + psince + '</font>');
+        //废弃于
+        if (cObj.annotation['deprecated']) {
+            let o = cObj.annotation['deprecated'];
+            if (o && typeof o === 'object') {
+                writeStr = util_1.Util.addLine(writeStr, '<font class="deprecated">' + util_1.Util.tips.deprecated + " : v" + o.v + '</font>');
+                if (o.reason) {
+                    writeStr = util_1.Util.addLine(writeStr, '<font class="deprecatedtip">' + o.reason + '</font>');
+                }
+            }
+            //删除deprecated
+            delete cObj.annotation['deprecated'];
         }
-        //删除since
-        delete cObj.annotation['since'];
+        else {
+            //开始于
+            let psince = cObj.annotation['since'] || util_1.Util.wholeConfig.defaultSince;
+            if (psince) {
+                writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + psince + '</font>');
+            }
+            //删除since
+            delete cObj.annotation['since'];
+        }
         for (let o in cObj.annotation) {
             if (o !== 'default') {
                 writeStr = util_1.Util.addLine(writeStr, '### ' + o);

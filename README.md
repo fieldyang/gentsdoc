@@ -26,6 +26,7 @@ gentsdoc支持class、interface、class method、class property、function(外�
 标签名|作用于|描述
 -|-|-
 @since|all|起始版本号
+@deprecated|all|废弃于 后面给版本号，废弃说明换行写，可以多行
 @param|class method,function|参数
 @returns|class method,function|返回值
 @throws|class method,function|异常
@@ -43,7 +44,7 @@ gentsdoc支持class、interface、class method、class property、function(外�
  */ 
 ```
 注释中支持markdown的样式，如代码、表格、列表等，只需要按照markdown的方式写即可。 
-@since
+
 ### 类(接口)的注释
 类和接口的注释一样，注释第一段显示为描述(Description)，后面可以追加用户想追加的标签，如下例中的@remark,@example，文档中会显示remark和example标题。
 ```typescript
@@ -108,6 +109,10 @@ propName:string;
  *
  * @author     fieldyang    默认不添加到文档，参考excludeTags配置
  * @date       2020-01-20   默认不添加到文档
+ * @since      0.5.5
+ * @deprecared 1.2.3
+ *              这个是废弃的说明，可以多行
+ *              继续说明废弃原因
 */
 class AopPointcut{
     /**
@@ -192,6 +197,8 @@ css类名|作用于
 since|开始于
 modifier|修饰符
 datatype|数据类型
+deprecated|废弃于
+deprecatedtip|废弃说明
 
 ## 版本
 ### 0.0.6
@@ -204,6 +211,9 @@ datatype|数据类型
 ### 0.0.7
 + 修复class或interface定义不换行识别bug
 + 修复内部url生成错误
+
+#0.0.8
++ 增加deprecated(废弃)注释
 
 ## 转换成html
 请使用markdown转html工具进行html转换。

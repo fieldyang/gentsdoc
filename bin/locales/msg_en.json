@@ -1,5 +1,6 @@
 {
     "since":"Since",
+    "deprecated":"Deprecated",
     "modifier":"Modifier",
     "desc":"Description",
     "param":"Params",

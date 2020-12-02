@@ -7,7 +7,7 @@ export default class BaseParser{
     regExp:RegExp;
     
     /**
-     * 匹配源串中对应郑则式的位置
+     * 匹配源串中对应正则式的位置
      * @param srcStr 
      * @returns     匹配位置
      */

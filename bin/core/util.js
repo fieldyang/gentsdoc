@@ -108,7 +108,7 @@ class Util {
                         return null;
                     }
                 }
-                if (Util.Annotation[noteTag] !== undefined) { //标签处理方法被
+                if (Util.Annotation[noteTag] !== undefined) { //标签处理方法存在
                     Util.Annotation[noteTag](obj, str);
                 }
                 else { //标签处理方法没有定义
@@ -307,29 +307,37 @@ Util.Annotation = {
         //截断noteStr
         noteStr = noteStr.substr(paramName.length + 1);
         let params = item.params;
-        for (let i = 0; i < params.length; i++) {
-            if (params[i].name === paramName) {
-                params[i].annotation = noteStr;
-                return;
+        if (params !== undefined) {
+            for (let i = 0; i < params.length; i++) {
+                if (params[i].name === paramName) {
+                    params[i].annotation = noteStr;
+                    return;
+                }
             }
         }
     },
-    // /**
-    //  * 返回注释
-    //  * @param item 方法或函数对象
-    //  * @param noteStr   注释内容
-    //  */
-    // returns:function(item:any,noteStr?:string){
-    //     item.annotation['returns'] = noteStr;
-    // },
-    // /**
-    //  * 抛出异常注释
-    //  * @param item 方法或函数对象
-    //  * @param noteStr   注释内容
-    //  */
-    // throws:function(item:any,noteStr?:string){
-    //     item.annotation['throws'] = noteStr;
-    // },
+    /**
+     * 废弃注解
+     * @param item      方法或函数对象
+     * @param noteStr   注释内容
+     */
+    deprecated: function (item, noteStr) {
+        noteStr = noteStr.trim();
+        let lineChar = noteStr.indexOf('\r\n') !== -1 ? '\r\n' : '\n';
+        let sa = noteStr.split(lineChar);
+        let ver = sa[0].trim();
+        let reason;
+        if (sa.length > 1) {
+            reason = sa.slice(1).join(lineChar).trim();
+        }
+        if (!item.annotation) {
+            item.annotation = {};
+        }
+        item.annotation["deprecated"] = {
+            v: ver,
+            reason: reason
+        };
+    },
     /**
      * 整段注释不加入文档
      * @param item      注释对象
