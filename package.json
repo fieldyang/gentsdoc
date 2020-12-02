@@ -6,6 +6,11 @@
   "bin": {
     "gentsdoc": "./bin/gen.js"
   },
+  "files": [
+    "bin/gen.js",
+    "bin/core/**/*.js",
+    "bin/locales/**/*.json"
+  ],
   "scripts": {
     "build": "tsc"
   },
