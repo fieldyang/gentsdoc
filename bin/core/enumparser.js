@@ -84,13 +84,7 @@ class EnumParser extends baseparser_1.default {
         writeStr = util_1.Util.addLine(writeStr, '# Enum ' + cObj.name);
         //描述
         writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.desc);
-        //开始于
-        let psince = cObj.annotation['since'] || util_1.Util.wholeConfig.defaultSince;
-        if (psince) {
-            writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + psince + '</font>');
-        }
-        //删除since
-        delete cObj.annotation['since'];
+        this.handleSinceAndDeprecated(cObj, writeStr);
         for (let o in cObj.annotation) {
             if (o !== 'default') {
                 writeStr = util_1.Util.addLine(writeStr, '### ' + o);
@@ -103,12 +97,7 @@ class EnumParser extends baseparser_1.default {
             writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.enumvalue);
             for (let p of cObj.props) {
                 writeStr = util_1.Util.addLine(writeStr, '#### ' + p.name);
-                //开始于
-                let since = p.annotation['since'];
-                if (since) {
-                    writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + since + '</font>');
-                }
-                delete p.annotation['since'];
+                this.handleSinceAndDeprecated(cObj, writeStr);
                 for (let o in p.annotation) {
                     if (o !== 'default') {
                         writeStr = util_1.Util.addLine(writeStr, '##### ' + o);

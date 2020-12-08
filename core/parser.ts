@@ -1,10 +1,11 @@
 
-import { MethodObj, PropObj, ClassObj, EnumObj } from "./types";
+import { MethodObj, ClassObj, EnumObj } from "./types";
 import {Util} from "./util";
 import {ClassParser} from "./classparser";
 import {EnumParser} from "./enumparser";
 import {FunctionParser} from "./functionparser";
 import BaseParser from "./baseparser";
+import { Tip } from "./tip";
 /**
  * 解析器
  */
@@ -37,14 +38,8 @@ export default class Parser{
         const pathMdl = require('path');
 
         Util.wholeConfig = cfg;
-        let tipfn:string;
-        if(cfg.language === 'en'){
-            tipfn = pathMdl.resolve(__dirname , '../locales/msg_en.json');
-        }else{
-            tipfn = pathMdl.resolve(__dirname , '../locales/msg_zh.json');
-        }
         //提示
-        Util.tips = require('json5').parse(fsMdl.readFileSync(tipfn,'utf8'));
+        Util.tips = Tip[cfg.language||'zh'];
         
         this.handleDir(srcPath);
         if(!fsMdl.existsSync(Util.wholeConfig.src)){

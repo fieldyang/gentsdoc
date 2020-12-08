@@ -1,14 +1,15 @@
-import{Parser} from './core/parser'
+import { FileGenerator } from './core/filegenerator';
 
-let parser:Parser = new Parser();
-console.log('开始创建markdown文件...');
-require('fs').readFile("genconfig.json",'utf8',(err,data)=>{
-    if(err){
-        console.log("创建markdown文件失败！");
-        throw err; 
-    }else{
-        let obj = require('json5').parse(data);
-        parser.parse(obj);
-        console.log('完成markdown文件创建!');
+console.log("Generating files ...");
+    let r = require('fs').readFileSync(require('path').posix.resolve("genconfig.json"), 'utf8');
+    let obj;
+    try{
+        obj = require('json5').parse(r);
+    }catch(e){
+        console.log("Config file is wrong,generating file failure!");
     }
-});
+    FileGenerator.genMdFiles(obj);
+    if(obj.html){
+        FileGenerator.markToHtml(obj);   
+    }
+    console.log("Generate files successfully!");

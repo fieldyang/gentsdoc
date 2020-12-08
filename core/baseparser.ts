@@ -1,4 +1,5 @@
 import { BaseObj } from "./types";
+import { Util } from "./util";
 
 export default class BaseParser{
     /**
@@ -30,5 +31,33 @@ export default class BaseParser{
      */
     write(BaseObj:any){
 
+    }
+
+    /**
+     * 处理开始于和废弃于
+     * @param cObj      class function等
+     * @param writeStr  待写字符串
+     */
+    handleSinceAndDeprecated(cObj,writeStr){
+        //废弃于
+        if(cObj.annotation['deprecated']){
+            let o = cObj.annotation['deprecated'];
+            if(o && typeof o === 'object'){
+                writeStr = Util.addLine(writeStr,'<font class="deprecated">' + Util.tips.deprecated + " : v" + o.v + '</font>');
+                if(o.reason){
+                    writeStr = Util.addLine(writeStr,'<font class="deprecatedtip">' + o.reason + '</font>');
+                }    
+            }
+            //删除deprecated
+            delete cObj.annotation['deprecated'];
+        }else{
+            //开始于
+            let psince:string = cObj.annotation['since']||Util.wholeConfig.defaultSince;
+            if(psince){
+                writeStr = Util.addLine(writeStr,'<font class="since">' + Util.tips.since + ' : v' + psince + '</font>');
+            }
+            //删除since
+            delete cObj.annotation['since'];
+        }
     }
 }

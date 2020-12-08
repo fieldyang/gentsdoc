@@ -5,6 +5,7 @@ const util_1 = require("./util");
 const classparser_1 = require("./classparser");
 const enumparser_1 = require("./enumparser");
 const functionparser_1 = require("./functionparser");
+const tip_1 = require("./tip");
 /**
  * 解析器
  */
@@ -37,15 +38,8 @@ class Parser {
         const fsMdl = require('fs');
         const pathMdl = require('path');
         util_1.Util.wholeConfig = cfg;
-        let tipfn;
-        if (cfg.language === 'en') {
-            tipfn = pathMdl.resolve(__dirname, '../locales/msg_en.json');
-        }
-        else {
-            tipfn = pathMdl.resolve(__dirname, '../locales/msg_zh.json');
-        }
         //提示
-        util_1.Util.tips = require('json5').parse(fsMdl.readFileSync(tipfn, 'utf8'));
+        util_1.Util.tips = tip_1.Tip[cfg.language || 'zh'];
         this.handleDir(srcPath);
         if (!fsMdl.existsSync(util_1.Util.wholeConfig.src)) {
             throw new Error('file is not exist');

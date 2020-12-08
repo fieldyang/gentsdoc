@@ -121,14 +121,15 @@ class ClassParser extends baseparser_1.default {
         let writeStr = '';
         let dstPath = util_1.Util.wholeConfig.dst;
         let showPrivate = util_1.Util.wholeConfig.showPrivate || false;
-        let fn = pathMdl.resolve(dstPath, cObj.name + '.md');
+        let className = cObj.name;
+        let fn = pathMdl.resolve(dstPath, className + '.md');
         //类名
-        writeStr = util_1.Util.addLine(writeStr, '# ' + (cObj.clsType === 'class' ? 'Class ' : 'Interface ') + cObj.name);
+        writeStr = util_1.Util.addLine(writeStr, '# ' + (cObj.clsType === 'class' ? 'Class ' : 'Interface ') + className);
         //属性列表
         if (cObj.props.length > 0) {
             writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.proplist);
             for (let p of cObj.props) {
-                writeStr = util_1.Util.addLine(writeStr, '+ [' + p.name + '](#PROP_' + p.name + ')');
+                writeStr = util_1.Util.addLine(writeStr, '+ [' + p.name + '](#PROP_' + className + '_' + p.name + ')');
             }
             //加一个换行符
             writeStr = util_1.Util.addLine(writeStr, '');
@@ -137,36 +138,18 @@ class ClassParser extends baseparser_1.default {
         if (cObj.methods.length > 0) {
             writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.methodlist);
             for (let p of cObj.methods) {
-                writeStr = util_1.Util.addLine(writeStr, '+ [' + p.name + '](#METHOD_' + p.name + ')');
+                writeStr = util_1.Util.addLine(writeStr, '+ [' + p.name + '](#METHOD_' + className + '_' + p.name + ')');
             }
             //加一个换行符
             writeStr = util_1.Util.addLine(writeStr, '');
         }
-        //分割线
-        writeStr = util_1.Util.addLine(writeStr, '---');
+        //分割线,直接转换成html时不需要
+        if (!util_1.Util.wholeConfig.html) {
+            writeStr = util_1.Util.addLine(writeStr, '---');
+        }
         //类描述
         writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.desc);
-        //废弃于
-        if (cObj.annotation['deprecated']) {
-            let o = cObj.annotation['deprecated'];
-            if (o && typeof o === 'object') {
-                writeStr = util_1.Util.addLine(writeStr, '<font class="deprecated">' + util_1.Util.tips.deprecated + " : v" + o.v + '</font>');
-                if (o.reason) {
-                    writeStr = util_1.Util.addLine(writeStr, '<font class="deprecatedtip">' + o.reason + '</font>');
-                }
-            }
-            //删除deprecated
-            delete cObj.annotation['deprecated'];
-        }
-        else {
-            //开始于
-            let psince = cObj.annotation['since'] || util_1.Util.wholeConfig.defaultSince;
-            if (psince) {
-                writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + psince + '</font>');
-            }
-            //删除since
-            delete cObj.annotation['since'];
-        }
+        this.handleSinceAndDeprecated(cObj, writeStr);
         for (let o in cObj.annotation) {
             if (o !== 'default') {
                 writeStr = util_1.Util.addLine(writeStr, '### ' + o);
@@ -200,7 +183,7 @@ class ClassParser extends baseparser_1.default {
                     pstr += ']';
                 }
                 ms += pstr + ')';
-                writeStr = util_1.Util.addLine(writeStr, '### <a id="METHOD_' + p.name + '">' + ms + '</a>');
+                writeStr = util_1.Util.addLine(writeStr, '### <a id="METHOD_' + className + '_' + p.name + '">' + ms + '</a>');
                 //参数
                 writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.param);
                 for (let pa of p.params) {
@@ -223,13 +206,8 @@ class ClassParser extends baseparser_1.default {
             //属性描述
             writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.props);
             for (let p of cObj.props) {
-                writeStr = util_1.Util.addLine(writeStr, '### <a id="PROP_' + p.name + '">' + p.name + '</a>');
-                //开始于
-                let since = p.annotation['since'];
-                if (since) {
-                    writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + since + '</font>');
-                }
-                delete p.annotation['since'];
+                writeStr = util_1.Util.addLine(writeStr, '### <font id="PROP_' + className + '_' + p.name + '">' + p.name + '</font>');
+                this.handleSinceAndDeprecated(cObj, writeStr);
                 //描述
                 for (let o in p.annotation) {
                     if (o !== 'default') {
@@ -289,13 +267,9 @@ class ClassParser extends baseparser_1.default {
                     pstr += ']';
                 }
                 ms += pstr + ')';
-                writeStr = util_1.Util.addLine(writeStr, '### <a id="METHOD_' + p.name + '">' + ms + '</a>');
-                //开始于
-                let since = p.annotation['since'];
-                if (since) {
-                    writeStr = util_1.Util.addLine(writeStr, '<font class="since">' + util_1.Util.tips.since + ' : v' + since + '</font>');
-                }
-                delete p.annotation['since'];
+                writeStr = util_1.Util.addLine(writeStr, '### <font id="METHOD_' + className + '_' + p.name + '">' + ms + '</font>');
+                //处理since和deprecated
+                this.handleSinceAndDeprecated(cObj, writeStr);
                 // public private static async
                 //注释
                 if (p.annotation) {

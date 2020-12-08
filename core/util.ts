@@ -23,7 +23,12 @@ class Util{
      * @param type  待添加类型
      */
     static addType(type:BaseObj){
-        this.types.push(type);     
+        this.types.push(type);
+        this.types.sort((a,b)=>{
+            if(a.name > b.name){
+                return -1;
+            }
+        });
     }
     /**
      * 处理注释
@@ -263,30 +268,24 @@ class Util{
      * 产生link url
      */
     static genLinkUrl(url:string){
-        const basePath:string = Util.wholeConfig.baseUrl || '';
-        const suffix:string = Util.wholeConfig.suffix || '';
-        return basePath + url.toLowerCase() + suffix;
+        if(Util.wholeConfig.html){
+            return '#' + url;
+        }else{
+            const basePath:string = Util.wholeConfig.baseUrl || '';
+            const suffix:string = Util.wholeConfig.suffix || '';
+            return basePath + url.toLowerCase() + suffix;
+        }
+        
     }
     /**
      * 创建类型链接
      * @param type      类型
      */
     static genLink(type:string):string{
-        let ind1:number = type.indexOf('<');
-        let ind2:number = type.indexOf('>');
-        let tp:string = type;
-        if(ind1 !== -1 && ind2 !== -1){
-            tp = type.substr(ind1+1,ind2-ind1-1);
-        }
-        
         for(let co of this.types){
-            if(co.name === tp){
-                let s:string = '[' + tp + '](' + this.genLinkUrl(tp) + ')';
-                
-                if(tp !== type){
-                    s = type.substr(0,ind1+1) + s + type.substr(ind2)
-                }
-                type = s;
+            let ind=0;
+            if((ind=type.indexOf(co.name)) !== -1){
+                type = type.substr(0,ind) + '[' + co.name + '](' + this.genLinkUrl(co.name) + ')' + type.substr(ind+co.name.length);
                 break;
             }
         }

@@ -1,18 +1,19 @@
 ## gentsdoc
-该工具用于把ts文件生成markdown类型的文档，利用输出文件，后续可以通过markdown转html文件，同时可以根据数据结果生成全文档html页面，对vue/react/nodom等框架的路由支持较好。
+该工具用于把ts文件生成markdown类型的文档，也可生成独立的api.html文件，如果生成markdown文档，后续可以通过markdown转html文件，同时可以根据数据结果生成全文档html页面，对vue/react/nodom等框架的路由支持较好。
 
 ## 安装
 1. 安装gentsdoc，输入 npm install gentsdoc -g。
 
 ## 用法
 1. 输入gentsdoc -i，进行配置文件初始化，初始化生成genconfig.json文件，用户可修改配置文件。  
-2. 输入gentsdoc -g，生成markdown文件。
+2. 输入gentsdoc -g，生成文档。
 
 ## genconfig.json文件
 配置项说明：
 + language：语言 zh(中文) en(英文)
 + src：源ts文件目录
 + dst:存储markdown文件的目录
++ html:如果需要转html，则此项必需配置，html格式为:{dst:html存放路径,title:html标题}
 + baseUrl：基础路径，生成文件内部和文件间超链接时需要
 + fileSuffix：路径后缀名，比如".html"，如果最后由markdown文件生成html文件，则可能需要url指向为html文件
 + showPrivate：是否显示私有属性和方法
@@ -212,11 +213,19 @@ deprecatedtip|废弃说明
 + 修复class或interface定义不换行识别bug
 + 修复内部url生成错误
 
-#0.0.8
+### 0.0.8
 + 增加deprecated(废弃)注释
+
+### 0.0.9 
++ 增加一键生成html文档，需要在配置文件中配置html项；
++ 修复map内自定义类型无法链接bug。
+
+### 0.1.0
++ 更改readme。 
 
 ## 转换成html
 请使用markdown转html工具进行html转换。
 ## 文档效果
-http://www.noomi.cn/webroute/api/closeConnection
++ 生成 markdown 转换后: http://www.noomi.cn/webroute/api/closeConnection
++ 直接生成html格式 : http://www.noomi.cn/relaen/api.html
 
