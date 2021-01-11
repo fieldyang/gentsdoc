@@ -5,15 +5,12 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outDir":"./bin",
-    // "declaration": true,
-    // "declarationDir":"./dist/types"
+    "outDir":"./bin"
   },
   "include":[
     "./index.ts",
     "./core/*.ts"
   ],
   "exclude": [
-    // "parser.ts"
   ]
 }

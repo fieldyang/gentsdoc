@@ -115,28 +115,28 @@ class FunctionParser extends baseparser_1.default {
         ms += pstr + ')';
         //函数名
         writeStr = util_1.Util.addLine(writeStr, '# Function ' + ms);
-        this.handleSinceAndDeprecated(cObj, writeStr);
+        writeStr = this.handleSinceAndDeprecated(cObj, writeStr);
         //async
         if (cObj.async) {
-            writeStr = util_1.Util.addLine(writeStr, util_1.Util.tips.modifier);
+            writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.modifier);
             writeStr = util_1.Util.addLine(writeStr, '<font class="modifier">async</font>');
         }
         //注释
         if (cObj.annotation) {
-            writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.desc);
+            writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.desc);
             for (let o in cObj.annotation) {
                 if (o === 'returns' || o === 'throws') {
                     continue;
                 }
                 if (o !== 'default') {
-                    writeStr = util_1.Util.addLine(writeStr, '### ' + o);
+                    writeStr = util_1.Util.addLine(writeStr, '##### ' + o);
                 }
                 writeStr = util_1.Util.addLine(writeStr, cObj.annotation[o]);
             }
         }
         //参数
         if (cObj.params.length > 0) {
-            writeStr = util_1.Util.addLine(writeStr, '## 参数');
+            writeStr = util_1.Util.addLine(writeStr, '#### 参数');
             for (let pa of cObj.params) {
                 let pt = pa.type;
                 if (pt) {
@@ -151,7 +151,7 @@ class FunctionParser extends baseparser_1.default {
             writeStr = util_1.Util.addLine(writeStr, '');
         }
         //返回值
-        writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.returns);
+        writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.returns);
         if (cObj.returns) {
             let msg = util_1.Util.genLink(cObj.returns);
             writeStr = util_1.Util.addLine(writeStr, msg);
@@ -164,7 +164,7 @@ class FunctionParser extends baseparser_1.default {
         }
         //异常
         if (cObj.annotation['throws']) {
-            writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.wholeConfig.throws);
+            writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.wholeConfig.throws);
             writeStr = util_1.Util.addLine(writeStr, cObj.annotation['throws']);
         }
         fsMdl.writeFileSync(fn, writeStr);

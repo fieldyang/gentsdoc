@@ -200,6 +200,7 @@ modifier|修饰符
 datatype|数据类型
 deprecated|废弃于
 deprecatedtip|废弃说明
+notes|注释，用于枚举类型的注释内容样式
 
 ## 版本
 ### 0.0.6
@@ -222,6 +223,11 @@ deprecatedtip|废弃说明
 
 ### 0.1.0
 + 更改readme。 
+
+### 0.1.1
++ 修复since和deprecated内容bug;
++ 修改html样式表；
++ 修改枚举类型生成的内容。 
 
 ## 转换成html
 请使用markdown转html工具进行html转换。

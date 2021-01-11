@@ -14,6 +14,7 @@ let Tip = {
         "methodlist":"方法列表",
         "enumvalue":"枚举值",
         "initvalue":"初始值",
+        "value":"值",
         "constructor":"构造方法"
     },
     en:{
@@ -31,6 +32,7 @@ let Tip = {
         "methodlist":"Method List",
         "enumvalue":"Enum Value",
         "initvalue":"Init Value",
+        "value":"Value",
         "constructor":"Constructor"
     }
     

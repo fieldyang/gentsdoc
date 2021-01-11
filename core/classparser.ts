@@ -44,7 +44,6 @@ class ClassParser extends BaseParser{
             if(line === ''){
                 continue;
             }
-            
 
             let rm = regMethod.exec(line);
             let rp = regProp.exec(line);
@@ -158,7 +157,7 @@ class ClassParser extends BaseParser{
         
         //类描述
         writeStr = Util.addLine(writeStr,'## ' + Util.tips.desc);
-        this.handleSinceAndDeprecated(cObj,writeStr);
+        writeStr = this.handleSinceAndDeprecated(cObj,writeStr);
         for(let o in cObj.annotation){
             if(o !== 'default'){
                 writeStr = Util.addLine(writeStr,'### ' + o);
@@ -215,9 +214,7 @@ class ClassParser extends BaseParser{
             writeStr = Util.addLine(writeStr,'## ' + Util.tips.props);
             for(let p of cObj.props){
                 writeStr = Util.addLine(writeStr,'### <font id="PROP_' + className + '_' + p.name + '">' + p.name + '</font>');
-                
-                this.handleSinceAndDeprecated(cObj,writeStr);
-
+                writeStr = this.handleSinceAndDeprecated(p,writeStr);
                 //描述
                 for(let o in p.annotation){
                     if(o !== 'default'){
@@ -285,7 +282,7 @@ class ClassParser extends BaseParser{
                 ms += pstr + ')';
                 writeStr = Util.addLine(writeStr,'### <font id="METHOD_' + className + '_' + p.name + '">' + ms + '</font>');
                 //处理since和deprecated
-                this.handleSinceAndDeprecated(cObj,writeStr);
+                writeStr = this.handleSinceAndDeprecated(p,writeStr);
                 
                 // public private static async
                 //注释

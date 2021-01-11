@@ -120,22 +120,22 @@ class FunctionParser extends BaseParser{
         ms += pstr + ')';
         //函数名
         writeStr = Util.addLine(writeStr,'# Function ' + ms);
-        this.handleSinceAndDeprecated(cObj,writeStr);
+        writeStr = this.handleSinceAndDeprecated(cObj,writeStr);
         //async
         if(cObj.async){
-            writeStr = Util.addLine(writeStr,Util.tips.modifier);
+            writeStr = Util.addLine(writeStr,'#### ' + Util.tips.modifier);
             writeStr = Util.addLine(writeStr,'<font class="modifier">async</font>');
         }
         
         //注释
         if(cObj.annotation){
-            writeStr = Util.addLine(writeStr,'## ' + Util.tips.desc);
+            writeStr = Util.addLine(writeStr,'#### ' + Util.tips.desc);
             for(let o in cObj.annotation){
                 if(o === 'returns' || o==='throws'){
                     continue;
                 }
                 if(o !== 'default'){
-                    writeStr = Util.addLine(writeStr,'### ' + o);
+                    writeStr = Util.addLine(writeStr,'##### ' + o);
                 }
                 writeStr = Util.addLine(writeStr,cObj.annotation[o]);
             }
@@ -143,7 +143,7 @@ class FunctionParser extends BaseParser{
         
         //参数
         if(cObj.params.length>0){
-            writeStr = Util.addLine(writeStr,'## 参数');
+            writeStr = Util.addLine(writeStr,'#### 参数');
             for(let pa of cObj.params){
                 let pt = pa.type;
                 if(pt){
@@ -159,7 +159,7 @@ class FunctionParser extends BaseParser{
         }
         
         //返回值
-        writeStr = Util.addLine(writeStr,'## ' + Util.tips.returns);
+        writeStr = Util.addLine(writeStr,'#### ' + Util.tips.returns);
         if(cObj.returns){
             let msg:string = Util.genLink(cObj.returns);
             writeStr = Util.addLine(writeStr,msg);
@@ -172,7 +172,7 @@ class FunctionParser extends BaseParser{
 
         //异常
         if(cObj.annotation['throws']){
-            writeStr = Util.addLine(writeStr,'## ' + Util.wholeConfig.throws);
+            writeStr = Util.addLine(writeStr,'#### ' + Util.wholeConfig.throws);
             writeStr = Util.addLine(writeStr,cObj.annotation['throws']);
         }
         fsMdl.writeFileSync(fn,writeStr);

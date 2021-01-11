@@ -83,36 +83,26 @@ class EnumParser extends baseparser_1.default {
         //类名
         writeStr = util_1.Util.addLine(writeStr, '# Enum ' + cObj.name);
         //描述
-        writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.desc);
-        this.handleSinceAndDeprecated(cObj, writeStr);
+        writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.desc);
+        writeStr = this.handleSinceAndDeprecated(cObj, writeStr);
         for (let o in cObj.annotation) {
             if (o !== 'default') {
-                writeStr = util_1.Util.addLine(writeStr, '### ' + o);
+                writeStr = util_1.Util.addLine(writeStr, '##### ' + o);
             }
             writeStr = util_1.Util.addLine(writeStr, cObj.annotation[o]);
         }
         //枚举值
         if (cObj.props.length > 0) {
             //属性描述
-            writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.enumvalue);
+            writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.enumvalue);
             for (let p of cObj.props) {
-                writeStr = util_1.Util.addLine(writeStr, '#### ' + p.name);
-                this.handleSinceAndDeprecated(cObj, writeStr);
                 for (let o in p.annotation) {
-                    if (o !== 'default') {
-                        writeStr = util_1.Util.addLine(writeStr, '##### ' + o);
-                    }
-                    writeStr = util_1.Util.addLine(writeStr, p.annotation[o]);
+                    // if(o !== 'default'){
+                    //     writeStr = Util.addLine(writeStr,'##### ' + o);
+                    // }
+                    writeStr = util_1.Util.addLine(writeStr, "<font class='notes'>// " + p.annotation[o] + "</font>");
                 }
-                if (p.type) {
-                    writeStr = util_1.Util.addLine(writeStr, '#### ' + util_1.Util.tips.datatype);
-                    let pt = util_1.Util.genLink(p.type);
-                    writeStr = util_1.Util.addLine(writeStr, pt);
-                }
-                if (p.value) {
-                    writeStr = util_1.Util.addLine(writeStr, '##### ' + util_1.Util.tips.initvalue);
-                    writeStr = util_1.Util.addLine(writeStr, p.value);
-                }
+                writeStr = util_1.Util.addLine(writeStr, p.name + ' = ' + p.value);
             }
         }
         fsMdl.writeFileSync(fn, writeStr);

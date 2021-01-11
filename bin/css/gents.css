@@ -1,11 +1,24 @@
 /*gentsdoc css*/
+body{
+  padding:0;
+  margin:0;
+}  
 .gentsdoc > div{
     padding:20px;
   }
-  
+  .gentsdoc p{
+    padding-left:2em;
+  }
+
+  .gentsdoc > .container p font.notes{
+    color:green;
+    font-size:12px;
+  }
+
+
   .gentsdoc > .nav{
     float:left;
-    width:300px;
+    width:250px;
   }
   
   .gentsdoc > .container{
@@ -60,30 +73,40 @@
     text-decoration:none;
   }
 
+  .gentsdoc > .container ul{
+    padding-inline-start: 2em;
+  }
+  .gentsdoc > .container li{
+    list-style:none;
+  }
   .gentsdoc > .container h1 {
-    margin-top: 30px;
     font-size: 22px;
+    margin-top: 30px;
     margin-bottom: 10px;
   }
   .gentsdoc > .container h2 {
-    margin-top: 20px;
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom:10px;
+    padding-left:5px;
   }
   .gentsdoc > .container h3 {
-    margin-top: 20px;
     font-size: 18px;
+    margin-top: 10px;
     margin-bottom: 10px;
+    padding-left:10px;
   }
   .gentsdoc > .container h4 {
-    margin-top: 15px;
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    padding-left:15px;
   }
   .gentsdoc > .container h5 {
-    margin-top: 15px;
     font-size: 14px;
+    margin-top: 15px;
     margin-bottom: 10px;
+    padding-left:20px;
   }
   
   .gentsdoc > a{
@@ -96,8 +119,6 @@
   .gentsdoc .since {
       font-size: 12px;
       color: green;
-      padding: 5px;
-      margin-bottom: 10px;
     }
     .gentsdoc .deprecated {
       font-size: 12px;

@@ -51,6 +51,7 @@ class BaseParser {
             //删除since
             delete cObj.annotation['since'];
         }
+        return writeStr;
     }
 }
 exports.default = BaseParser;

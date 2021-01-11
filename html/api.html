@@ -5,7 +5,7 @@
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <meta http-equiv="X-UA-Compatible" generator='gentsdoc tool'>
-          <title>API-Gentsdoc</title>
+          <title>API-relaen</title>
           <style>
               /*github style css*/
 pre code {
@@ -133,13 +133,26 @@ pre code {
   }
 
               /*gentsdoc css*/
+body{
+  padding:0;
+  margin:0;
+}  
 .gentsdoc > div{
     padding:20px;
   }
-  
+  .gentsdoc p{
+    padding-left:2em;
+  }
+
+  .gentsdoc > .container p font.notes{
+    color:green;
+    font-size:12px;
+  }
+
+
   .gentsdoc > .nav{
     float:left;
-    width:300px;
+    width:250px;
   }
   
   .gentsdoc > .container{
@@ -194,30 +207,40 @@ pre code {
     text-decoration:none;
   }
 
+  .gentsdoc > .container ul{
+    padding-inline-start: 2em;
+  }
+  .gentsdoc > .container li{
+    list-style:none;
+  }
   .gentsdoc > .container h1 {
-    margin-top: 30px;
     font-size: 22px;
+    margin-top: 30px;
     margin-bottom: 10px;
   }
   .gentsdoc > .container h2 {
-    margin-top: 20px;
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom:10px;
+    padding-left:5px;
   }
   .gentsdoc > .container h3 {
-    margin-top: 20px;
     font-size: 18px;
+    margin-top: 10px;
     margin-bottom: 10px;
+    padding-left:10px;
   }
   .gentsdoc > .container h4 {
-    margin-top: 15px;
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    padding-left:15px;
   }
   .gentsdoc > .container h5 {
-    margin-top: 15px;
     font-size: 14px;
+    margin-top: 15px;
     margin-bottom: 10px;
+    padding-left:20px;
   }
   
   .gentsdoc > a{
@@ -230,8 +253,6 @@ pre code {
   .gentsdoc .since {
       font-size: 12px;
       color: green;
-      padding: 5px;
-      margin-bottom: 10px;
     }
     .gentsdoc .deprecated {
       font-size: 12px;
@@ -262,18 +283,24 @@ pre code {
       <body>
       <div class='gentsdoc'>
       <div class='nav'>
-          		<div class='first'>Enumerations</div> 
+          		<div class='first'>Functions</div> 
+			<a href='#getConnection'>getConnection</a> 
+			<a href='#getEntityManager'>getEntityManager</a> 
+		<div class='first'>Enumerations</div> 
 			<a href='#EEntityState'>EEntityState</a> 
 			<a href='#EFkConstraint'>EFkConstraint</a> 
+			<a href='#EQueryType'>EQueryType</a> 
 			<a href='#ERelationType'>ERelationType</a> 
 		<div class='first'>Classes</div> 
 			<a href='#BaseEntity'>BaseEntity</a> 
+			<a href='#Connection'>Connection</a> 
 			<a href='#ConnectionManager'>ConnectionManager</a> 
 			<a href='#EntityFactory'>EntityFactory</a> 
 			<a href='#EntityManager'>EntityManager</a> 
 			<a href='#EntityManagerFactory'>EntityManagerFactory</a> 
 			<a href='#EntityProxy'>EntityProxy</a> 
 			<a href='#ErrorFactory'>ErrorFactory</a> 
+			<a href='#ICondValueObj'>ICondValueObj</a> 
 			<a href='#IConnectionCfg'>IConnectionCfg</a> 
 			<a href='#IConnectionPool'>IConnectionPool</a> 
 			<a href='#IEntity'>IEntity</a> 
@@ -283,11 +310,12 @@ pre code {
 			<a href='#IEntityRefColumn'>IEntityRefColumn</a> 
 			<a href='#IEntityRelation'>IEntityRelation</a> 
 			<a href='#Logger'>Logger</a> 
+			<a href='#MysqlTransaction'>MysqlTransaction</a> 
 			<a href='#NativeQuery'>NativeQuery</a> 
 			<a href='#Query'>Query</a> 
 			<a href='#RelaenManager'>RelaenManager</a> 
+			<a href='#RelaenThreadLocal'>RelaenThreadLocal</a> 
 			<a href='#SqlExecutor'>SqlExecutor</a> 
-			<a href='#ThreadLocal'>ThreadLocal</a> 
 			<a href='#Transaction'>Transaction</a> 
 			<a href='#Translator'>Translator</a> 
 
@@ -304,21 +332,30 @@ pre code {
 <li><a href="#METHOD_BaseEntity_clone">clone</a></li>
 <li><a href="#METHOD_BaseEntity_compare">compare</a></li>
 <li><a href="#METHOD_BaseEntity_delete">delete</a></li>
+<li><a href="#METHOD_BaseEntity_delete">delete</a></li>
+<li><a href="#METHOD_BaseEntity_deleteMany">deleteMany</a></li>
+<li><a href="#METHOD_BaseEntity_findMany">findMany</a></li>
+<li><a href="#METHOD_BaseEntity_findOne">findOne</a></li>
+<li><a href="#METHOD_BaseEntity_getCount">getCount</a></li>
 <li><a href="#METHOD_BaseEntity_save">save</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>实体基类  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体基类  </p>
 <h3 id="extends">extends</h3>
 <p><font class='datatype'>Object</font>  </p>
+<h2 id="构造方法">构造方法</h2>
+<h3 id="constructor"><a id="METHOD_BaseEntity_constructor">constructor()</a></h3>
+<h4 id="参数">参数</h4>
 <h2 id="属性">属性</h2>
 <h3 id="__status"><font id="PROP_BaseEntity___status">__status</font></h3>
-<p>状态  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>状态  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'><a href="#EEntityState">EEntityState</a></font>  </p>
 <h2 id="方法">方法</h2>
 <h3 id="clone"><font id="METHOD_BaseEntity_clone">clone()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>浅拷贝，外键对象只拷贝主键值  </p>
 <h4 id="修饰符-1">修饰符</h4>
@@ -326,34 +363,161 @@ pre code {
 <h4 id="返回值">返回值</h4>
 <p><font class='datatype'>object</font>  </p>
 <h3 id="compareobj"><font id="METHOD_BaseEntity_compare">compare(obj)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-2">描述</h4>
 <p>对比  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
-<h4 id="参数">参数</h4>
+<h4 id="参数-1">参数</h4>
 <ul>
 <li>obj <em>&lt;<font class='datatype'>object</font>&gt;</em>   简化后的实体值对象</li>
 </ul>
 <h4 id="返回值-1">返回值</h4>
 <p><font class='datatype'>boolean</font><br>如果相同，则返回true，否则返回false  </p>
 <h3 id="delete"><font id="METHOD_BaseEntity_delete">delete()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-3">描述</h4>
 <p>删除实体  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public  async</font>  </p>
 <h4 id="返回值-2">返回值</h4>
 <p><font class='datatype'>Promise&lt;<a href="#IEntity">IEntity</a>&gt;</font>  </p>
-<h3 id="saveignoreundefinedvalue"><font id="METHOD_BaseEntity_save">save([ignoreUndefinedValue])</font></h3>
+<h3 id="deleteid"><font id="METHOD_BaseEntity_delete">delete(id)</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
 <h4 id="描述-4">描述</h4>
-<p>保存实体  </p>
+<p>删除对象  </p>
 <h4 id="修饰符-4">修饰符</h4>
+<p><font class="modifier">public  static  async</font>  </p>
+<h4 id="参数-2">参数</h4>
+<ul>
+<li>id <em>&lt;<font class='datatype'>any</font>&gt;</em>    实体id值</li>
+</ul>
+<h4 id="返回值-3">返回值</h4>
+<p><font class='datatype'>Promise&lt;boolean&gt;</font><br>删除的实体  </p>
+<h3 id="deletemanyparams"><font id="METHOD_BaseEntity_deleteMany">deleteMany([params])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-5">描述</h4>
+<p>删除对象  </p>
+<h4 id="修饰符-5">修饰符</h4>
+<p><font class="modifier">public  static  async</font>  </p>
+<h4 id="参数-3">参数</h4>
+<ul>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em>    参数对象，参考EntityManager.findOne</li>
+</ul>
+<h4 id="返回值-4">返回值</h4>
+<p><font class='datatype'>Promise&lt;boolean&gt;</font><br>true/false  </p>
+<h3 id="findmanyparamsstartlimit"><font id="METHOD_BaseEntity_findMany">findMany([params[,start[,limit]]])</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-6">描述</h4>
+<p>根据条件查找多个对象  </p>
+<h4 id="修饰符-6">修饰符</h4>
+<p><font class="modifier">public  static  async</font>  </p>
+<h4 id="参数-4">参数</h4>
+<ul>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em>            参数对象，参考EntityManager.findOne方法说明</li>
+<li>start <em>&lt;<font class='datatype'>number</font>&gt;</em>             开始记录行</li>
+<li>limit <em>&lt;<font class='datatype'>number</font>&gt;</em>             获取记录数</li>
+</ul>
+<h4 id="返回值-5">返回值</h4>
+<p><font class='datatype'>Promise&lt;Array&lt;<a href="#IEntity">IEntity</a>&gt;&gt;</font>  </p>
+<h3 id="findoneparams"><font id="METHOD_BaseEntity_findOne">findOne([params])</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-7">描述</h4>
+<p>根据条件查询单个实体  </p>
+<h4 id="修饰符-7">修饰符</h4>
+<p><font class="modifier">public  static  async</font>  </p>
+<h4 id="参数-5">参数</h4>
+<ul>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em>            参数对象，参考EntityManager.findOne方法说明</li>
+</ul>
+<h4 id="返回值-6">返回值</h4>
+<p><font class='datatype'>Promise&lt;<a href="#IEntity">IEntity</a>&gt;</font>  </p>
+<h3 id="getcountparams"><font id="METHOD_BaseEntity_getCount">getCount([params])</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-8">描述</h4>
+<p>获取记录数  </p>
+<h4 id="修饰符-8">修饰符</h4>
+<p><font class="modifier">public  static  async</font>  </p>
+<h4 id="参数-6">参数</h4>
+<ul>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em>    参数对象，参考EntityManager.findOne</li>
+</ul>
+<h4 id="返回值-7">返回值</h4>
+<p><font class='datatype'>Promise&lt;number&gt;</font>  </p>
+<h3 id="saveignoreundefinedvalue"><font id="METHOD_BaseEntity_save">save([ignoreUndefinedValue])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-9">描述</h4>
+<p>保存实体  </p>
+<h4 id="修饰符-9">修饰符</h4>
 <p><font class="modifier">public  async</font>  </p>
-<h4 id="参数-1">参数</h4>
+<h4 id="参数-7">参数</h4>
 <ul>
 <li>ignoreUndefinedValue <em>&lt;<font class='datatype'>boolean</font>&gt;</em>  忽略undefined值，针对update时有效</li>
 </ul>
-<h4 id="返回值-3">返回值</h4>
+<h4 id="返回值-8">返回值</h4>
 <p><font class='datatype'>Promise&lt;<a href="#IEntity">IEntity</a>&gt;</font><br>保存后的实体  </p>
+</div>
+<hr><div id='Connection'><h1 id="class-connection">Class Connection</h1>
+<h2 id="属性列表">属性列表</h2>
+<ul>
+<li><a href="#PROP_Connection_conn">conn</a></li>
+<li><a href="#PROP_Connection_connected">connected</a></li>
+<li><a href="#PROP_Connection_fromId">fromId</a></li>
+<li><a href="#PROP_Connection_threadId">threadId</a></li>
+</ul>
+<h2 id="方法列表">方法列表</h2>
+<ul>
+<li><a href="#METHOD_Connection_close">close</a></li>
+<li><a href="#METHOD_Connection_createTransaction">createTransaction</a></li>
+</ul>
+<h2 id="描述">描述</h2>
+<p><font class="since">开始于 : v0.0.1</font><br>数据库连接类  </p>
+<h2 id="属性">属性</h2>
+<h3 id="conn"><font id="PROP_Connection_conn">conn</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>真实连接对象  </p>
+<h4 id="修饰符">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型">数据类型</h4>
+<p><font class='datatype'>any</font>  </p>
+<h3 id="connected"><font id="PROP_Connection_connected">connected</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>连接状态  </p>
+<h4 id="修饰符-1">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-1">数据类型</h4>
+<p><font class='datatype'>boolean</font>  </p>
+<h3 id="fromid"><font id="PROP_Connection_fromId">fromId</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>创建者对象id  </p>
+<h4 id="修饰符-2">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-2">数据类型</h4>
+<p><font class='datatype'>number</font>  </p>
+<h3 id="threadid"><font id="PROP_Connection_threadId">threadId</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>线程id  </p>
+<h4 id="修饰符-3">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-3">数据类型</h4>
+<p><font class='datatype'>number</font>  </p>
+<h2 id="方法">方法</h2>
+<h3 id="closeforce"><font id="METHOD_Connection_close">close([force])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-1">描述</h4>
+<p>关闭连接  </p>
+<h4 id="修饰符-4">修饰符</h4>
+<p><font class="modifier">public  async</font>  </p>
+<h4 id="参数">参数</h4>
+<ul>
+<li>force <em>&lt;<font class='datatype'>boolean</font>&gt;</em>     是否强制关闭</li>
+</ul>
+<h4 id="返回值">返回值</h4>
+<p>void  </p>
+<h3 id="createtransaction"><font id="METHOD_Connection_createTransaction">createTransaction()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-2">描述</h4>
+<p>创建事务对象  </p>
+<h4 id="修饰符-5">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="返回值-1">返回值</h4>
+<p><font class='datatype'><a href="#Transaction">Transaction</a></font>  </p>
 </div>
 <hr><div id='ConnectionManager'><h1 id="class-connectionmanager">Class ConnectionManager</h1>
 <h2 id="属性列表">属性列表</h2>
@@ -372,77 +536,87 @@ pre code {
 <li><a href="#METHOD_ConnectionManager_init">init</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>连接管理器  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>连接管理器  </p>
 <h2 id="属性">属性</h2>
 <h3 id="connectionmap"><font id="PROP_ConnectionManager_connectionMap">connectionMap</font></h3>
-<p>连接map {threadId:{num:conn创建次数,conn:连接}}<br>保证一个异步方法中只能有一个connection  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>连接map {threadId:{num:conn创建次数,conn:连接}}<br>保证一个异步方法中只能有一个connection  </p>
 <h4 id="修饰符">修饰符</h4>
-<p><font class="modifier">private  static</font>  </p>
+<p><font class="modifier">static</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'>Map&lt;number,any&gt;</font>  </p>
 <h4 id="初始值">初始值</h4>
 <p>new Map()  </p>
 <h3 id="dbmdl"><font id="PROP_ConnectionManager_dbMdl">dbMdl</font></h3>
-<p>数据库 npm 模块  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>数据库 npm 模块  </p>
 <h4 id="修饰符-1">修饰符</h4>
-<p><font class="modifier">private  static</font>  </p>
+<p><font class="modifier">static</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>any</font>  </p>
 <h3 id="options"><font id="PROP_ConnectionManager_options">options</font></h3>
-<p>配置  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>配置  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
 <h4 id="数据类型-2">数据类型</h4>
 <p><font class='datatype'>any</font>  </p>
 <h3 id="pool"><font id="PROP_ConnectionManager_pool">pool</font></h3>
-<p>连接池  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>连接池  </p>
 <h4 id="修饰符-3">修饰符</h4>
-<p><font class="modifier">private  static</font>  </p>
+<p><font class="modifier">static</font>  </p>
 <h4 id="数据类型-3">数据类型</h4>
 <p><font class='datatype'>any</font>  </p>
 <h2 id="方法">方法</h2>
-<h3 id="closeconnectionconnection"><font id="METHOD_ConnectionManager_closeConnection">closeConnection(connection)</font></h3>
+<h3 id="closeconnectionconnectionforce"><font id="METHOD_ConnectionManager_closeConnection">closeConnection(connection[,force])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>关闭连接  </p>
 <h4 id="修饰符-4">修饰符</h4>
 <p><font class="modifier">public  static  async</font>  </p>
 <h4 id="参数">参数</h4>
 <ul>
-<li>connection <em>&lt;<font class='datatype'>Connection</font>&gt;</em> 数据库连接对象</li>
+<li>connection <em>&lt;<font class='datatype'><a href="#Connection">Connection</a></font>&gt;</em>    数据库连接对象</li>
+<li>force <em>&lt;<font class='datatype'>boolean</font>&gt;</em>         是否强制释放</li>
 </ul>
 <h4 id="返回值">返回值</h4>
 <p>void  </p>
 <h3 id="closemysqlconnectionconnection"><font id="METHOD_ConnectionManager_closeMysqlConnection">closeMysqlConnection(connection)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-2">描述</h4>
 <p>关闭mysql connection  </p>
 <h4 id="修饰符-5">修饰符</h4>
-<p><font class="modifier">private  static  async</font>  </p>
+<p><font class="modifier">static  async</font>  </p>
 <h4 id="参数-1">参数</h4>
 <ul>
-<li>connection <em>&lt;<font class='datatype'>Connection</font>&gt;</em> 数据库连接对象</li>
+<li>connection <em>&lt;<font class='datatype'><a href="#Connection">Connection</a></font>&gt;</em> 数据库连接对象</li>
 </ul>
 <h4 id="返回值-1">返回值</h4>
 <p>void  </p>
-<h3 id="createconnection"><font id="METHOD_ConnectionManager_createConnection">createConnection()</font></h3>
+<h3 id="createconnectionid"><font id="METHOD_ConnectionManager_createConnection">createConnection([id])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-3">描述</h4>
 <p>获取连接对象  </p>
 <h4 id="修饰符-6">修饰符</h4>
 <p><font class="modifier">public  static  async</font>  </p>
+<h4 id="参数-2">参数</h4>
+<ul>
+<li>id <em>&lt;<font class='datatype'>number</font>&gt;</em>   创建者id，直接使用时，不需要设置该值</li>
+</ul>
 <h4 id="返回值-2">返回值</h4>
-<p><font class='datatype'>Promise&lt;Connection&gt;</font><br>连接对象，已连接  </p>
+<p><font class='datatype'>Promise&lt;<a href="#Connection">Connection</a>&gt;</font><br>connection对象  </p>
 <h3 id="getmysqlconnection"><font id="METHOD_ConnectionManager_getMysqlConnection">getMysqlConnection()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-4">描述</h4>
 <p>获取 mysql 连接  </p>
 <h4 id="修饰符-7">修饰符</h4>
-<p><font class="modifier">private  static  async</font>  </p>
+<p><font class="modifier">static  async</font>  </p>
 <h4 id="返回值-3">返回值</h4>
 <p><font class='datatype'>Promise&lt;any&gt;</font>  </p>
 <h3 id="initcfg"><font id="METHOD_ConnectionManager_init">init(cfg)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-5">描述</h4>
 <p>初始化连接管理器  </p>
 <h4 id="修饰符-8">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
-<h4 id="参数-2">参数</h4>
+<h4 id="参数-3">参数</h4>
 <ul>
 <li>cfg <em>&lt;<font class='datatype'><a href="#IConnectionCfg">IConnectionCfg</a></font>&gt;</em> relaen配置文件的数据库配置对象</li>
 </ul>
@@ -450,16 +624,28 @@ pre code {
 <p>void  </p>
 </div>
 <hr><div id='EEntityState'><h1 id="enum-eentitystate">Enum EEntityState</h1>
-<h2 id="描述">描述</h2>
-<p>实体状态  </p>
+<h4 id="描述">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font><br>实体状态  </p>
+<h4 id="枚举值">枚举值</h4>
+<p><font class='notes'>// 新建状态</font><br>NEW = 1<br><font class='notes'>// 持久化状态</font><br>PERSIST = 2  </p>
 </div>
 <hr><div id='EFkConstraint'><h1 id="enum-efkconstraint">Enum EFkConstraint</h1>
-<h2 id="描述">描述</h2>
-<p>外键约束  </p>
+<h4 id="描述">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font><br>外键约束  </p>
+<h4 id="枚举值">枚举值</h4>
+<p><font class='notes'>// 级联操作</font><br>CASCADE = &#39;cascade&#39;<br><font class='notes'>// 无操作</font><br>NONE = &#39;none&#39;<br><font class='notes'>// 限制修改和删除</font><br>RESTRICT = &#39;restrict&#39;<br><font class='notes'>// 外键置空</font><br>SETNULL = &#39;set null&#39;  </p>
+</div>
+<hr><div id='EQueryType'><h1 id="enum-equerytype">Enum EQueryType</h1>
+<h4 id="描述">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font><br>query类型  </p>
+<h4 id="枚举值">枚举值</h4>
+<p><font class='notes'>// delete</font><br>DELETE = 3<br><font class='notes'>// insert</font><br>INSERT = 1<br><font class='notes'>// select</font><br>SELECT = 0<br><font class='notes'>// update</font><br>UPDATE = 2  </p>
 </div>
 <hr><div id='ERelationType'><h1 id="enum-erelationtype">Enum ERelationType</h1>
-<h2 id="描述">描述</h2>
-<p>关系类型  </p>
+<h4 id="描述">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font><br>关系类型  </p>
+<h4 id="枚举值">枚举值</h4>
+<p><font class='notes'>// 多对多关系</font><br>ManyToMany = 4<br><font class='notes'>// 多对一关系</font><br>ManyToOne = 3<br><font class='notes'>// 一对多关系</font><br>OneToMany = 2<br><font class='notes'>// 一对一关系</font><br>OneToOne = 1  </p>
 </div>
 <hr><div id='EntityFactory'><h1 id="class-entityfactory">Class EntityFactory</h1>
 <h2 id="属性列表">属性列表</h2>
@@ -472,35 +658,34 @@ pre code {
 <li><a href="#METHOD_EntityFactory_addClass">addClass</a></li>
 <li><a href="#METHOD_EntityFactory_addColumn">addColumn</a></li>
 <li><a href="#METHOD_EntityFactory_addEntities">addEntities</a></li>
-<li><a href="#METHOD_EntityFactory_addNewEntity">addNewEntity</a></li>
 <li><a href="#METHOD_EntityFactory_addPKey">addPKey</a></li>
 <li><a href="#METHOD_EntityFactory_addRelation">addRelation</a></li>
 <li><a href="#METHOD_EntityFactory_checkAndNewClass">checkAndNewClass</a></li>
 <li><a href="#METHOD_EntityFactory_getClass">getClass</a></li>
-<li><a href="#METHOD_EntityFactory_hasNewEntity">hasNewEntity</a></li>
-<li><a href="#METHOD_EntityFactory_removeNewEntity">removeNewEntity</a></li>
+<li><a href="#METHOD_EntityFactory_hasClass">hasClass</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>实体工厂，管理所有实体类  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体工厂，管理所有实体类  </p>
 <h2 id="属性">属性</h2>
 <h3 id="entityclasses"><font id="PROP_EntityFactory_entityClasses">entityClasses</font></h3>
-<p>实体类集  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体类集  </p>
 <h4 id="修饰符">修饰符</h4>
-<p><font class="modifier">private  static</font>  </p>
+<p><font class="modifier">static</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'>Map&lt;string,<a href="#IEntityCfg">IEntityCfg</a>&gt;</font>  </p>
 <h4 id="初始值">初始值</h4>
 <p>new Map()  </p>
 <h3 id="newentitymap"><font id="PROP_EntityFactory_newEntityMap">newEntityMap</font></h3>
-<p>新建实体map，用于存放新建状态的实体，当实体执行save、delete操作后，将从该map移除<br>{entity:createTime}  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>新建实体map，用于存放新建状态的实体，当实体执行save、delete操作后，将从该map移除<br>{entity:createTime}  </p>
 <h4 id="修饰符-1">修饰符</h4>
-<p><font class="modifier">private  static</font>  </p>
+<p><font class="modifier">static</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>WeakMap&lt;<a href="#IEntity">IEntity</a>,number&gt;</font>  </p>
 <h4 id="初始值-1">初始值</h4>
 <p>new WeakMap()  </p>
 <h2 id="方法">方法</h2>
 <h3 id="addclassentitytblnameschema"><font id="METHOD_EntityFactory_addClass">addClass(entity,tblName[,schema])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>添加实体类  </p>
 <h4 id="修饰符-2">修饰符</h4>
@@ -514,6 +699,7 @@ pre code {
 <h4 id="返回值">返回值</h4>
 <p>void  </p>
 <h3 id="addcolumnentitynamecolnamecfg"><font id="METHOD_EntityFactory_addColumn">addColumn(entityName,colName,cfg)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-2">描述</h4>
 <p>添加实体字段  </p>
 <h4 id="修饰符-3">修饰符</h4>
@@ -527,6 +713,7 @@ pre code {
 <h4 id="返回值-1">返回值</h4>
 <p>void  </p>
 <h3 id="addentitiespath"><font id="METHOD_EntityFactory_addEntities">addEntities(path)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-3">描述</h4>
 <p>从文件添加实体到工厂  </p>
 <h4 id="修饰符-4">修饰符</h4>
@@ -537,252 +724,323 @@ pre code {
 </ul>
 <h4 id="返回值-2">返回值</h4>
 <p>void  </p>
-<h3 id="addnewentityentity"><font id="METHOD_EntityFactory_addNewEntity">addNewEntity(entity)</font></h3>
+<h3 id="addpkeyentitynamepropnamecfg"><font id="METHOD_EntityFactory_addPKey">addPKey(entityName,propName,cfg)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-4">描述</h4>
-<p>添加实体到新建实体map  </p>
+<p>添加主键  </p>
 <h4 id="修饰符-5">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
 <h4 id="参数-3">参数</h4>
-<ul>
-<li>entity <em>&lt;<font class='datatype'><a href="#IEntity">IEntity</a></font>&gt;</em>    待加入的实体</li>
-</ul>
-<h4 id="返回值-3">返回值</h4>
-<p>void  </p>
-<h3 id="addpkeyentitynamepropnamecfg"><font id="METHOD_EntityFactory_addPKey">addPKey(entityName,propName,cfg)</font></h3>
-<h4 id="描述-5">描述</h4>
-<p>添加主键  </p>
-<h4 id="修饰符-6">修饰符</h4>
-<p><font class="modifier">public  static</font>  </p>
-<h4 id="参数-4">参数</h4>
 <ul>
 <li>entityName <em>&lt;<font class='datatype'>string</font>&gt;</em>    实体类名</li>
 <li>propName <em>&lt;<font class='datatype'>string</font>&gt;</em>      实体字段名</li>
 <li>cfg <em>&lt;<font class='datatype'><a href="#IEntityPKey">IEntityPKey</a></font>&gt;</em> </li>
 </ul>
-<h4 id="返回值-4">返回值</h4>
+<h4 id="返回值-3">返回值</h4>
 <p>void  </p>
 <h3 id="addrelationentitynamecolnamerel"><font id="METHOD_EntityFactory_addRelation">addRelation(entityName,colName,rel)</font></h3>
-<h4 id="描述-6">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-5">描述</h4>
 <p>添加实体关系  </p>
-<h4 id="修饰符-7">修饰符</h4>
+<h4 id="修饰符-6">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
-<h4 id="参数-5">参数</h4>
+<h4 id="参数-4">参数</h4>
 <ul>
 <li>entityName <em>&lt;<font class='datatype'>string</font>&gt;</em>    实体名</li>
 <li>colName <em>&lt;<font class='datatype'>string</font>&gt;</em>       属性名</li>
 <li>rel <em>&lt;<font class='datatype'><a href="#IEntityRelation">IEntityRelation</a></font>&gt;</em>           关系对象</li>
 </ul>
-<h4 id="返回值-5">返回值</h4>
+<h4 id="返回值-4">返回值</h4>
 <p>void  </p>
 <h3 id="checkandnewclassentityname"><font id="METHOD_EntityFactory_checkAndNewClass">checkAndNewClass(entityName)</font></h3>
-<h4 id="描述-7">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-6">描述</h4>
 <p>检查class是否存在，不存在则新建  </p>
-<h4 id="修饰符-8">修饰符</h4>
-<p><font class="modifier">private  static</font>  </p>
-<h4 id="参数-6">参数</h4>
+<h4 id="修饰符-7">修饰符</h4>
+<p><font class="modifier">static</font>  </p>
+<h4 id="参数-5">参数</h4>
 <ul>
 <li>entityName <em>&lt;any&gt;</em>    实体类名</li>
 </ul>
-<h4 id="返回值-6">返回值</h4>
+<h4 id="返回值-5">返回值</h4>
 <p>void  </p>
 <h3 id="getclassentityname"><font id="METHOD_EntityFactory_getClass">getClass(entityName)</font></h3>
-<h4 id="描述-8">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-7">描述</h4>
 <p>获取entity对应的entity class 配置型  </p>
+<h4 id="修饰符-8">修饰符</h4>
+<p><font class="modifier">public  static</font>  </p>
+<h4 id="参数-6">参数</h4>
+<ul>
+<li>entityName <em>&lt;<font class='datatype'>string</font>&gt;</em>    实体类名</li>
+</ul>
+<h4 id="返回值-6">返回值</h4>
+<p><font class='datatype'><a href="#IEntityCfg">IEntityCfg</a></font><br>实体配置  </p>
+<h3 id="hasclassentityname"><font id="METHOD_EntityFactory_hasClass">hasClass(entityName)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-8">描述</h4>
+<p>是否有entity class  </p>
 <h4 id="修饰符-9">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
 <h4 id="参数-7">参数</h4>
 <ul>
-<li>entityName <em>&lt;<font class='datatype'>string</font>&gt;</em>    实体类名</li>
+<li>entityName <em>&lt;<font class='datatype'>string</font>&gt;</em> 实体类名</li>
 </ul>
 <h4 id="返回值-7">返回值</h4>
-<p><font class='datatype'><a href="#IEntityCfg">IEntityCfg</a></font><br>实体配置  </p>
-<h3 id="hasnewentityentity"><font id="METHOD_EntityFactory_hasNewEntity">hasNewEntity(entity)</font></h3>
-<h4 id="描述-9">描述</h4>
-<p>是否存在new entity  </p>
-<h4 id="修饰符-10">修饰符</h4>
-<p><font class="modifier">public  static</font>  </p>
-<h4 id="参数-8">参数</h4>
-<ul>
-<li>entity <em>&lt;<font class='datatype'><a href="#IEntity">IEntity</a></font>&gt;</em>    待查询entity</li>
-</ul>
-<h4 id="返回值-8">返回值</h4>
-<p><font class='datatype'>boolean</font><br>true/false  </p>
-<h3 id="removenewentityentity"><font id="METHOD_EntityFactory_removeNewEntity">removeNewEntity(entity)</font></h3>
-<h4 id="描述-10">描述</h4>
-<p>从新建实体map移除实体  </p>
-<h4 id="修饰符-11">修饰符</h4>
-<p><font class="modifier">public  static</font>  </p>
-<h4 id="参数-9">参数</h4>
-<ul>
-<li>entity <em>&lt;<font class='datatype'><a href="#IEntity">IEntity</a></font>&gt;</em>    待移除的实体</li>
-</ul>
-<h4 id="返回值-9">返回值</h4>
-<p>void  </p>
+<p><font class='datatype'>boolean</font>  </p>
 </div>
 <hr><div id='EntityManager'><h1 id="class-entitymanager">Class EntityManager</h1>
 <h2 id="属性列表">属性列表</h2>
 <ul>
+<li><a href="#PROP_EntityManager_cache">cache</a></li>
 <li><a href="#PROP_EntityManager_connection">connection</a></li>
-<li><a href="#PROP_EntityManager_entityMap">entityMap</a></li>
+<li><a href="#PROP_EntityManager_id">id</a></li>
 </ul>
 <h2 id="方法列表">方法列表</h2>
 <ul>
-<li><a href="#METHOD_EntityManager_addCache">addCache</a></li>
+<li><a href="#METHOD_EntityManager_addToCache">addToCache</a></li>
+<li><a href="#METHOD_EntityManager_clearCache">clearCache</a></li>
 <li><a href="#METHOD_EntityManager_close">close</a></li>
 <li><a href="#METHOD_EntityManager_createNativeQuery">createNativeQuery</a></li>
 <li><a href="#METHOD_EntityManager_createQuery">createQuery</a></li>
 <li><a href="#METHOD_EntityManager_delete">delete</a></li>
+<li><a href="#METHOD_EntityManager_deleteMany">deleteMany</a></li>
 <li><a href="#METHOD_EntityManager_find">find</a></li>
-<li><a href="#METHOD_EntityManager_genCacheId">genCacheId</a></li>
+<li><a href="#METHOD_EntityManager_findMany">findMany</a></li>
+<li><a href="#METHOD_EntityManager_findOne">findOne</a></li>
 <li><a href="#METHOD_EntityManager_genEntityFromObject">genEntityFromObject</a></li>
 <li><a href="#METHOD_EntityManager_genKey">genKey</a></li>
-<li><a href="#METHOD_EntityManager_getCache">getCache</a></li>
+<li><a href="#METHOD_EntityManager_getCount">getCount</a></li>
+<li><a href="#METHOD_EntityManager_getFromCache">getFromCache</a></li>
+<li><a href="#METHOD_EntityManager_preHandleEntity">preHandleEntity</a></li>
 <li><a href="#METHOD_EntityManager_save">save</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>实体管理器  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体管理器  </p>
 <h2 id="构造方法">构造方法</h2>
-<h3 id="constructorconn"><a id="METHOD_EntityManager_constructor">constructor(conn)</a></h3>
+<h3 id="constructorconnid"><a id="METHOD_EntityManager_constructor">constructor(conn[,id])</a></h3>
 <h4 id="参数">参数</h4>
 <ul>
-<li>conn <em>&lt;<font class='datatype'>Connection</font>&gt;</em>  连接对象</li>
+<li>conn <em>&lt;<font class='datatype'><a href="#Connection">Connection</a></font>&gt;</em>  连接对象</li>
+<li>id <em>&lt;<font class='datatype'>number</font>&gt;</em>    entity manager id</li>
 </ul>
 <h2 id="属性">属性</h2>
+<h3 id="cache"><font id="PROP_EntityManager_cache">cache</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>查询结果集缓存<br>key:sql语句和参数值组合成的字符串，value:查询结果集  </p>
+<h4 id="数据类型">数据类型</h4>
+<p><font class='datatype'>Map&lt;string,any&gt;</font>  </p>
+<h4 id="初始值">初始值</h4>
+<p>new Map()  </p>
 <h3 id="connection"><font id="PROP_EntityManager_connection">connection</font></h3>
-<p>连接  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>连接  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
-<h4 id="数据类型">数据类型</h4>
-<p><font class='datatype'>Connection</font>  </p>
-<h3 id="entitymap"><font id="PROP_EntityManager_entityMap">entityMap</font></h3>
-<p>实体缓存map {cacheId:{entity:object,fk:外键值map}  </p>
+<h4 id="数据类型-1">数据类型</h4>
+<p><font class='datatype'><a href="#Connection">Connection</a></font>  </p>
+<h3 id="id"><font id="PROP_EntityManager_id">id</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>对象id  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
-<h4 id="数据类型-1">数据类型</h4>
-<p><font class='datatype'>Map&lt;string,any&gt;</font>  </p>
+<h4 id="数据类型-2">数据类型</h4>
+<p><font class='datatype'>number</font>  </p>
 <h2 id="方法">方法</h2>
-<h3 id="addcacheentityfkany"><font id="METHOD_EntityManager_addCache">addCache(entity[,fk,any&gt;])</font></h3>
+<h3 id="addtocachekeyvalue"><font id="METHOD_EntityManager_addToCache">addToCache(key,value)</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
 <h4 id="描述-1">描述</h4>
-<p>添加实体对象到cache  </p>
+<p>加入cache  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="参数-1">参数</h4>
 <ul>
-<li>entity <em>&lt;<font class='datatype'>any</font>&gt;</em> 实体对象</li>
-<li>fk <em>&lt;<font class='datatype'>Map&lt;string</font>&gt;</em>     外键值map</li>
-<li>any&gt; <em>&lt;any&gt;</em> </li>
+<li>key <em>&lt;<font class='datatype'>string</font>&gt;</em>       key</li>
+<li>value <em>&lt;<font class='datatype'>any</font>&gt;</em>     结果集</li>
 </ul>
 <h4 id="返回值">返回值</h4>
 <p>void  </p>
-<h3 id="close"><font id="METHOD_EntityManager_close">close()</font></h3>
+<h3 id="clearcache"><font id="METHOD_EntityManager_clearCache">clearCache()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-2">描述</h4>
-<p>关闭  </p>
+<p>清除缓存  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="返回值-1">返回值</h4>
 <p>void  </p>
-<h3 id="createnativequerysqlentityclassname"><font id="METHOD_EntityManager_createNativeQuery">createNativeQuery(sql[,entityClassName])</font></h3>
+<h3 id="closeforce"><font id="METHOD_EntityManager_close">close([force])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-3">描述</h4>
-<p>原生sql查询  </p>
+<p>关闭entity manager  </p>
 <h4 id="修饰符-4">修饰符</h4>
-<p><font class="modifier">public</font>  </p>
+<p><font class="modifier">public  async</font>  </p>
 <h4 id="参数-2">参数</h4>
 <ul>
-<li>sql <em>&lt;<font class='datatype'>string</font>&gt;</em> </li>
-<li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em> </li>
+<li>force <em>&lt;<font class='datatype'>boolean</font>&gt;</em>     是否强制关闭</li>
 </ul>
 <h4 id="返回值-2">返回值</h4>
-<p><font class='datatype'>Native<a href="#Query">Query</a></font>  </p>
-<h3 id="createqueryrqlentityclassname"><font id="METHOD_EntityManager_createQuery">createQuery(rql,entityClassName)</font></h3>
+<p>void  </p>
+<h3 id="createnativequerysqlentityclassname"><font id="METHOD_EntityManager_createNativeQuery">createNativeQuery(sql[,entityClassName])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-4">描述</h4>
-<p>创建查询对象  </p>
+<p>原生sql查询  </p>
 <h4 id="修饰符-5">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="参数-3">参数</h4>
 <ul>
-<li>rql <em>&lt;<font class='datatype'>string</font>&gt;</em>               relean ql</li>
-<li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em>   实体类名</li>
+<li>sql <em>&lt;<font class='datatype'>string</font>&gt;</em> </li>
+<li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em> </li>
 </ul>
 <h4 id="返回值-3">返回值</h4>
-<p><font class='datatype'><a href="#Query">Query</a></font>  </p>
-<h3 id="deleteentity"><font id="METHOD_EntityManager_delete">delete(entity)</font></h3>
+<p><font class='datatype'>Native<a href="#Query">Query</a></font>  </p>
+<h3 id="createqueryentityclassname"><font id="METHOD_EntityManager_createQuery">createQuery([entityClassName])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-5">描述</h4>
-<p>删除实体  </p>
+<p>创建查询对象  </p>
 <h4 id="修饰符-6">修饰符</h4>
-<p><font class="modifier">public  async</font>  </p>
+<p><font class="modifier">public</font>  </p>
 <h4 id="参数-4">参数</h4>
 <ul>
-<li>entity <em>&lt;<font class='datatype'><a href="#IEntity">IEntity</a></font>&gt;</em>    待删除实体</li>
+<li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em>   实体类名</li>
 </ul>
 <h4 id="返回值-4">返回值</h4>
-<p><font class='datatype'>Promise&lt;<a href="#IEntity">IEntity</a>&gt;</font><br>被删除实体  </p>
-<h3 id="findentityclassnameid"><font id="METHOD_EntityManager_find">find(entityClassName,id)</font></h3>
+<p><font class='datatype'><a href="#Query">Query</a></font>  </p>
+<h3 id="deleteentityclassname"><font id="METHOD_EntityManager_delete">delete(entity[,className])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-6">描述</h4>
-<p>通过id查找实体  </p>
+<p>删除实体  </p>
 <h4 id="修饰符-7">修饰符</h4>
 <p><font class="modifier">public  async</font>  </p>
 <h4 id="参数-5">参数</h4>
 <ul>
+<li>entity <em>&lt;<font class='datatype'>any</font>&gt;</em>        待删除实体或id</li>
+<li>className <em>&lt;<font class='datatype'>string</font>&gt;</em>     实体类名</li>
+</ul>
+<h4 id="返回值-5">返回值</h4>
+<p><font class='datatype'>Promise&lt;boolean&gt;</font><br>被删除实体  </p>
+<h3 id="deletemanyentityclassnameparams"><font id="METHOD_EntityManager_deleteMany">deleteMany(entityClassName[,params])</font></h3>
+<p><font class="since">开始于 : v0.1.3</font>  </p>
+<h4 id="描述-7">描述</h4>
+<p>删除多个  </p>
+<h4 id="修饰符-8">修饰符</h4>
+<p><font class="modifier">public  async</font>  </p>
+<h4 id="参数-6">参数</h4>
+<ul>
+<li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em>   实体类名</li>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em>            条件参数，参考findOne</li>
+</ul>
+<h4 id="返回值-6">返回值</h4>
+<p><font class='datatype'>Promise&lt;boolean&gt;</font><br>成功:true，失败:false  </p>
+<h3 id="findentityclassnameid"><font id="METHOD_EntityManager_find">find(entityClassName,id)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-8">描述</h4>
+<p>通过id查找实体  </p>
+<h4 id="修饰符-9">修饰符</h4>
+<p><font class="modifier">public  async</font>  </p>
+<h4 id="参数-7">参数</h4>
+<ul>
 <li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em> </li>
 <li>id <em>&lt;<font class='datatype'>any</font>&gt;</em>            entity id 值</li>
 </ul>
-<h4 id="返回值-5">返回值</h4>
+<h4 id="返回值-7">返回值</h4>
 <p><font class='datatype'>Promise&lt;<a href="#IEntity">IEntity</a>&gt;</font><br>entity  </p>
-<h3 id="gencacheidentity"><font id="METHOD_EntityManager_genCacheId">genCacheId(entity)</font></h3>
-<h4 id="描述-7">描述</h4>
-<p>生成缓存id  </p>
-<h4 id="修饰符-8">修饰符</h4>
-<p><font class="modifier">private</font>  </p>
-<h4 id="参数-6">参数</h4>
+<h3 id="findmanyentityclassnameparamsstartlimitorder"><font id="METHOD_EntityManager_findMany">findMany(entityClassName[,params[,start[,limit[,order]]]])</font></h3>
+<p><font class="since">开始于 : v0.1.3</font>  </p>
+<h4 id="描述-9">描述</h4>
+<p>根据条件查找多个对象  </p>
+<h4 id="修饰符-10">修饰符</h4>
+<p><font class="modifier">public  async</font>  </p>
+<h4 id="参数-8">参数</h4>
 <ul>
-<li>entity <em>&lt;<font class='datatype'><a href="#IEntity">IEntity</a></font>&gt;</em>    实体对象</li>
+<li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em>   实体类名</li>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em>            参数对象，参考findOne</li>
+<li>start <em>&lt;<font class='datatype'>number</font>&gt;</em>             开始记录行</li>
+<li>limit <em>&lt;<font class='datatype'>number</font>&gt;</em>             获取记录数</li>
+<li>order <em>&lt;<font class='datatype'>object</font>&gt;</em>             排序对象，参考findOne</li>
 </ul>
-<h4 id="返回值-6">返回值</h4>
-<p><font class='datatype'>string</font>  </p>
+<h4 id="返回值-8">返回值</h4>
+<p><font class='datatype'>Promise&lt;Array&lt;any&gt;&gt;</font>  </p>
+<h3 id="findoneentityclassnameparamsorder"><font id="METHOD_EntityManager_findOne">findOne(entityClassName[,params[,order]])</font></h3>
+<p><font class="since">开始于 : v0.1.3</font>  </p>
+<h4 id="描述-10">描述</h4>
+<p>根据条件查找一个对象  </p>
+<h4 id="修饰符-11">修饰符</h4>
+<p><font class="modifier">public  async</font>  </p>
+<h4 id="参数-9">参数</h4>
+<ul>
+<li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em>   实体类名</li>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em>            参数对象{propName1:propValue1,propName2:{value:propValue2,rel:&#39;&gt;&#39;,before:&#39;(&#39;,after:&#39;)&#39;,logic:&#39;OR&#39;}...}<br>参数值有两种方式，一种是值，一种是值对象，值对象参考ICondValueObj接口说明</li>
+<li>order <em>&lt;<font class='datatype'>object</font>&gt;</em>             排序对象 {propName1:asc,propName2:desc,...}</li>
+</ul>
+<h4 id="返回值-9">返回值</h4>
+<p><font class='datatype'>Promise&lt;any&gt;</font>  </p>
 <h3 id="genentityfromobjectobj"><font id="METHOD_EntityManager_genEntityFromObject">genEntityFromObject(obj)</font></h3>
-<h4 id="描述-8">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-11">描述</h4>
 <p>从对象生成实体  </p>
-<h4 id="修饰符-9">修饰符</h4>
-<p><font class="modifier">private</font>  </p>
-<h4 id="参数-7">参数</h4>
+<h4 id="参数-10">参数</h4>
 <ul>
 <li>obj <em>&lt;<font class='datatype'>any</font>&gt;</em>   对象</li>
 </ul>
-<h4 id="返回值-7">返回值</h4>
+<h4 id="返回值-10">返回值</h4>
 <p><font class='datatype'><a href="#IEntity">IEntity</a></font><br>实体对象  </p>
 <h3 id="genkeyentity"><font id="METHOD_EntityManager_genKey">genKey(entity)</font></h3>
-<h4 id="描述-9">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-12">描述</h4>
 <p>生成主键  </p>
-<h4 id="修饰符-10">修饰符</h4>
-<p><font class="modifier">private  async</font>  </p>
-<h4 id="参数-8">参数</h4>
+<h4 id="修饰符-12">修饰符</h4>
+<p><font class="modifier">async</font>  </p>
+<h4 id="参数-11">参数</h4>
 <ul>
 <li>entity <em>&lt;<font class='datatype'><a href="#IEntity">IEntity</a></font>&gt;</em> </li>
 </ul>
-<h4 id="返回值-8">返回值</h4>
+<h4 id="返回值-11">返回值</h4>
 <p>void  </p>
-<h3 id="getcacheentity"><font id="METHOD_EntityManager_getCache">getCache(entity)</font></h3>
-<h4 id="描述-10">描述</h4>
-<p>获取cache  </p>
-<h4 id="修饰符-11">修饰符</h4>
-<p><font class="modifier">public</font>  </p>
-<h4 id="参数-9">参数</h4>
-<ul>
-<li>entity <em>&lt;<font class='datatype'>any</font>&gt;</em>  实体对象</li>
-</ul>
-<h4 id="返回值-9">返回值</h4>
-<p><font class='datatype'>any</font><br>{entity:实体,fk:外键map}  </p>
-<h3 id="saveentityignoreundefinedvalue"><font id="METHOD_EntityManager_save">save(entity[,ignoreUndefinedValue])</font></h3>
-<h4 id="描述-11">描述</h4>
-<p>保存新对象<br>如果状态为new，则执行insert，同时改变为persist，如果为persist，则执行update  </p>
-<h4 id="修饰符-12">修饰符</h4>
+<h3 id="getcountentityclassnameparams"><font id="METHOD_EntityManager_getCount">getCount(entityClassName[,params])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-13">描述</h4>
+<p>获取记录数  </p>
+<h4 id="修饰符-13">修饰符</h4>
 <p><font class="modifier">public  async</font>  </p>
-<h4 id="参数-10">参数</h4>
+<h4 id="参数-12">参数</h4>
+<ul>
+<li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em>   实体类名</li>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em>            参数对象，参考findOne</li>
+</ul>
+<h4 id="返回值-12">返回值</h4>
+<p>void  </p>
+<h3 id="getfromcachekey"><font id="METHOD_EntityManager_getFromCache">getFromCache(key)</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-14">描述</h4>
+<p>从cache中获取  </p>
+<h4 id="修饰符-14">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="参数-13">参数</h4>
+<ul>
+<li>key <em>&lt;<font class='datatype'>string</font>&gt;</em>   缓存key</li>
+</ul>
+<h4 id="返回值-13">返回值</h4>
+<p>void  </p>
+<h3 id="prehandleentityentityignoreundefinedvalue"><font id="METHOD_EntityManager_preHandleEntity">preHandleEntity(entity[,ignoreUndefinedValue])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-15">描述</h4>
+<p>预处理实体对象  </p>
+<h4 id="参数-14">参数</h4>
+<ul>
+<li>entity <em>&lt;<font class='datatype'><a href="#IEntity">IEntity</a></font>&gt;</em>                实体对象</li>
+<li>ignoreUndefinedValue <em>&lt;<font class='datatype'>boolean</font>&gt;</em>  忽略undefined值</li>
+</ul>
+<h4 id="返回值-14">返回值</h4>
+<p><font class='datatype'>boolean</font>  </p>
+<h3 id="saveentityignoreundefinedvalue"><font id="METHOD_EntityManager_save">save(entity[,ignoreUndefinedValue])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-16">描述</h4>
+<p>保存新对象<br>如果状态为new，则执行insert，同时改变为persist，如果为persist，则执行update  </p>
+<h4 id="修饰符-15">修饰符</h4>
+<p><font class="modifier">public  async</font>  </p>
+<h4 id="参数-15">参数</h4>
 <ul>
 <li>entity <em>&lt;<font class='datatype'><a href="#IEntity">IEntity</a></font>&gt;</em>                实体</li>
 <li>ignoreUndefinedValue <em>&lt;<font class='datatype'>boolean</font>&gt;</em>  忽略undefined值，针对update时有效</li>
 </ul>
-<h4 id="返回值-10">返回值</h4>
+<h4 id="返回值-15">返回值</h4>
 <p><font class='datatype'>Promise&lt;<a href="#IEntity">IEntity</a>&gt;</font><br>保存后的实体  </p>
 </div>
 <hr><div id='EntityManagerFactory'><h1 id="class-entitymanagerfactory">Class EntityManagerFactory</h1>
@@ -797,46 +1055,46 @@ pre code {
 <li><a href="#METHOD_EntityManagerFactory_getCurrentEntityManager">getCurrentEntityManager</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>entity manager 工厂  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>entity manager 工厂  </p>
 <h2 id="属性">属性</h2>
 <h3 id="entitymanagermap"><font id="PROP_EntityManagerFactory_entityManagerMap">entityManagerMap</font></h3>
-<p>连接map {threadId:{num:em创建次数,em:entity manager}}<br>保证一个异步方法中只能有一个entitymanager  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>连接map {threadId:{num:em创建次数,em:entity manager}}<br>保证一个异步方法中只能有一个entitymanager  </p>
 <h4 id="修饰符">修饰符</h4>
-<p><font class="modifier">private  static</font>  </p>
+<p><font class="modifier">static</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'>Map&lt;number,any&gt;</font>  </p>
 <h4 id="初始值">初始值</h4>
 <p>new Map()  </p>
 <h2 id="方法">方法</h2>
-<h3 id="closeentitymanagerem"><font id="METHOD_EntityManagerFactory_closeEntityManager">closeEntityManager(em)</font></h3>
+<h3 id="closeentitymanageremforce"><font id="METHOD_EntityManagerFactory_closeEntityManager">closeEntityManager(em[,force])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>关闭entitymanager  </p>
 <h4 id="修饰符-1">修饰符</h4>
-<p><font class="modifier">public  static</font>  </p>
+<p><font class="modifier">public  static  async</font>  </p>
 <h4 id="参数">参数</h4>
 <ul>
-<li>em <em>&lt;<font class='datatype'><a href="#EntityManager">EntityManager</a></font>&gt;</em>    entitymanager</li>
+<li>em <em>&lt;<font class='datatype'><a href="#EntityManager">EntityManager</a></font>&gt;</em>        entitymanager</li>
+<li>force <em>&lt;<font class='datatype'>boolean</font>&gt;</em>     是否强制关闭</li>
 </ul>
 <h4 id="返回值">返回值</h4>
 <p>void  </p>
-<h3 id="createentitymanagerconn"><font id="METHOD_EntityManagerFactory_createEntityManager">createEntityManager(conn)</font></h3>
+<h3 id="createentitymanager"><font id="METHOD_EntityManagerFactory_createEntityManager">createEntityManager()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-2">描述</h4>
-<p>创建 entity manager  </p>
+<p>创建 entity manager，使用后需要释放  </p>
 <h4 id="修饰符-2">修饰符</h4>
-<p><font class="modifier">public  static</font>  </p>
-<h4 id="参数-1">参数</h4>
-<ul>
-<li>conn <em>&lt;<font class='datatype'>Connection</font>&gt;</em>  数据库连接对象</li>
-</ul>
+<p><font class="modifier">public  static  async</font>  </p>
 <h4 id="返回值-1">返回值</h4>
 <p>void  </p>
 <h3 id="getcurrententitymanager"><font id="METHOD_EntityManagerFactory_getCurrentEntityManager">getCurrentEntityManager()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-3">描述</h4>
-<p>获取当前实体管理器(线程内唯一)  </p>
+<p>获取当前entitymanager，使用后不用释放  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
 <h4 id="返回值-2">返回值</h4>
-<p>void  </p>
+<p><font class='datatype'><a href="#EntityManager">EntityManager</a></font>  </p>
 </div>
 <hr><div id='EntityProxy'><h1 id="class-entityproxy">Class EntityProxy</h1>
 <h2 id="方法列表">方法列表</h2>
@@ -844,9 +1102,10 @@ pre code {
 <li><a href="#METHOD_EntityProxy_get">get</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>实体代理类  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体代理类  </p>
 <h2 id="方法">方法</h2>
 <h3 id="getentitypropname"><font id="METHOD_EntityProxy_get">get(entity,propName)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>获取实体关联对象  </p>
 <h4 id="修饰符">修饰符</h4>
@@ -870,16 +1129,16 @@ pre code {
 <li><a href="#METHOD_ErrorFactory_getError">getError</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>异常工厂  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>异常工厂  </p>
 <h3 id="remarks">remarks</h3>
 <p>用于异常信息管理和异常信息处理  </p>
 <h2 id="属性">属性</h2>
 <h3 id=""><font id="PROP_ErrorFactory_/**">/**</font></h3>
-<p>异常提示语言  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>异常提示语言  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h3 id="errmap"><font id="PROP_ErrorFactory_errMap">errMap</font></h3>
-<p>异常信息map，键为异常码，值为异常信息  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>异常信息map，键为异常码，值为异常信息  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
 <h4 id="数据类型">数据类型</h4>
@@ -888,6 +1147,7 @@ pre code {
 <p>new Map()  </p>
 <h2 id="方法">方法</h2>
 <h3 id="geterrorerrnoparam"><font id="METHOD_ErrorFactory_getError">getError(errNo[,param])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>获取异常  </p>
 <h4 id="修饰符-2">修饰符</h4>
@@ -899,6 +1159,49 @@ pre code {
 </ul>
 <h4 id="返回值">返回值</h4>
 <p><font class='datatype'>Error</font><br>{code:异常码,message:异常信息}  </p>
+</div>
+<hr><div id='ICondValueObj'><h1 id="interface-icondvalueobj">Interface ICondValueObj</h1>
+<h2 id="属性列表">属性列表</h2>
+<ul>
+<li><a href="#PROP_ICondValueObj_after">after</a></li>
+<li><a href="#PROP_ICondValueObj_before">before</a></li>
+<li><a href="#PROP_ICondValueObj_logic">logic</a></li>
+<li><a href="#PROP_ICondValueObj_rel">rel</a></li>
+<li><a href="#PROP_ICondValueObj_value">value</a></li>
+</ul>
+<h2 id="描述">描述</h2>
+<p><font class="since">开始于 : v0.0.1</font><br>where条件值对象接口，用于链式操作时构造条件语句  </p>
+<h2 id="属性">属性</h2>
+<h3 id="after"><font id="PROP_ICondValueObj_after">after</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>表达式后置串，通常为&quot;)&quot;  </p>
+<h4 id="修饰符">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型">数据类型</h4>
+<p><font class='datatype'>string</font>  </p>
+<h3 id="before"><font id="PROP_ICondValueObj_before">before</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>表达式前置串，通常为&quot;(&quot;  </p>
+<h4 id="修饰符-1">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-1">数据类型</h4>
+<p><font class='datatype'>string</font>  </p>
+<h3 id="logic"><font id="PROP_ICondValueObj_logic">logic</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>与前一个字段的逻辑关系(第一个字段条件此项无效)，可选值为AND,OR，默认AND  </p>
+<h4 id="修饰符-2">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-2">数据类型</h4>
+<p><font class='datatype'>string</font>  </p>
+<h3 id="rel"><font id="PROP_ICondValueObj_rel">rel</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>字段与值的逻辑关系 如 =,&gt;,&lt;,&gt;=,&lt;=,&lt;&gt;,is,like等，默认=  </p>
+<h4 id="修饰符-3">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-3">数据类型</h4>
+<p><font class='datatype'>string</font>  </p>
+<h3 id="value"><font id="PROP_ICondValueObj_value">value</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>值  </p>
+<h4 id="修饰符-4">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-4">数据类型</h4>
+<p><font class='datatype'>any</font>  </p>
 </div>
 <hr><div id='IConnectionCfg'><h1 id="interface-iconnectioncfg">Interface IConnectionCfg</h1>
 <h2 id="属性列表">属性列表</h2>
@@ -915,64 +1218,64 @@ pre code {
 <li><a href="#PROP_IConnectionCfg_username">username</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>连接配置  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>连接配置  </p>
 <h2 id="属性">属性</h2>
 <h3 id="cache"><font id="PROP_IConnectionCfg_cache">cache</font></h3>
-<p>是否cache  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>是否cache  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'>boolean</font>  </p>
 <h3 id="database"><font id="PROP_IConnectionCfg_database">database</font></h3>
-<p>数据库  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>数据库  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="debug"><font id="PROP_IConnectionCfg_debug">debug</font></h3>
-<p>是否调试模式  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>是否调试模式  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-2">数据类型</h4>
 <p><font class='datatype'>boolean</font>  </p>
 <h3 id="dialect"><font id="PROP_IConnectionCfg_dialect">dialect</font></h3>
-<p>数据库产品  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>数据库产品  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-3">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="entities"><font id="PROP_IConnectionCfg_entities">entities</font></h3>
-<p>实体配置数组  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体配置数组  </p>
 <h4 id="修饰符-4">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-4">数据类型</h4>
 <p><font class='datatype'>Array&lt;string&gt;</font>  </p>
 <h3 id="host"><font id="PROP_IConnectionCfg_host">host</font></h3>
-<p>服务器地址  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>服务器地址  </p>
 <h4 id="修饰符-5">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-5">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="password"><font id="PROP_IConnectionCfg_password">password</font></h3>
-<p>密码  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>密码  </p>
 <h4 id="修饰符-6">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-6">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="pool"><font id="PROP_IConnectionCfg_pool">pool</font></h3>
-<p>连接池配置  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>连接池配置  </p>
 <h4 id="修饰符-7">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-7">数据类型</h4>
 <p><font class='datatype'><a href="#IConnectionPool">IConnectionPool</a></font>  </p>
 <h3 id="port"><font id="PROP_IConnectionCfg_port">port</font></h3>
-<p>端口号  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>端口号  </p>
 <h4 id="修饰符-8">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-8">数据类型</h4>
 <p><font class='datatype'>number</font>  </p>
 <h3 id="username"><font id="PROP_IConnectionCfg_username">username</font></h3>
-<p>用户名  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>用户名  </p>
 <h4 id="修饰符-9">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-9">数据类型</h4>
@@ -985,16 +1288,16 @@ pre code {
 <li><a href="#PROP_IConnectionPool_min">min</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>连接池配置  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>连接池配置  </p>
 <h2 id="属性">属性</h2>
 <h3 id="max"><font id="PROP_IConnectionPool_max">max</font></h3>
-<p>最大连接数  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>最大连接数  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'>number</font>  </p>
 <h3 id="min"><font id="PROP_IConnectionPool_min">min</font></h3>
-<p>最小连接数  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>最小连接数  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
@@ -1009,28 +1312,28 @@ pre code {
 <li><a href="#PROP_IEntity_save">save</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>实体接口  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体接口  </p>
 <h2 id="属性">属性</h2>
 <h3 id="__status"><font id="PROP_IEntity___status">__status</font></h3>
-<p>状态  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>状态  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'><a href="#EEntityState">EEntityState</a></font>  </p>
 <h3 id="compare"><font id="PROP_IEntity_compare">compare</font></h3>
-<p>比较方法  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>比较方法  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>Function</font>  </p>
 <h3 id="delete"><font id="PROP_IEntity_delete">delete</font></h3>
-<p>删除方法  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>删除方法  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-2">数据类型</h4>
 <p><font class='datatype'>Function</font>  </p>
 <h3 id="save"><font id="PROP_IEntity_save">save</font></h3>
-<p>保存方法  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>保存方法  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-3">数据类型</h4>
@@ -1047,40 +1350,40 @@ pre code {
 <li><a href="#PROP_IEntityCfg_table">table</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>entity类配置项  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>entity类配置项  </p>
 <h2 id="属性">属性</h2>
 <h3 id="columns"><font id="PROP_IEntityCfg_columns">columns</font></h3>
-<p>字段集合，键为对象属性名(非表字段名)  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>字段集合，键为对象属性名(非表字段名)  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'>Map&lt;string,<a href="#IEntityColumn">IEntityColumn</a>&gt;</font>  </p>
 <h3 id="entity"><font id="PROP_IEntityCfg_entity">entity</font></h3>
-<p>实体类  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体类  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>any</font>  </p>
 <h3 id="id"><font id="PROP_IEntityCfg_id">id</font></h3>
-<p>主键  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>主键  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-2">数据类型</h4>
 <p><font class='datatype'><a href="#IEntityPKey">IEntityPKey</a></font>  </p>
 <h3 id="relations"><font id="PROP_IEntityCfg_relations">relations</font></h3>
-<p>关系集合，键为对象属性名(非表字段名)  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>关系集合，键为对象属性名(非表字段名)  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-3">数据类型</h4>
 <p><font class='datatype'>Map&lt;string,<a href="#IEntityRelation">IEntityRelation</a>&gt;</font>  </p>
 <h3 id="schema"><font id="PROP_IEntityCfg_schema">schema</font></h3>
-<p>数据库名  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>数据库名  </p>
 <h4 id="修饰符-4">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-4">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="table"><font id="PROP_IEntityCfg_table">table</font></h3>
-<p>表名  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>表名  </p>
 <h4 id="修饰符-5">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-5">数据类型</h4>
@@ -1096,34 +1399,34 @@ pre code {
 <li><a href="#PROP_IEntityColumn_type">type</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>实体字段配置  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体字段配置  </p>
 <h2 id="属性">属性</h2>
 <h3 id="length"><font id="PROP_IEntityColumn_length">length</font></h3>
-<p>长度，type为字符串时有效  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>长度，type为字符串时有效  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'>number</font>  </p>
 <h3 id="name"><font id="PROP_IEntityColumn_name">name</font></h3>
-<p>字段名，默认为属性名  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>字段名，默认为属性名  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="nullable"><font id="PROP_IEntityColumn_nullable">nullable</font></h3>
-<p>是否可空  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>是否可空  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-2">数据类型</h4>
 <p><font class='datatype'>boolean</font>  </p>
 <h3 id="refname"><font id="PROP_IEntityColumn_refName">refName</font></h3>
-<p>外键字段名  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>外键字段名  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-3">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="type"><font id="PROP_IEntityColumn_type">type</font></h3>
-<p>数据类型 int double string date object  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>数据类型 int double string date object  </p>
 <h4 id="修饰符-4">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-4">数据类型</h4>
@@ -1138,28 +1441,28 @@ pre code {
 <li><a href="#PROP_IEntityPKey_table">table</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>实体主键配置  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体主键配置  </p>
 <h2 id="属性">属性</h2>
 <h3 id="generator"><font id="PROP_IEntityPKey_generator">generator</font></h3>
-<p>主键生成策略 identity table uuid  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>主键生成策略 identity table uuid  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="keyname"><font id="PROP_IEntityPKey_keyName">keyName</font></h3>
-<p>主键对应来源表记录项，如User实体用id_name=&#39;ID_USER&#39;这一条记录产生主键，则keyName=&#39;ID_USER&#39;  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>主键对应来源表记录项，如User实体用id_name=&#39;ID_USER&#39;这一条记录产生主键，则keyName=&#39;ID_USER&#39;  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="name"><font id="PROP_IEntityPKey_name">name</font></h3>
-<p>对应属性名  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>对应属性名  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-2">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="table"><font id="PROP_IEntityPKey_table">table</font></h3>
-<p>主键来源表，数据库表，专门用于主键生成<br>该表必须包含两个字段<br>id_name: string,对应某个实体主键生成器名,<br>id_value: int,对应主键值  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>主键来源表，数据库表，专门用于主键生成<br>该表必须包含两个字段<br>id_name: string,对应某个实体主键生成器名,<br>id_value: int,对应主键值  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-3">数据类型</h4>
@@ -1173,22 +1476,22 @@ pre code {
 <li><a href="#PROP_IEntityRefColumn_refName">refName</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>外键字段类型  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>外键字段类型  </p>
 <h2 id="属性">属性</h2>
 <h3 id="name"><font id="PROP_IEntityRefColumn_name">name</font></h3>
-<p>字段名，默认为属性名  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>字段名，默认为属性名  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="nullable"><font id="PROP_IEntityRefColumn_nullable">nullable</font></h3>
-<p>是否可空  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>是否可空  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>boolean</font>  </p>
 <h3 id="refname"><font id="PROP_IEntityRefColumn_refName">refName</font></h3>
-<p>外键字段名  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>外键字段名  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-2">数据类型</h4>
@@ -1197,7 +1500,6 @@ pre code {
 <hr><div id='IEntityRelation'><h1 id="interface-ientityrelation">Interface IEntityRelation</h1>
 <h2 id="属性列表">属性列表</h2>
 <ul>
-<li><a href="#PROP_IEntityRelation_eager">eager</a></li>
 <li><a href="#PROP_IEntityRelation_entity">entity</a></li>
 <li><a href="#PROP_IEntityRelation_mappedBy">mappedBy</a></li>
 <li><a href="#PROP_IEntityRelation_onDelete">onDelete</a></li>
@@ -1205,43 +1507,37 @@ pre code {
 <li><a href="#PROP_IEntityRelation_type">type</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>实体关系配置  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体关系配置  </p>
 <h2 id="属性">属性</h2>
-<h3 id="eager"><font id="PROP_IEntityRelation_eager">eager</font></h3>
-<p>懒加载关联对象, false 懒加载，true 非懒加载  </p>
+<h3 id="entity"><font id="PROP_IEntityRelation_entity">entity</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>被依赖的实体类名  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型">数据类型</h4>
-<p><font class='datatype'>boolean</font>  </p>
-<h3 id="entity"><font id="PROP_IEntityRelation_entity">entity</font></h3>
-<p>被依赖的实体类名  </p>
+<p><font class='datatype'>string</font>  </p>
+<h3 id="mappedby"><font id="PROP_IEntityRelation_mappedBy">mappedBy</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>被引用时对应子表属性  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
-<h3 id="mappedby"><font id="PROP_IEntityRelation_mappedBy">mappedBy</font></h3>
-<p>被引用时对应子表属性  </p>
+<h3 id="ondelete"><font id="PROP_IEntityRelation_onDelete">onDelete</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>外键删除策略 cascade,setnull,none  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-2">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
-<h3 id="ondelete"><font id="PROP_IEntityRelation_onDelete">onDelete</font></h3>
-<p>外键删除策略 cascade,setnull,none  </p>
+<h3 id="onupdate"><font id="PROP_IEntityRelation_onUpdate">onUpdate</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>外键更新策略 cascade,setnull,none  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-3">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
-<h3 id="onupdate"><font id="PROP_IEntityRelation_onUpdate">onUpdate</font></h3>
-<p>外键更新策略 cascade,setnull,none  </p>
+<h3 id="type"><font id="PROP_IEntityRelation_type">type</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>关系类型  </p>
 <h4 id="修饰符-4">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-4">数据类型</h4>
-<p><font class='datatype'>string</font>  </p>
-<h3 id="type"><font id="PROP_IEntityRelation_type">type</font></h3>
-<p>关系类型  </p>
-<h4 id="修饰符-5">修饰符</h4>
-<p><font class="modifier">public</font>  </p>
-<h4 id="数据类型-5">数据类型</h4>
 <p><font class='datatype'><a href="#ERelationType">ERelationType</a></font>  </p>
 </div>
 <hr><div id='Logger'><h1 id="class-logger">Class Logger</h1>
@@ -1250,9 +1546,10 @@ pre code {
 <li><a href="#METHOD_Logger_console">console</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>日志类  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>日志类  </p>
 <h2 id="方法">方法</h2>
 <h3 id="consolemsg"><font id="METHOD_Logger_console">console(msg)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>写日志到控制台  </p>
 <h4 id="修饰符">修饰符</h4>
@@ -1264,6 +1561,55 @@ pre code {
 <h4 id="返回值">返回值</h4>
 <p>void  </p>
 </div>
+<hr><div id='MysqlTransaction'><h1 id="class-mysqltransaction">Class MysqlTransaction</h1>
+<h2 id="方法列表">方法列表</h2>
+<ul>
+<li><a href="#METHOD_MysqlTransaction_begin">begin</a></li>
+<li><a href="#METHOD_MysqlTransaction_commit">commit</a></li>
+<li><a href="#METHOD_MysqlTransaction_rollback">rollback</a></li>
+</ul>
+<h2 id="描述">描述</h2>
+<p><font class="since">开始于 : v0.0.1</font><br>mysql 事务类  </p>
+<h3 id="extends">extends</h3>
+<p><font class='datatype'>Base<a href="#Transaction">Transaction</a></font>  </p>
+<h2 id="方法">方法</h2>
+<h3 id="beginconnection"><font id="METHOD_MysqlTransaction_begin">begin(connection)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-1">描述</h4>
+<p>开始事务  </p>
+<h4 id="修饰符">修饰符</h4>
+<p><font class="modifier">public  async</font>  </p>
+<h4 id="参数">参数</h4>
+<ul>
+<li>connection <em>&lt;<font class='datatype'><a href="#Connection">Connection</a></font>&gt;</em> </li>
+</ul>
+<h4 id="返回值">返回值</h4>
+<p>void  </p>
+<h3 id="commitconnection"><font id="METHOD_MysqlTransaction_commit">commit(connection)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-2">描述</h4>
+<p>事务提交  </p>
+<h4 id="修饰符-1">修饰符</h4>
+<p><font class="modifier">public  async</font>  </p>
+<h4 id="参数-1">参数</h4>
+<ul>
+<li>connection <em>&lt;<font class='datatype'><a href="#Connection">Connection</a></font>&gt;</em> </li>
+</ul>
+<h4 id="返回值-1">返回值</h4>
+<p>void  </p>
+<h3 id="rollbackconnection"><font id="METHOD_MysqlTransaction_rollback">rollback(connection)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-3">描述</h4>
+<p>事务回滚  </p>
+<h4 id="修饰符-2">修饰符</h4>
+<p><font class="modifier">public  async</font>  </p>
+<h4 id="参数-2">参数</h4>
+<ul>
+<li>connection <em>&lt;<font class='datatype'><a href="#Connection">Connection</a></font>&gt;</em> </li>
+</ul>
+<h4 id="返回值-2">返回值</h4>
+<p>void  </p>
+</div>
 <hr><div id='NativeQuery'><h1 id="class-nativequery">Class NativeQuery</h1>
 <h2 id="方法列表">方法列表</h2>
 <ul>
@@ -1272,7 +1618,7 @@ pre code {
 <li><a href="#METHOD_NativeQuery_getResultList">getResultList</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>原生查询  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>原生查询  </p>
 <h3 id="extends">extends</h3>
 <p><font class='datatype'><a href="#Query">Query</a></font>  </p>
 <h2 id="构造方法">构造方法</h2>
@@ -1285,10 +1631,9 @@ pre code {
 </ul>
 <h2 id="方法">方法</h2>
 <h3 id="genoner"><font id="METHOD_NativeQuery_genOne">genOne(r)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>根据查询结果生成单个数据对象  </p>
-<h4 id="修饰符">修饰符</h4>
-<p><font class="modifier">private</font>  </p>
 <h4 id="参数-1">参数</h4>
 <ul>
 <li>r <em>&lt;<font class='datatype'>any</font>&gt;</em> </li>
@@ -1296,16 +1641,18 @@ pre code {
 <h4 id="返回值">返回值</h4>
 <p>void  </p>
 <h3 id="getresult"><font id="METHOD_NativeQuery_getResult">getResult()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-2">描述</h4>
-<p>获取单个实体  </p>
-<h4 id="修饰符-1">修饰符</h4>
+<p>获取单个实体或单个属性值  </p>
+<h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public  async</font>  </p>
 <h4 id="返回值-1">返回值</h4>
 <p><font class='datatype'>Promise&lt;any&gt;</font>  </p>
 <h3 id="getresultliststartlimit"><font id="METHOD_NativeQuery_getResultList">getResultList([start[,limit]])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-3">描述</h4>
 <p>获取结果列表  </p>
-<h4 id="修饰符-2">修饰符</h4>
+<h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public  async</font>  </p>
 <h4 id="参数-2">参数</h4>
 <ul>
@@ -1313,7 +1660,7 @@ pre code {
 <li>limit <em>&lt;<font class='datatype'>number</font>&gt;</em>     记录数</li>
 </ul>
 <h4 id="返回值-2">返回值</h4>
-<p><font class='datatype'>Promise&lt;Array&lt;any&gt;&gt;</font>  </p>
+<p><font class='datatype'>Promise&lt;any&gt;</font>  </p>
 </div>
 <hr><div id='Query'><h1 id="class-query">Class Query</h1>
 <h2 id="属性列表">属性列表</h2>
@@ -1322,157 +1669,251 @@ pre code {
 <li><a href="#PROP_Query_entityClassName">entityClassName</a></li>
 <li><a href="#PROP_Query_entityManager">entityManager</a></li>
 <li><a href="#PROP_Query_execSql">execSql</a></li>
-<li><a href="#PROP_Query_fkArray">fkArray</a></li>
 <li><a href="#PROP_Query_limit">limit</a></li>
 <li><a href="#PROP_Query_paramArr">paramArr</a></li>
 <li><a href="#PROP_Query_start">start</a></li>
+<li><a href="#PROP_Query_translator">translator</a></li>
+<li><a href="#PROP_Query_type">type</a></li>
 </ul>
 <h2 id="方法列表">方法列表</h2>
 <ul>
+<li><a href="#METHOD_Query_delete">delete</a></li>
+<li><a href="#METHOD_Query_distinct">distinct</a></li>
+<li><a href="#METHOD_Query_from">from</a></li>
 <li><a href="#METHOD_Query_genEntity">genEntity</a></li>
 <li><a href="#METHOD_Query_getResult">getResult</a></li>
 <li><a href="#METHOD_Query_getResultList">getResultList</a></li>
+<li><a href="#METHOD_Query_orderBy">orderBy</a></li>
+<li><a href="#METHOD_Query_preHandle">preHandle</a></li>
+<li><a href="#METHOD_Query_select">select</a></li>
 <li><a href="#METHOD_Query_setLimit">setLimit</a></li>
 <li><a href="#METHOD_Query_setParameter">setParameter</a></li>
 <li><a href="#METHOD_Query_setParameters">setParameters</a></li>
 <li><a href="#METHOD_Query_setStart">setStart</a></li>
+<li><a href="#METHOD_Query_where">where</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>查询类  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>查询类  </p>
 <h2 id="构造方法">构造方法</h2>
-<h3 id="constructorrqlementityclassnamenottransate"><a id="METHOD_Query_constructor">constructor(rql,em[,entityClassName[,notTransate]])</a></h3>
+<h3 id="constructorementityclassname"><a id="METHOD_Query_constructor">constructor(em[,entityClassName])</a></h3>
 <h4 id="参数">参数</h4>
 <ul>
-<li>rql <em>&lt;<font class='datatype'>string</font>&gt;</em>               relean ql</li>
 <li>em <em>&lt;<font class='datatype'><a href="#EntityManager">EntityManager</a></font>&gt;</em>                entity manager</li>
 <li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em>   对应的结果实体类名</li>
-<li>notTransate <em>&lt;<font class='datatype'>boolean</font>&gt;</em>       不转换rql</li>
 </ul>
 <h2 id="属性">属性</h2>
 <h3 id="aliasmap"><font id="PROP_Query_aliasMap">aliasMap</font></h3>
-<p>别名关联map {aliasName:{entity:对应实体类,fromEntity:来源实体,propName:属性名}}  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体别名map  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型">数据类型</h4>
-<p><font class='datatype'>Map&lt;string,object&gt;</font>  </p>
+<p><font class='datatype'>Map&lt;string,any&gt;</font>  </p>
 <h3 id="entityclassname"><font id="PROP_Query_entityClassName">entityClassName</font></h3>
-<p>实体类名  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>实体类名  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="entitymanager"><font id="PROP_Query_entityManager">entityManager</font></h3>
-<p>entity 管理器  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>entity 管理器  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-2">数据类型</h4>
 <p><font class='datatype'><a href="#EntityManager">EntityManager</a></font>  </p>
 <h3 id="execsql"><font id="PROP_Query_execSql">execSql</font></h3>
-<p>执行sql  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>执行sql  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-3">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
-<h3 id="fkarray"><font id="PROP_Query_fkArray">fkArray</font></h3>
-<p>外键数组  </p>
+<h3 id="limit"><font id="PROP_Query_limit">limit</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>查询记录的条数限制  </p>
 <h4 id="修饰符-4">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-4">数据类型</h4>
-<p><font class='datatype'>string[]</font>  </p>
-<h3 id="limit"><font id="PROP_Query_limit">limit</font></h3>
-<p>查询记录的条数限制  </p>
+<p><font class='datatype'>number</font>  </p>
+<h3 id="paramarr"><font id="PROP_Query_paramArr">paramArr</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>参数值数组  </p>
 <h4 id="修饰符-5">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-5">数据类型</h4>
-<p><font class='datatype'>number</font>  </p>
-<h3 id="paramarr"><font id="PROP_Query_paramArr">paramArr</font></h3>
-<p>参数值数组  </p>
+<p><font class='datatype'>any[]</font>  </p>
+<h3 id="start"><font id="PROP_Query_start">start</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>查询记录的start index  </p>
 <h4 id="修饰符-6">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-6">数据类型</h4>
-<p><font class='datatype'>any[]</font>  </p>
-<h3 id="start"><font id="PROP_Query_start">start</font></h3>
-<p>查询记录的start index  </p>
+<p><font class='datatype'>number</font>  </p>
+<h3 id="translator"><font id="PROP_Query_translator">translator</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>解释器  </p>
 <h4 id="修饰符-7">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
 <h4 id="数据类型-7">数据类型</h4>
-<p><font class='datatype'>number</font>  </p>
-<h2 id="方法">方法</h2>
-<h3 id="genentityr"><font id="METHOD_Query_genEntity">genEntity(r)</font></h3>
-<h4 id="描述-1">描述</h4>
-<p>生成实体  </p>
+<p><font class='datatype'><a href="#Translator">Translator</a></font>  </p>
+<h3 id="type"><font id="PROP_Query_type">type</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>类型 0:select , 1:insert , 2:update, 3:delete  </p>
 <h4 id="修饰符-8">修饰符</h4>
-<p><font class="modifier">private</font>  </p>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-8">数据类型</h4>
+<p><font class='datatype'>E<a href="#Query">Query</a>Type</font>  </p>
+<h2 id="方法">方法</h2>
+<h3 id="delete"><font id="METHOD_Query_delete">delete()</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-1">描述</h4>
+<p>构造删除  </p>
+<h4 id="修饰符-9">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="返回值">返回值</h4>
+<p>void  </p>
+<h3 id="distinct"><font id="METHOD_Query_distinct">distinct()</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-2">描述</h4>
+<p>添加distinct  </p>
+<h4 id="修饰符-10">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="返回值-1">返回值</h4>
+<p>void  </p>
+<h3 id="fromtables"><font id="METHOD_Query_from">from(tables)</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-3">描述</h4>
+<p>添加查询 表集  </p>
+<h5 id="description">description</h5>
+<p>主表的关联表会自动处理，此处不需要加入  </p>
+<h4 id="修饰符-11">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
 <h4 id="参数-1">参数</h4>
+<ul>
+<li>tables <em>&lt;<font class='datatype'>string|Array&lt;string&gt;</font>&gt;</em>    实体类名或实体类名数组</li>
+</ul>
+<h4 id="返回值-2">返回值</h4>
+<p><font class='datatype'><a href="#Query">Query</a></font>  </p>
+<h3 id="genentityr"><font id="METHOD_Query_genEntity">genEntity(r)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-4">描述</h4>
+<p>生成实体  </p>
+<h4 id="参数-2">参数</h4>
 <ul>
 <li>r <em>&lt;<font class='datatype'>any</font>&gt;</em>     查询结果</li>
 </ul>
-<h4 id="返回值">返回值</h4>
+<h4 id="返回值-3">返回值</h4>
 <p><font class='datatype'><a href="#IEntity">IEntity</a></font><br>实体对象  </p>
-<h3 id="getresult"><font id="METHOD_Query_getResult">getResult()</font></h3>
-<h4 id="描述-2">描述</h4>
-<p>获取单个实体  </p>
-<h4 id="修饰符-9">修饰符</h4>
+<h3 id="getresultnotentity"><font id="METHOD_Query_getResult">getResult([notEntity])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-5">描述</h4>
+<p>获取单个查询结果  </p>
+<h4 id="修饰符-12">修饰符</h4>
 <p><font class="modifier">public  async</font>  </p>
-<h4 id="返回值-1">返回值</h4>
-<p><font class='datatype'>Promise&lt;<a href="#IEntity">IEntity</a>&gt;</font>  </p>
-<h3 id="getresultliststartlimit"><font id="METHOD_Query_getResultList">getResultList([start[,limit]])</font></h3>
-<h4 id="描述-3">描述</h4>
-<p>获取结果列表  </p>
-<h4 id="修饰符-10">修饰符</h4>
-<p><font class="modifier">public  async</font>  </p>
-<h4 id="参数-2">参数</h4>
-<ul>
-<li>start <em>&lt;<font class='datatype'>number</font>&gt;</em>     开始索引</li>
-<li>limit <em>&lt;<font class='datatype'>number</font>&gt;</em>     记录数</li>
-</ul>
-<h4 id="返回值-2">返回值</h4>
-<p><font class='datatype'>Promise&lt;Array&lt;<a href="#IEntity">IEntity</a>&gt;&gt;</font>  </p>
-<h3 id="setlimitlimit"><font id="METHOD_Query_setLimit">setLimit(limit)</font></h3>
-<h4 id="描述-4">描述</h4>
-<p>设置获取记录数  </p>
-<h4 id="修饰符-11">修饰符</h4>
-<p><font class="modifier">public</font>  </p>
 <h4 id="参数-3">参数</h4>
 <ul>
+<li>notEntity <em>&lt;<font class='datatype'>boolean</font>&gt;</em>     不返回实体，如果类为true且只有一个属性值，则直接返回属性值，否则返回对象</li>
+</ul>
+<h4 id="返回值-4">返回值</h4>
+<p><font class='datatype'>Promise&lt;any&gt;</font><br>select:实体|object|值<br>delete:true/false  </p>
+<h3 id="getresultliststartlimitnotentity"><font id="METHOD_Query_getResultList">getResultList([start[,limit[,notEntity]]])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-6">描述</h4>
+<p>获取结果列表  </p>
+<h4 id="修饰符-13">修饰符</h4>
+<p><font class="modifier">public  async</font>  </p>
+<h4 id="参数-4">参数</h4>
+<ul>
+<li>start <em>&lt;<font class='datatype'>number</font>&gt;</em>         开始索引</li>
+<li>limit <em>&lt;<font class='datatype'>number</font>&gt;</em>         记录数</li>
+<li>notEntity <em>&lt;<font class='datatype'>boolean</font>&gt;</em>     是否不转成为实体</li>
+</ul>
+<h4 id="返回值-5">返回值</h4>
+<p><font class='datatype'>Promise&lt;any&gt;</font><br>实体或对象数组  </p>
+<h3 id="orderbyparams"><font id="METHOD_Query_orderBy">orderBy(params)</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-7">描述</h4>
+<p>添加排序对象  </p>
+<h4 id="修饰符-14">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="参数-5">参数</h4>
+<ul>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em> </li>
+</ul>
+<h4 id="返回值-6">返回值</h4>
+<p>void  </p>
+<h3 id="prehandle"><font id="METHOD_Query_preHandle">preHandle()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-8">描述</h4>
+<p>预处理  </p>
+<h4 id="返回值-7">返回值</h4>
+<p>void  </p>
+<h3 id="selectfields"><font id="METHOD_Query_select">select(fields)</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-9">描述</h4>
+<p>构造查询 字段集  </p>
+<h4 id="修饰符-15">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="参数-6">参数</h4>
+<ul>
+<li>fields <em>&lt;<font class='datatype'>string|Array&lt;string&gt;</font>&gt;</em>    属性或属性数组</li>
+</ul>
+<h4 id="返回值-8">返回值</h4>
+<p><font class='datatype'><a href="#Query">Query</a></font>  </p>
+<h3 id="setlimitlimit"><font id="METHOD_Query_setLimit">setLimit(limit)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-10">描述</h4>
+<p>设置获取记录数  </p>
+<h4 id="修饰符-16">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="参数-7">参数</h4>
+<ul>
 <li>limit <em>&lt;<font class='datatype'>number</font>&gt;</em>     记录数</li>
 </ul>
-<h4 id="返回值-3">返回值</h4>
+<h4 id="返回值-9">返回值</h4>
 <p>void  </p>
 <h3 id="setparameterindexvalue"><font id="METHOD_Query_setParameter">setParameter(index,value)</font></h3>
-<h4 id="描述-5">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-11">描述</h4>
 <p>设置查询参数值  </p>
-<h4 id="修饰符-12">修饰符</h4>
+<h4 id="修饰符-17">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
-<h4 id="参数-4">参数</h4>
+<h4 id="参数-8">参数</h4>
 <ul>
 <li>index <em>&lt;<font class='datatype'>number</font>&gt;</em> </li>
 <li>value <em>&lt;<font class='datatype'>any</font>&gt;</em> </li>
 </ul>
-<h4 id="返回值-4">返回值</h4>
+<h4 id="返回值-10">返回值</h4>
 <p>void  </p>
 <h3 id="setparametersvaluearr"><font id="METHOD_Query_setParameters">setParameters(valueArr)</font></h3>
-<h4 id="描述-6">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-12">描述</h4>
 <p>设置多个参数值，从下标0开始  </p>
-<h4 id="修饰符-13">修饰符</h4>
+<h4 id="修饰符-18">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
-<h4 id="参数-5">参数</h4>
+<h4 id="参数-9">参数</h4>
 <ul>
 <li>valueArr <em>&lt;<font class='datatype'>Array&lt;any&gt;</font>&gt;</em> 值数组</li>
 </ul>
-<h4 id="返回值-5">返回值</h4>
+<h4 id="返回值-11">返回值</h4>
 <p>void  </p>
 <h3 id="setstartstart"><font id="METHOD_Query_setStart">setStart(start)</font></h3>
-<h4 id="描述-7">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-13">描述</h4>
 <p>设置开始记录位置  </p>
-<h4 id="修饰符-14">修饰符</h4>
+<h4 id="修饰符-19">修饰符</h4>
 <p><font class="modifier">public</font>  </p>
-<h4 id="参数-6">参数</h4>
+<h4 id="参数-10">参数</h4>
 <ul>
 <li>start <em>&lt;<font class='datatype'>number</font>&gt;</em>     开始位置</li>
 </ul>
-<h4 id="返回值-6">返回值</h4>
+<h4 id="返回值-12">返回值</h4>
 <p>void  </p>
+<h3 id="whereparams"><font id="METHOD_Query_where">where(params)</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-14">描述</h4>
+<p>添加where条件  </p>
+<h4 id="修饰符-20">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="参数-11">参数</h4>
+<ul>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em>    参数对象{paramName1:paramValue1,paramName2:{value:paramValue2,rel:&#39;&gt;&#39;,before:&#39;(&#39;,after:&#39;and&#39;}...}<br>参数值有两种方式，一种是直接在参数名后给值，一种是给对象，对象中包括:<br>value:值,rel:关系,before:字段前字符串(通常为&quot;(&quot;),after:值后字符串(通常为&quot;and&quot;,&quot;or&quot;,&quot;)&quot;)<br>关系包括 &gt;,&lt;,&gt;=,&lt;=,&lt;&gt;,is,like等</li>
+</ul>
+<h4 id="返回值-13">返回值</h4>
+<p><font class='datatype'><a href="#Query">Query</a></font><br>数组，第一个where后的条件语句，第二个元素为值数组，如: [where 语句,[1,2]]  </p>
 </div>
 <hr><div id='RelaenManager'><h1 id="class-relaenmanager">Class RelaenManager</h1>
 <h2 id="属性列表">属性列表</h2>
@@ -1488,34 +1929,35 @@ pre code {
 <li><a href="#METHOD_RelaenManager_parseFile">parseFile</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>relaen 框架管理器  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>relaen 框架管理器  </p>
 <h2 id="属性">属性</h2>
 <h3 id="appname"><font id="PROP_RelaenManager_appName">appName</font></h3>
-<p>应用名，必须设置  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>应用名，必须设置  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
 <h4 id="数据类型">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h3 id="cache"><font id="PROP_RelaenManager_cache">cache</font></h3>
-<p>开启一级cache  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>开启一级cache  </p>
 <h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>boolean</font>  </p>
 <h3 id="debug"><font id="PROP_RelaenManager_debug">debug</font></h3>
-<p>是否调试模式  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>是否调试模式  </p>
 <h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
 <h4 id="数据类型-2">数据类型</h4>
 <p><font class='datatype'>boolean</font>  </p>
 <h3 id="dialect"><font id="PROP_RelaenManager_dialect">dialect</font></h3>
-<p>数据库类型<br>mysql oracle mssql  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>数据库类型<br>mysql oracle mssql  </p>
 <h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
 <h4 id="数据类型-3">数据类型</h4>
 <p><font class='datatype'>string</font>  </p>
 <h2 id="方法">方法</h2>
 <h3 id="initcfg"><font id="METHOD_RelaenManager_init">init(cfg)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>初始化  </p>
 <h4 id="修饰符-4">修饰符</h4>
@@ -1527,6 +1969,7 @@ pre code {
 <h4 id="返回值">返回值</h4>
 <p>void  </p>
 <h3 id="parsefilepath"><font id="METHOD_RelaenManager_parseFile">parseFile(path)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-2">描述</h4>
 <h4 id="修饰符-5">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
@@ -1537,6 +1980,52 @@ pre code {
 <h4 id="返回值-1">返回值</h4>
 <p><font class='datatype'>any</font>  </p>
 </div>
+<hr><div id='RelaenThreadLocal'><h1 id="class-relaenthreadlocal">Class RelaenThreadLocal</h1>
+<h2 id="属性列表">属性列表</h2>
+<ul>
+<li><a href="#PROP_RelaenThreadLocal_localStorage">localStorage</a></li>
+<li><a href="#PROP_RelaenThreadLocal_threadId">threadId</a></li>
+</ul>
+<h2 id="方法列表">方法列表</h2>
+<ul>
+<li><a href="#METHOD_RelaenThreadLocal_getThreadId">getThreadId</a></li>
+<li><a href="#METHOD_RelaenThreadLocal_newThreadId">newThreadId</a></li>
+</ul>
+<h2 id="描述">描述</h2>
+<p><font class="since">开始于 : v0.0.1</font><br>线程存储  </p>
+<h2 id="属性">属性</h2>
+<h3 id="localstorage"><font id="PROP_RelaenThreadLocal_localStorage">localStorage</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>异步线程存储器  </p>
+<h4 id="修饰符">修饰符</h4>
+<p><font class="modifier">static</font>  </p>
+<h4 id="初始值">初始值</h4>
+<p>new AsyncLocalStorage()  </p>
+<h3 id="threadid"><font id="PROP_RelaenThreadLocal_threadId">threadId</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>线程id  </p>
+<h4 id="修饰符-1">修饰符</h4>
+<p><font class="modifier">static</font>  </p>
+<h4 id="数据类型">数据类型</h4>
+<p><font class='datatype'>number</font>  </p>
+<h4 id="初始值-1">初始值</h4>
+<p>1  </p>
+<h2 id="方法">方法</h2>
+<h3 id="getthreadid"><font id="METHOD_RelaenThreadLocal_getThreadId">getThreadId()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-1">描述</h4>
+<p>获取当前thread id  </p>
+<h4 id="修饰符-2">修饰符</h4>
+<p><font class="modifier">public  static</font>  </p>
+<h4 id="返回值">返回值</h4>
+<p><font class='datatype'>number</font><br>当前threadId  </p>
+<h3 id="newthreadid"><font id="METHOD_RelaenThreadLocal_newThreadId">newThreadId()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-2">描述</h4>
+<p>新建thread id  </p>
+<h4 id="修饰符-3">修饰符</h4>
+<p><font class="modifier">public  static</font>  </p>
+<h4 id="返回值-1">返回值</h4>
+<p><font class='datatype'>number</font><br>新threadId  </p>
+</div>
 <hr><div id='SqlExecutor'><h1 id="class-sqlexecutor">Class SqlExecutor</h1>
 <h2 id="方法列表">方法列表</h2>
 <ul>
@@ -1544,18 +2033,20 @@ pre code {
 <li><a href="#METHOD_SqlExecutor_execMssql">execMssql</a></li>
 <li><a href="#METHOD_SqlExecutor_execMysql">execMysql</a></li>
 <li><a href="#METHOD_SqlExecutor_execOracle">execOracle</a></li>
+<li><a href="#METHOD_SqlExecutor_handleStartAndLimit">handleStartAndLimit</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>sql执行器  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>sql执行器  </p>
 <h2 id="方法">方法</h2>
-<h3 id="execconnsqlparamsstartlimit"><font id="METHOD_SqlExecutor_exec">exec(conn,sql[,params[,start[,limit]]])</font></h3>
+<h3 id="execemsqlparamsstartlimit"><font id="METHOD_SqlExecutor_exec">exec(em,sql[,params[,start[,limit]]])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>执行mysql sql语句  </p>
 <h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public  static  async</font>  </p>
 <h4 id="参数">参数</h4>
 <ul>
-<li>conn <em>&lt;<font class='datatype'>Connection</font>&gt;</em> </li>
+<li>em <em>&lt;<font class='datatype'><a href="#EntityManager">EntityManager</a></font>&gt;</em> </li>
 <li>sql <em>&lt;<font class='datatype'>string</font>&gt;</em>           待执行sql</li>
 <li>params <em>&lt;<font class='datatype'>any[]</font>&gt;</em>        参数数组</li>
 <li>start <em>&lt;<font class='datatype'>number</font>&gt;</em>         开始记录行</li>
@@ -1563,95 +2054,62 @@ pre code {
 </ul>
 <h4 id="返回值">返回值</h4>
 <p><font class='datatype'>Promise&lt;any&gt;</font><br>执行结果或undefined  </p>
-<h3 id="execmssqlconnectionsqlparamsstartlimit"><font id="METHOD_SqlExecutor_execMssql">execMssql(connection,sql[,params[,start[,limit]]])</font></h3>
+<h3 id="execmssqlconnectionsqlparams"><font id="METHOD_SqlExecutor_execMssql">execMssql(connection,sql[,params])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-2">描述</h4>
 <p>执行mssql sql语句  </p>
 <h4 id="修饰符-1">修饰符</h4>
-<p><font class="modifier">private  static  async</font>  </p>
+<p><font class="modifier">static  async</font>  </p>
 <h4 id="参数-1">参数</h4>
 <ul>
-<li>connection <em>&lt;<font class='datatype'>Connection</font>&gt;</em> </li>
+<li>connection <em>&lt;<font class='datatype'><a href="#Connection">Connection</a></font>&gt;</em> </li>
 <li>sql <em>&lt;<font class='datatype'>string</font>&gt;</em>       待执行sql</li>
 <li>params <em>&lt;<font class='datatype'>any[]</font>&gt;</em>    参数数组</li>
-<li>start <em>&lt;<font class='datatype'>number</font>&gt;</em>     开始记录行</li>
-<li>limit <em>&lt;<font class='datatype'>number</font>&gt;</em>     最大记录行</li>
 </ul>
 <h4 id="返回值-1">返回值</h4>
 <p>void  </p>
-<h3 id="execmysqlconnectionsqlparamsstartlimit"><font id="METHOD_SqlExecutor_execMysql">execMysql(connection,sql[,params[,start[,limit]]])</font></h3>
+<h3 id="execmysqlconnectionsqlparams"><font id="METHOD_SqlExecutor_execMysql">execMysql(connection,sql[,params])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-3">描述</h4>
 <p>执行mysql sql语句  </p>
 <h4 id="修饰符-2">修饰符</h4>
-<p><font class="modifier">private  static  async</font>  </p>
+<p><font class="modifier">static  async</font>  </p>
 <h4 id="参数-2">参数</h4>
 <ul>
-<li>connection <em>&lt;<font class='datatype'>Connection</font>&gt;</em>    db connection</li>
+<li>connection <em>&lt;<font class='datatype'><a href="#Connection">Connection</a></font>&gt;</em>    db connection</li>
 <li>sql <em>&lt;<font class='datatype'>string</font>&gt;</em>           待执行sql</li>
 <li>params <em>&lt;<font class='datatype'>any[]</font>&gt;</em>        参数数组</li>
-<li>start <em>&lt;<font class='datatype'>number</font>&gt;</em>         开始记录行</li>
-<li>limit <em>&lt;<font class='datatype'>number</font>&gt;</em>         最大记录行</li>
 </ul>
 <h4 id="返回值-2">返回值</h4>
 <p>void  </p>
-<h3 id="execoracleconnectionsqlparamsstartlimit"><font id="METHOD_SqlExecutor_execOracle">execOracle(connection,sql[,params[,start[,limit]]])</font></h3>
+<h3 id="execoracleconnectionsqlparams"><font id="METHOD_SqlExecutor_execOracle">execOracle(connection,sql[,params])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-4">描述</h4>
 <p>执行oracle sql语句  </p>
 <h4 id="修饰符-3">修饰符</h4>
-<p><font class="modifier">private  static  async</font>  </p>
+<p><font class="modifier">static  async</font>  </p>
 <h4 id="参数-3">参数</h4>
 <ul>
-<li>connection <em>&lt;<font class='datatype'>Connection</font>&gt;</em> </li>
+<li>connection <em>&lt;<font class='datatype'><a href="#Connection">Connection</a></font>&gt;</em> </li>
 <li>sql <em>&lt;<font class='datatype'>string</font>&gt;</em>       待执行sql</li>
 <li>params <em>&lt;<font class='datatype'>any[]</font>&gt;</em>    参数数组</li>
-<li>start <em>&lt;<font class='datatype'>number</font>&gt;</em>     开始记录行</li>
-<li>limit <em>&lt;<font class='datatype'>number</font>&gt;</em>     最大记录行</li>
 </ul>
 <h4 id="返回值-3">返回值</h4>
 <p>void  </p>
-</div>
-<hr><div id='ThreadLocal'><h1 id="class-threadlocal">Class ThreadLocal</h1>
-<h2 id="属性列表">属性列表</h2>
+<h3 id="handlestartandlimitsqlstartlimit"><font id="METHOD_SqlExecutor_handleStartAndLimit">handleStartAndLimit(sql[,start[,limit]])</font></h3>
+<p><font class="since">开始于 : v0.2.0</font>  </p>
+<h4 id="描述-5">描述</h4>
+<p>处理记录起始记录索引和记录数  </p>
+<h4 id="修饰符-4">修饰符</h4>
+<p><font class="modifier">static</font>  </p>
+<h4 id="参数-4">参数</h4>
 <ul>
-<li><a href="#PROP_ThreadLocal_localStorage">localStorage</a></li>
-<li><a href="#PROP_ThreadLocal_threadId">threadId</a></li>
+<li>sql <em>&lt;<font class='datatype'>string</font>&gt;</em>       sql</li>
+<li>start <em>&lt;<font class='datatype'>number</font>&gt;</em>     开始索引</li>
+<li>limit <em>&lt;<font class='datatype'>number</font>&gt;</em>     记录数</li>
 </ul>
-<h2 id="方法列表">方法列表</h2>
-<ul>
-<li><a href="#METHOD_ThreadLocal_getThreadId">getThreadId</a></li>
-<li><a href="#METHOD_ThreadLocal_newThreadId">newThreadId</a></li>
-</ul>
-<h2 id="描述">描述</h2>
-<p>线程存储  </p>
-<h2 id="属性">属性</h2>
-<h3 id="localstorage"><font id="PROP_ThreadLocal_localStorage">localStorage</font></h3>
-<p>异步线程存储器  </p>
-<h4 id="修饰符">修饰符</h4>
-<p><font class="modifier">private  static</font>  </p>
-<h4 id="初始值">初始值</h4>
-<p>new AsyncLocalStorage()  </p>
-<h3 id="threadid"><font id="PROP_ThreadLocal_threadId">threadId</font></h3>
-<p>线程id  </p>
-<h4 id="修饰符-1">修饰符</h4>
-<p><font class="modifier">private  static</font>  </p>
-<h4 id="数据类型">数据类型</h4>
-<p><font class='datatype'>number</font>  </p>
-<h4 id="初始值-1">初始值</h4>
-<p>1  </p>
-<h2 id="方法">方法</h2>
-<h3 id="getthreadid"><font id="METHOD_ThreadLocal_getThreadId">getThreadId()</font></h3>
-<h4 id="描述-1">描述</h4>
-<p>获取当前thread id  </p>
-<h4 id="修饰符-2">修饰符</h4>
-<p><font class="modifier">public  static</font>  </p>
-<h4 id="返回值">返回值</h4>
-<p><font class='datatype'>number</font><br>当前threadId  </p>
-<h3 id="newthreadid"><font id="METHOD_ThreadLocal_newThreadId">newThreadId()</font></h3>
-<h4 id="描述-2">描述</h4>
-<p>新建thread id  </p>
-<h4 id="修饰符-3">修饰符</h4>
-<p><font class="modifier">public  static</font>  </p>
-<h4 id="返回值-1">返回值</h4>
-<p><font class='datatype'>number</font><br>新threadId  </p>
+<h4 id="返回值-4">返回值</h4>
+<p>void  </p>
 </div>
 <hr><div id='Transaction'><h1 id="class-transaction">Class Transaction</h1>
 <h2 id="属性列表">属性列表</h2>
@@ -1666,112 +2124,276 @@ pre code {
 <li><a href="#METHOD_Transaction_rollback">rollback</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>事务基类  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>事务基类  </p>
 <h2 id="属性">属性</h2>
 <h3 id="connection"><font id="PROP_Transaction_connection">connection</font></h3>
-<p>连接  </p>
-<h4 id="修饰符">修饰符</h4>
-<p><font class="modifier">private</font>  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>连接  </p>
 <h4 id="数据类型">数据类型</h4>
-<p><font class='datatype'>Connection</font>  </p>
+<p><font class='datatype'><a href="#Connection">Connection</a></font>  </p>
 <h3 id="tr"><font id="PROP_Transaction_tr">tr</font></h3>
-<p>源transaction  </p>
-<h4 id="修饰符-1">修饰符</h4>
-<p><font class="modifier">private</font>  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>源transaction  </p>
 <h4 id="数据类型-1">数据类型</h4>
 <p><font class='datatype'>Base<a href="#Transaction">Transaction</a></font>  </p>
 <h2 id="方法">方法</h2>
 <h3 id="begin"><font id="METHOD_Transaction_begin">begin()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-1">描述</h4>
 <p>事务开始  </p>
-<h4 id="修饰符-2">修饰符</h4>
+<h4 id="修饰符">修饰符</h4>
 <p><font class="modifier">public  async</font>  </p>
 <h4 id="返回值">返回值</h4>
 <p>void  </p>
 <h3 id="commit"><font id="METHOD_Transaction_commit">commit()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-2">描述</h4>
 <p>提交  </p>
-<h4 id="修饰符-3">修饰符</h4>
+<h4 id="修饰符-1">修饰符</h4>
 <p><font class="modifier">public  async</font>  </p>
 <h4 id="返回值-1">返回值</h4>
 <p>void  </p>
 <h3 id="rollback"><font id="METHOD_Transaction_rollback">rollback()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-3">描述</h4>
 <p>回滚  </p>
-<h4 id="修饰符-4">修饰符</h4>
+<h4 id="修饰符-2">修饰符</h4>
 <p><font class="modifier">public  async</font>  </p>
 <h4 id="返回值-2">返回值</h4>
 <p>void  </p>
 </div>
 <hr><div id='Translator'><h1 id="class-translator">Class Translator</h1>
+<h2 id="属性列表">属性列表</h2>
+<ul>
+<li><a href="#PROP_Translator_aliasId">aliasId</a></li>
+<li><a href="#PROP_Translator_fromTables">fromTables</a></li>
+<li><a href="#PROP_Translator_linkNameMap">linkNameMap</a></li>
+<li><a href="#PROP_Translator_mainEntityName">mainEntityName</a></li>
+<li><a href="#PROP_Translator_modifiers">modifiers</a></li>
+<li><a href="#PROP_Translator_orderString">orderString</a></li>
+<li><a href="#PROP_Translator_selectedFields">selectedFields</a></li>
+<li><a href="#PROP_Translator_sqlType">sqlType</a></li>
+<li><a href="#PROP_Translator_whereObject">whereObject</a></li>
+</ul>
 <h2 id="方法列表">方法列表</h2>
 <ul>
-<li><a href="#METHOD_Translator_entityToDelete">entityToDelete</a></li>
 <li><a href="#METHOD_Translator_entityToInsert">entityToInsert</a></li>
 <li><a href="#METHOD_Translator_entityToUpdate">entityToUpdate</a></li>
-<li><a href="#METHOD_Translator_genEntityQuery">genEntityQuery</a></li>
+<li><a href="#METHOD_Translator_getDeleteSql">getDeleteSql</a></li>
 <li><a href="#METHOD_Translator_getQuerySql">getQuerySql</a></li>
+<li><a href="#METHOD_Translator_getSelectSql">getSelectSql</a></li>
+<li><a href="#METHOD_Translator_handleFrom">handleFrom</a></li>
+<li><a href="#METHOD_Translator_handleModifer">handleModifer</a></li>
+<li><a href="#METHOD_Translator_handleOneField">handleOneField</a></li>
+<li><a href="#METHOD_Translator_handleOrder">handleOrder</a></li>
+<li><a href="#METHOD_Translator_handleSelectFields">handleSelectFields</a></li>
+<li><a href="#METHOD_Translator_handleWhere">handleWhere</a></li>
+<li><a href="#METHOD_Translator_toDelete">toDelete</a></li>
 </ul>
 <h2 id="描述">描述</h2>
-<p>翻译器  </p>
-<h2 id="方法">方法</h2>
-<h3 id="entitytodeleteentity"><font id="METHOD_Translator_entityToDelete">entityToDelete(entity)</font></h3>
-<h4 id="描述-1">描述</h4>
-<p>entity转update sql  </p>
+<p><font class="since">开始于 : v0.0.1</font><br>翻译器  </p>
+<h2 id="属性">属性</h2>
+<h3 id="aliasid"><font id="PROP_Translator_aliasId">aliasId</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>别名id  </p>
+<h4 id="数据类型">数据类型</h4>
+<p><font class='datatype'>number</font>  </p>
+<h4 id="初始值">初始值</h4>
+<p>0  </p>
+<h3 id="fromtables"><font id="PROP_Translator_fromTables">fromTables</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>from table 数组  </p>
+<h4 id="数据类型-1">数据类型</h4>
+<p><font class='datatype'>string[]</font>  </p>
+<h3 id="linknamemap"><font id="PROP_Translator_linkNameMap">linkNameMap</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>链式map {linkName:{entity:实体类名,alias:别名,co:字段对象}}<br>linkName为 实体类名[_外键引用名1_外键引用名2_...]<br>如: Shop_owner  </p>
 <h4 id="修饰符">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-2">数据类型</h4>
+<p><font class='datatype'>Map&lt;string,object&gt;</font>  </p>
+<h4 id="初始值-1">初始值</h4>
+<p>new Map()  </p>
+<h3 id="mainentityname"><font id="PROP_Translator_mainEntityName">mainEntityName</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>主实体名  </p>
+<h4 id="数据类型-3">数据类型</h4>
+<p><font class='datatype'>string</font>  </p>
+<h3 id="modifiers"><font id="PROP_Translator_modifiers">modifiers</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>修饰符 如distince  </p>
+<h4 id="修饰符-1">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-4">数据类型</h4>
+<p><font class='datatype'>string[]</font>  </p>
+<h3 id="orderstring"><font id="PROP_Translator_orderString">orderString</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>order by string  </p>
+<h4 id="数据类型-5">数据类型</h4>
+<p><font class='datatype'>string</font>  </p>
+<h3 id="selectedfields"><font id="PROP_Translator_selectedFields">selectedFields</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>选中字段数组  </p>
+<h4 id="数据类型-6">数据类型</h4>
+<p><font class='datatype'>string[]</font>  </p>
+<h3 id="sqltype"><font id="PROP_Translator_sqlType">sqlType</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>sql 类型  </p>
+<h4 id="修饰符-2">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="数据类型-7">数据类型</h4>
+<p><font class='datatype'>E<a href="#Query">Query</a>Type</font>  </p>
+<h3 id="whereobject"><font id="PROP_Translator_whereObject">whereObject</font></h3>
+<p><font class="since">开始于 : v0.0.1</font><br>where条件string  </p>
+<h4 id="数据类型-8">数据类型</h4>
+<p><font class='datatype'>any[]</font>  </p>
+<h2 id="方法">方法</h2>
+<h3 id="entitytoinsertentity"><font id="METHOD_Translator_entityToInsert">entityToInsert(entity)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-1">描述</h4>
+<p>entity转insert sql  </p>
+<h4 id="修饰符-3">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
 <h4 id="参数">参数</h4>
 <ul>
-<li>entity <em>&lt;<font class='datatype'>any</font>&gt;</em>    实体对象</li>
-</ul>
-<h4 id="返回值">返回值</h4>
-<p><font class='datatype'>string</font>  </p>
-<h3 id="entitytoinsertentity"><font id="METHOD_Translator_entityToInsert">entityToInsert(entity)</font></h3>
-<h4 id="描述-2">描述</h4>
-<p>entity转insert sql  </p>
-<h4 id="修饰符-1">修饰符</h4>
-<p><font class="modifier">public  static</font>  </p>
-<h4 id="参数-1">参数</h4>
-<ul>
 <li>entity <em>&lt;<font class='datatype'>any</font>&gt;</em> </li>
 </ul>
-<h4 id="返回值-1">返回值</h4>
-<p><font class='datatype'>string</font>  </p>
+<h4 id="返回值">返回值</h4>
+<p><font class='datatype'>any[]</font>  </p>
 <h3 id="entitytoupdateentityignoreundefinedvalue"><font id="METHOD_Translator_entityToUpdate">entityToUpdate(entity[,ignoreUndefinedValue])</font></h3>
-<h4 id="描述-3">描述</h4>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-2">描述</h4>
 <p>entity转update sql  </p>
-<h4 id="修饰符-2">修饰符</h4>
+<h4 id="修饰符-4">修饰符</h4>
 <p><font class="modifier">public  static</font>  </p>
-<h4 id="参数-2">参数</h4>
+<h4 id="参数-1">参数</h4>
 <ul>
 <li>entity <em>&lt;<font class='datatype'><a href="#IEntity">IEntity</a></font>&gt;</em>                待更新entity</li>
 <li>ignoreUndefinedValue <em>&lt;<font class='datatype'>boolean</font>&gt;</em>  忽略undefined值</li>
 </ul>
+<h4 id="返回值-1">返回值</h4>
+<p><font class='datatype'>any[]</font>  </p>
+<h3 id="getdeletesql"><font id="METHOD_Translator_getDeleteSql">getDeleteSql()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-3">描述</h4>
+<p>生成增删改sql  </p>
 <h4 id="返回值-2">返回值</h4>
-<p><font class='datatype'>string</font>  </p>
-<h3 id="genentityqueryentityclassnameparams"><font id="METHOD_Translator_genEntityQuery">genEntityQuery(entityClassName[,params])</font></h3>
+<p>void  </p>
+<h3 id="getquerysql"><font id="METHOD_Translator_getQuerySql">getQuerySql()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
 <h4 id="描述-4">描述</h4>
-<p>生成entity 查询sql串  </p>
-<h4 id="修饰符-3">修饰符</h4>
-<p><font class="modifier">public  static</font>  </p>
+<p>产生查询sql  </p>
+<h4 id="修饰符-5">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="返回值-3">返回值</h4>
+<p><font class='datatype'>any[]</font><br>数组[sql,linkMap,values]<br>其中：linkMap为该translator的linkNameMap，values为查询参数值  </p>
+<h3 id="getselectsql"><font id="METHOD_Translator_getSelectSql">getSelectSql()</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-5">描述</h4>
+<p>获取select sql  </p>
+<h4 id="返回值-4">返回值</h4>
+<p><font class='datatype'>any[]</font><br>数组[sql,linkMap,values]<br>其中：linkMap为该translator的linkNameMap，values为查询参数值  </p>
+<h3 id="handlefromarr"><font id="METHOD_Translator_handleFrom">handleFrom(arr)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-6">描述</h4>
+<p>处理重复entityName  </p>
+<h4 id="修饰符-6">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="参数-2">参数</h4>
+<ul>
+<li>arr <em>&lt;<font class='datatype'>string[]</font>&gt;</em>           实体类名数组</li>
+</ul>
+<h4 id="返回值-5">返回值</h4>
+<p>void  </p>
+<h3 id="handlemodifermodifier"><font id="METHOD_Translator_handleModifer">handleModifer(modifier)</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-7">描述</h4>
+<p>处理前置修饰符  </p>
+<h4 id="修饰符-7">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
 <h4 id="参数-3">参数</h4>
 <ul>
-<li>entityClassName <em>&lt;<font class='datatype'>string</font>&gt;</em>   实体类名</li>
-<li>params <em>&lt;<font class='datatype'>any</font>&gt;</em>            参数对象</li>
+<li>modifier <em>&lt;<font class='datatype'>string</font>&gt;</em> </li>
 </ul>
-<h4 id="返回值-3">返回值</h4>
-<p><font class='datatype'>string</font>  </p>
-<h3 id="getquerysqlrql"><font id="METHOD_Translator_getQuerySql">getQuerySql(rql)</font></h3>
-<h4 id="描述-5">描述</h4>
-<p>获取sql 字符串  </p>
-<h4 id="修饰符-4">修饰符</h4>
-<p><font class="modifier">public  static</font>  </p>
+<h4 id="返回值-6">返回值</h4>
+<p>void  </p>
+<h3 id="handleonefieldfieldentitynamelinknameiscond"><font id="METHOD_Translator_handleOneField">handleOneField(field[,entityName[,linkName[,isCond]]])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-8">描述</h4>
+<p>处理一个字段  </p>
 <h4 id="参数-4">参数</h4>
 <ul>
-<li>rql <em>&lt;<font class='datatype'>string</font>&gt;</em> </li>
+<li>field <em>&lt;<font class='datatype'>string</font>&gt;</em>         字段名</li>
+<li>entityName <em>&lt;<font class='datatype'>string</font>&gt;</em>    实体类名</li>
+<li>linkName <em>&lt;<font class='datatype'>string</font>&gt;</em>      链名</li>
+<li>isCond <em>&lt;<font class='datatype'>boolean</font>&gt;</em>        是否为条件字段</li>
 </ul>
-<h4 id="返回值-4">返回值</h4>
-<p><font class='datatype'>any</font><br>{sql:string,fk:外键字段数组,map:{aliasName:{entity:对应实体类,from:来源别名,propName:属性名}}}  </p>
+<h4 id="返回值-7">返回值</h4>
+<p>void  </p>
+<h3 id="handleorderparamsentityname"><font id="METHOD_Translator_handleOrder">handleOrder(params[,entityName])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-9">描述</h4>
+<p>处理order by  </p>
+<h4 id="修饰符-8">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="参数-5">参数</h4>
+<ul>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em> </li>
+<li>entityName <em>&lt;<font class='datatype'>string</font>&gt;</em> </li>
+</ul>
+<h4 id="返回值-8">返回值</h4>
+<p><font class='datatype'>string</font>  </p>
+<h3 id="handleselectfieldsarrentityname"><font id="METHOD_Translator_handleSelectFields">handleSelectFields(arr[,entityName])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-10">描述</h4>
+<p>处理select字段集合  </p>
+<h4 id="修饰符-9">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="参数-6">参数</h4>
+<ul>
+<li>arr <em>&lt;<font class='datatype'>string[]</font>&gt;</em>   字段集合</li>
+<li>entityName <em>&lt;<font class='datatype'>string</font>&gt;</em> </li>
+</ul>
+<h4 id="返回值-9">返回值</h4>
+<p>void  </p>
+<h3 id="handlewhereparamsentityname"><font id="METHOD_Translator_handleWhere">handleWhere(params[,entityName])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-11">描述</h4>
+<p>处理where条件  </p>
+<h4 id="修饰符-10">修饰符</h4>
+<p><font class="modifier">public</font>  </p>
+<h4 id="参数-7">参数</h4>
+<ul>
+<li>params <em>&lt;<font class='datatype'>object</font>&gt;</em>        参数对象，每个参数值参考ICondValueObj接口</li>
+<li>entityName <em>&lt;<font class='datatype'>string</font>&gt;</em>    实体类名</li>
+</ul>
+<h4 id="返回值-10">返回值</h4>
+<p>void  </p>
+<h3 id="todeleteentityclassname"><font id="METHOD_Translator_toDelete">toDelete(entity[,className])</font></h3>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="描述-12">描述</h4>
+<p>entity转update sql  </p>
+<h4 id="修饰符-11">修饰符</h4>
+<p><font class="modifier">public  static</font>  </p>
+<h4 id="参数-8">参数</h4>
+<ul>
+<li>entity <em>&lt;<font class='datatype'>any</font>&gt;</em>        实体对象</li>
+<li>className <em>&lt;<font class='datatype'>string</font>&gt;</em>     实体类名</li>
+</ul>
+<h4 id="返回值-11">返回值</h4>
+<p><font class='datatype'>any[]</font>  </p>
+</div>
+<hr><div id='getConnection'><h1 id="function-getconnectionid">Function getConnection([id])</h1>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="修饰符">修饰符</h4>
+<p><font class="modifier">async</font>  </p>
+<h4 id="描述">描述</h4>
+<p>获取连接对象  </p>
+<h4 id="参数">参数</h4>
+<ul>
+<li>id <em>&lt;<font class='datatype'>number</font>&gt;</em>   创建者id，直接使用时，不需要设置该值</li>
+</ul>
+<h4 id="返回值">返回值</h4>
+<p><font class='datatype'>Promise&lt;<a href="#Connection">Connection</a>&gt;</font><br>connection对象  </p>
+</div>
+<hr><div id='getEntityManager'><h1 id="function-getentitymanager">Function getEntityManager()</h1>
+<p><font class="since">开始于 : v0.0.1</font>  </p>
+<h4 id="修饰符">修饰符</h4>
+<p><font class="modifier">async</font>  </p>
+<h4 id="描述">描述</h4>
+<p>返回entity manager  </p>
+<h4 id="返回值">返回值</h4>
+<p><font class='datatype'>Promise&lt;<a href="#EntityManager">EntityManager</a>&gt;</font>  </p>
 </div>
 <hr>
       </div>

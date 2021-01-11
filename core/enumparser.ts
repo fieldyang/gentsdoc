@@ -86,11 +86,11 @@ class EnumParser extends BaseParser{
         writeStr = Util.addLine(writeStr,'# Enum ' + cObj.name);
         
         //描述
-        writeStr = Util.addLine(writeStr,'## ' + Util.tips.desc);
-        this.handleSinceAndDeprecated(cObj,writeStr);
+        writeStr = Util.addLine(writeStr,'#### ' + Util.tips.desc);
+        writeStr = this.handleSinceAndDeprecated(cObj,writeStr);
         for(let o in cObj.annotation){
             if(o !== 'default'){
-                writeStr = Util.addLine(writeStr,'### ' + o);
+                writeStr = Util.addLine(writeStr,'##### ' + o);
             }
             writeStr = Util.addLine(writeStr,cObj.annotation[o]);
         }
@@ -98,29 +98,15 @@ class EnumParser extends BaseParser{
         //枚举值
         if(cObj.props.length>0){
             //属性描述
-            writeStr = Util.addLine(writeStr,'## ' + Util.tips.enumvalue);
+            writeStr = Util.addLine(writeStr,'#### ' + Util.tips.enumvalue);
             for(let p of cObj.props){
-                writeStr = Util.addLine(writeStr,'#### ' + p.name);
-                
-                this.handleSinceAndDeprecated(cObj,writeStr);
-                
                 for(let o in p.annotation){
-                    if(o !== 'default'){
-                        writeStr = Util.addLine(writeStr,'##### ' + o);
-                    }
-                    writeStr = Util.addLine(writeStr,p.annotation[o]);
+                    // if(o !== 'default'){
+                    //     writeStr = Util.addLine(writeStr,'##### ' + o);
+                    // }
+                    writeStr = Util.addLine(writeStr,"<font class='notes'>// " + p.annotation[o] + "</font>");
                 }
-
-                if(p.type){
-                    writeStr = Util.addLine(writeStr,'#### ' + Util.tips.datatype);
-                    let pt = Util.genLink(p.type);
-                    writeStr = Util.addLine(writeStr,pt);
-                }
-
-                if(p.value){
-                    writeStr = Util.addLine(writeStr,'##### ' + Util.tips.initvalue);
-                    writeStr = Util.addLine(writeStr,p.value);
-                }
+                writeStr = Util.addLine(writeStr,p.name + ' = ' + p.value);
             }
         }
 

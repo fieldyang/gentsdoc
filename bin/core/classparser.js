@@ -149,7 +149,7 @@ class ClassParser extends baseparser_1.default {
         }
         //类描述
         writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.desc);
-        this.handleSinceAndDeprecated(cObj, writeStr);
+        writeStr = this.handleSinceAndDeprecated(cObj, writeStr);
         for (let o in cObj.annotation) {
             if (o !== 'default') {
                 writeStr = util_1.Util.addLine(writeStr, '### ' + o);
@@ -207,7 +207,7 @@ class ClassParser extends baseparser_1.default {
             writeStr = util_1.Util.addLine(writeStr, '## ' + util_1.Util.tips.props);
             for (let p of cObj.props) {
                 writeStr = util_1.Util.addLine(writeStr, '### <font id="PROP_' + className + '_' + p.name + '">' + p.name + '</font>');
-                this.handleSinceAndDeprecated(cObj, writeStr);
+                writeStr = this.handleSinceAndDeprecated(p, writeStr);
                 //描述
                 for (let o in p.annotation) {
                     if (o !== 'default') {
@@ -269,7 +269,7 @@ class ClassParser extends baseparser_1.default {
                 ms += pstr + ')';
                 writeStr = util_1.Util.addLine(writeStr, '### <font id="METHOD_' + className + '_' + p.name + '">' + ms + '</font>');
                 //处理since和deprecated
-                this.handleSinceAndDeprecated(cObj, writeStr);
+                writeStr = this.handleSinceAndDeprecated(p, writeStr);
                 // public private static async
                 //注释
                 if (p.annotation) {
